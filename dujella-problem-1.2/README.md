@@ -5,7 +5,8 @@
 **Publication date:** 27 August 2026  
 **Status:** Complete solution  
 **Field:** Number theory, rational Diophantine tuples  
-The complete solution is presented below in a format designed to be readable and searchable directly on GitHub.
+
+The complete solution is presented below in a format designed to remain readable, searchable, and indexable directly on GitHub.
 
 ## Abstract
 
@@ -71,20 +72,16 @@ $$
 Direct expansion gives
 
 $$
-(3k+8)^2-\bigl(q^2+(k-1)n\bigr)=-2(k-19)(k+1). \tag{1}
-$$
-
-$$
-(3k+10)^2-\bigl(q^2+(k+1)n\bigr)=-2(k-19)(k+2). \tag{2}
-$$
-
-$$
-(5k+14)^2-\bigl(q^2+4kn\bigr)=-(k-19)(7k+9). \tag{3}
-$$
-
-$$
-(10k^2+10k+5)^2-\bigl(q^2+4k(4k^2-1)n\bigr)
-=-4k(k-19)(3k^2+3k+1). \tag{4}
+\begin{aligned}
+(3k+8)^2-\left(q^2+(k-1)n\right)
+  &= -2(k-19)(k+1), && \text{(1)}\\
+(3k+10)^2-\left(q^2+(k+1)n\right)
+  &= -2(k-19)(k+2), && \text{(2)}\\
+(5k+14)^2-\left(q^2+4kn\right)
+  &= -(k-19)(7k+9), && \text{(3)}\\
+(10k^2+10k+5)^2-\left(q^2+4k(4k^2-1)n\right)
+  &= -4k(k-19)(3k^2+3k+1), && \text{(4)}
+\end{aligned}
 $$
 
 At $k=19$ one has $q=43$ and $n=132$, and all four right-hand sides vanish. Therefore, for
@@ -111,9 +108,13 @@ Thus $x_{\mathrm{add}}$ extends the quadruple $\{18,20,76,109{,}668\}$.
 The regular extension written down by Stoll (2019, Theorem 7.1) is
 
 $$
-f(k)=
+\begin{aligned}
+f(k)
+&=
 \frac{4k(2k-1)(2k+1)(4k^2-2k-1)(4k^2+2k-1)(8k^2-1)}
-{(64k^6-80k^4+16k^2-1)^2}. \tag{5}
+{(64k^6-80k^4+16k^2-1)^2},
+&& \text{(5)}
+\end{aligned}
 $$
 
 At $k=19$, write
@@ -185,22 +186,22 @@ $$
 
 The two extensions are therefore distinct, and neither is one of the four positive integer entries of the quadruple.
 
-> **Theorem 1.** Problem 1.2 has an affirmative answer. One may take $k=19$. The Diophantine quadruple
-> 
-> $$
-> \{18,20,76,109{,}668\}
-> $$
-> 
-> has at least the two distinct rational extensions
-> 
-> $$
-> \frac{132}{1849}
-> \qquad\text{and}\qquad
-> \frac{658{,}806{,}825{,}550{,}380}
-> {9{,}003{,}099{,}140{,}750{,}557{,}441}.
-> $$
+**Theorem 1.** *Problem 1.2 has an affirmative answer. One may take* $k=19$. *The Diophantine quadruple*
 
-> **Remark 1.** The argument establishes the existence of at least two extensions; it does not attempt to determine all rational extensions of the quadruple at $k=19$.
+$$
+\{18,20,76,109{,}668\}
+$$
+
+*has at least the two distinct rational extensions*
+
+$$
+\frac{132}{1849}
+\qquad\text{and}\qquad
+\frac{658{,}806{,}825{,}550{,}380}
+{9{,}003{,}099{,}140{,}750{,}557{,}441}.
+$$
+
+**Remark 1.** *The argument establishes the existence of at least two extensions; it does not attempt to determine all rational extensions of the quadruple at* $k=19$.
 
 ## 5. How the additional extension was located
 
@@ -327,4 +328,4 @@ as already verified in Section 2.
 ## References
 
 1. A. Dujella. *Open problems on Diophantine m-tuples and elliptic curves*. Problem 1.2, 2026.
-2. M. Stoll. "Diagonal genus 5 curves, elliptic curves over $\mathbb{Q}(t)$, and rational Diophantine quintuples." *Acta Arith.* **190** (2019), no. 3, 239-261.
+2. M. Stoll. “Diagonal genus 5 curves, elliptic curves over $\mathbb{Q}(t)$, and rational Diophantine quintuples.” *Acta Arith.* **190** (2019), no. 3, 239-261.
