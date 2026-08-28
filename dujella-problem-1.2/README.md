@@ -6,8 +6,6 @@
 **Status:** Complete solution  
 **Field:** Number theory, rational Diophantine tuples  
 
-The complete solution is presented below in a format designed to remain readable, searchable, and indexable directly on GitHub.
-
 ## Abstract
 
 A rational Diophantine $m$-tuple is a set of $m$ distinct nonzero rational numbers such that the product of every two distinct elements, increased by 1, is a rational square. Dujella's Problem 1.2 asks whether there is a positive integer $k \ge 2$ for which
