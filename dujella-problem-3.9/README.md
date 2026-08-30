@@ -17,7 +17,7 @@ E(\mathbb{Q}(i))_{\mathrm{tors}}\cong
 \mathrm{rank}\,E(\mathbb{Q}(i))\ge 8.
 $$
 
-This answers Problem 3.9 in Dujella's list of open problems. The torsion statement is proved by a halving criterion and reduction at two split primes. The rank statement is certified by exact $2$-Kummer calculations on a rational curve and its $(-1)$-quadratic twist. The underlying rank-$\ge 8$ specialization was reported by Vinko Petričević in joint work with Andrej Dujella. The purpose of this article is to exhibit a rational Diophantine triple inducing that curve and to give a self-contained exact certificate.
+This answers Problem 3.9 in Dujella's list of open problems. The torsion statement is proved by a halving criterion and reduction at two split primes. The rank statement is certified by exact $2$-Kummer calculations on a rational curve and its $(-1)$-quadratic twist. The underlying specialization, whose rank is at least 8, was reported by Vinko Petričević in joint work with Andrej Dujella. The purpose of this article is to exhibit a rational Diophantine triple inducing that curve and to give a self-contained exact certificate.
 
 ## 1. Statement of the problem and the example
 
@@ -27,8 +27,8 @@ In the version of Dujella's open-problem list dated 29 August 2026, Problem 3.9 
 
 $$
 \begin{aligned}
-a&=\frac{338256750896}{519329865153},\\[2mm]
-b&=-\frac{519329865153}{338256750896},\\[2mm]
+a&=\frac{338256750896}{519329865153},\\
+b&=-\frac{519329865153}{338256750896},\\
 c&=\frac{2118453423815502078396715008}
         {395270688488063020499821199375}.
 \end{aligned}
@@ -442,7 +442,7 @@ $$
 
 The torsion computation and the final rank bound, transported through the $\mathbb{Q}$-isomorphism above, complete the proof of Theorem 1.
 
-**Remark 1.** The argument proves the lower bound $\mathrm{rank}\,E(\mathbb{Q}(i))\ge8$. It does not prove that the rank is exactly $8$, and exact equality is not required by Problem 3.9.
+**Remark 1.** The argument proves the lower bound $\mathrm{rank}\,E(\mathbb{Q}(i))\ge 8$. It does not prove that the rank is exactly $8$, and exact equality is not required by Problem 3.9.
 
 
 ## 5. Origin of the rank specialization
@@ -458,13 +458,13 @@ The curve is $E$. The points used above are
 $$
 \begin{aligned}
 x(P_1)&=\frac{18434717483122731307680720}{784728169},\\
-y(P_1)&=\frac{79058306885031575731369370665045739520}{21982590198197},\\[1mm]
+y(P_1)&=\frac{79058306885031575731369370665045739520}{21982590198197},\\
 x(P_2)&=\frac{205575756477590805858000}{19351201},\\
-y(P_2)&=\frac{92664057348302315420944897563312000}{85125933199},\\[1mm]
+y(P_2)&=\frac{92664057348302315420944897563312000}{85125933199},\\
 x(P_3)&=-\frac{1333100296085788798313904}{2019513721},\\
-y(P_3)&=\frac{13040064683254174542549826666008960}{90754927108019},\\[1mm]
+y(P_3)&=\frac{13040064683254174542549826666008960}{90754927108019},\\
 x(P_4)&=-\frac{307245410407559064903399631}{465158100625},\\
-y(P_4)&=\frac{16672539824494902460966518939675019528}{317249453578765625},\\[1mm]
+y(P_4)&=\frac{16672539824494902460966518939675019528}{317249453578765625},\\
 S&=(3245674849686002,\ 171874625371303506531698),\\
 T&=(-637703335220400,\ 0).
 \end{aligned}
@@ -481,25 +481,25 @@ x(P_1)-R_0
     \left(\frac{8943203351}{28013}\right)^2,\\
 x(P_1)-R_1
  &= (5\cdot13\cdot47)
-    \left(\frac{78727900032}{28013}\right)^2,\\[1mm]
+    \left(\frac{78727900032}{28013}\right)^2,\\
 x(P_2)-R_0
  &= (41\cdot47\cdot233)
     \left(\frac{633960983}{4399}\right)^2,\\
 x(P_2)-R_1
  &= (2\cdot13\cdot47\cdot73)
-    \left(\frac{1562959080}{4399}\right)^2,\\[1mm]
+    \left(\frac{1562959080}{4399}\right)^2,\\
 x(P_3)-R_0
  &= -(41\cdot47\cdot103\cdot113\cdot233)
     \left(\frac{27510385}{44939}\right)^2,\\
 x(P_3)-R_1
  &= -(2\cdot13\cdot47\cdot103)
-    \left(\frac{599588712}{44939}\right)^2,\\[1mm]
+    \left(\frac{599588712}{44939}\right)^2,\\
 x(P_4)-R_0
  &= -(47\cdot61\cdot113\cdot149)
     \left(\frac{4344595208}{682025}\right)^2,\\
 x(P_4)-R_1
  &= -(47\cdot61\cdot73\cdot149)
-    \left(\frac{583366147}{682025}\right)^2,\\[1mm]
+    \left(\frac{583366147}{682025}\right)^2,\\
 x(S)-R_0
  &= (47\cdot61\cdot103\cdot113\cdot149\cdot233)\,41^2,\\
 x(S)-R_1
@@ -523,10 +523,10 @@ The first four points are on the generalized twist model:
 
 $$
 \begin{aligned}
-Q_1&=(469572437338020,\ 8659141260066207245250),\\[1mm]
+Q_1&=(469572437338020,\ 8659141260066207245250),\\
 x(Q_2)&=\frac{7862279875666677393237}{17606416},\\
-y(Q_2)&=\frac{583152676543238826927776148008847}{73876521536},\\[1mm]
-Q_3&=(177864765470100,\ 343279086114405591450),\\[1mm]
+y(Q_2)&=\frac{583152676543238826927776148008847}{73876521536},\\
+Q_3&=(177864765470100,\ 343279086114405591450),\\
 x(Q_4)&=\frac{447490645354678560274980}{2884441849},\\
 y(Q_4)&=\frac{22220310008210701689236734902375750}{154914718384243}.
 \end{aligned}
@@ -563,7 +563,7 @@ $$
 
 ## Appendix B. Derivation of the inducing triple
 
-This appendix is not needed for the proof of Theorem 1; it explains how the explicit triple can be recovered from the reported rank-$\ge8$ specialization.
+This appendix is not needed for the proof of Theorem 1; it explains how the explicit triple can be recovered from the reported specialization of rank at least 8.
 
 A standard one-parameter family carrying full $4$-torsion over $\mathbb{Q}(i)$ is given by Dujella and Jukić Bokun (2010):
 
