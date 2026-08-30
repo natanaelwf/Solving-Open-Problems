@@ -14,7 +14,7 @@ $$
 E(\mathbb{Q}(i))_{\mathrm{tors}}\cong
 \mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z},
 \qquad
-\operatorname{rank}E(\mathbb{Q}(i))\ge 8.
+\mathrm{rank}\,E(\mathbb{Q}(i))\ge 8.
 $$
 
 This answers Problem 3.9 in Dujella's list of open problems. The torsion statement is proved by a halving criterion and reduction at two split primes. The rank statement is certified by exact $2$-Kummer calculations on a rational curve and its $(-1)$-quadratic twist. The underlying rank-$\ge 8$ specialization was reported by Vinko Petričević in joint work with Andrej Dujella. The purpose of this article is to exhibit a rational Diophantine triple inducing that curve and to give a self-contained exact certificate.
@@ -45,7 +45,7 @@ satisfies
 $$
 C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times \mathbb{Z}/4\mathbb{Z},
 \qquad
-\operatorname{rank}C(\mathbb{Q}(i))\ge 8.
+\mathrm{rank}\,C(\mathbb{Q}(i))\ge 8.
 $$
 
 Consequently, $C$ gives an affirmative answer to Problem 3.9.
@@ -213,16 +213,16 @@ $$
 At either prime above $p$, the residue field is $\mathbb{F}_p$. The reductions of $R_0,R_1,R_2$ are distinct, so the curve has good reduction. Direct point counts give
 
 
-| $p$  | reduced roots | $\#\{\chi=1\}$ | $\sum_x\chi(f(x))$ | $\#E(\mathbb{F}_p)$ |
+| $p$  | reduced roots | $N_+$ | $\sum_x\chi(f(x))$ | $\mathrm{card}\,E(\mathbb{F}_p)$ |
 |:----:|:-------------:|:--------------:|:------------------:|:-------------------:|
 | $17$ |    $4,6,8$    |      $6$       |        $-2$        |        $16$         |
 | $29$ |   $2,6,22$    |      $14$      |        $2$         |        $32$         |
 
 
-Here $f(X)=(X-R_0)(X-R_1)(X-R_2)$ and the quadratic character is extended by $\chi(0)=0$, so
+Here $N_+$ denotes the number of $x\in\mathbb{F}_p$ for which $\chi(f(x))=1$, where $f(X)=(X-R_0)(X-R_1)(X-R_2)$. The quadratic character is extended by $\chi(0)=0$, so
 
 $$
-\#E(\mathbb{F}_p)=p+1+\sum_{x\in\mathbb{F}_p}\chi(f(x)).
+\mathrm{card}\,E(\mathbb{F}_p)=p+1+\sum_{x\in\mathbb{F}_p}\chi(f(x)).
 $$
 
 For completeness, the values with $\chi(f(x))=1$ are
@@ -239,7 +239,7 @@ Together with the three reduced roots in each row, these lists give the displaye
 For good reduction at a prime of residue characteristic $p$, reduction is injective on torsion of order prime to $p$. Reduction at a prime above $17$ therefore shows that every torsion subgroup of order prime to $17$ has order dividing $16$. In particular, the $2$-primary torsion has order at most $16$, and all odd-primary torsion vanishes except possibly the $17$-primary part. The latter injects at a prime above $29$, but $17\nmid 32$, so it is also trivial. Hence
 
 $$
-\#E(\mathbb{Q}(i))_{\mathrm{tors}}\le 16.
+\mathrm{card}\,E(\mathbb{Q}(i))_{\mathrm{tors}}\le 16.
 $$
 
 Together with the inclusion above, this proves
@@ -255,13 +255,13 @@ $$
 For an elliptic curve over $\mathbb{Q}$ and a quadratic extension $\mathbb{Q}(\sqrt d)$,
 
 $$
-\operatorname{rank}E(\mathbb{Q}(\sqrt d))=\operatorname{rank}E(\mathbb{Q})+\operatorname{rank}E^{(d)}(\mathbb{Q}),
+\mathrm{rank}\,E(\mathbb{Q}(\sqrt d))=\mathrm{rank}\,E(\mathbb{Q})+\mathrm{rank}\,E^{(d)}(\mathbb{Q}),
 $$
 
 where $E^{(d)}$ is the $d$-quadratic twist. Thus
 
 $$
-\operatorname{rank}E(\mathbb{Q}(i))=\operatorname{rank}E(\mathbb{Q})+\operatorname{rank}E^{(-1)}(\mathbb{Q}).
+\mathrm{rank}\,E(\mathbb{Q}(i))=\mathrm{rank}\,E(\mathbb{Q})+\mathrm{rank}\,E^{(-1)}(\mathbb{Q}).
 $$
 
 This is the decomposition into the two eigenspaces of complex conjugation; it is also the method used for this family by Dujella and Jukić Bokun (2010) and by Petričević (2023).
@@ -351,11 +351,11 @@ v_5(\delta_2),\quad
 v_{73}(\delta_2),\quad
 v_2(\delta_2),\quad
 v_{103}(\delta_1),\quad
-\operatorname{sgn}_2(\delta_1),\quad
+\mathrm{sgn}_2(\delta_1),\quad
 v_{61}(\delta_1),
 $$
 
-where $\operatorname{sgn}_2$ is $1$ on negative classes and $0$ on positive classes. The resulting row matrix is
+where $\mathrm{sgn}_2$ is $1$ on negative classes and $0$ on positive classes. The resulting row matrix is
 
 $$
 M_E=
@@ -381,14 +381,14 @@ Since $E$ has full rational $2$-torsion,
 
 $$
 \dim_{\mathbb{F}_2}E(\mathbb{Q})/2E(\mathbb{Q})
-=\operatorname{rank}E(\mathbb{Q})+\dim_{\mathbb{F}_2}E(\mathbb{Q})[2]
-=\operatorname{rank}E(\mathbb{Q})+2.
+=\mathrm{rank}\,E(\mathbb{Q})+\dim_{\mathbb{F}_2}E(\mathbb{Q})[2]
+=\mathrm{rank}\,E(\mathbb{Q})+2.
 $$
 
 Therefore
 
 $$
-\operatorname{rank}E(\mathbb{Q})\ge 4.
+\mathrm{rank}\,E(\mathbb{Q})\ge 4.
 $$
 
 ### 4.4. The $(-1)$-twist
@@ -409,7 +409,7 @@ The four points $Q_1,\ldots,Q_4$ in Appendix A lie on the generalized twist mode
 Using the characters
 
 $$
-v_2,\quad v_5,\quad v_{41},\quad v_7,\quad \operatorname{sgn}_2,\quad v_{13},
+v_2,\quad v_5,\quad v_{41},\quad v_7,\quad \mathrm{sgn}_2,\quad v_{13},
 $$
 
 we obtain
@@ -431,18 +431,18 @@ $$
 Only one Kummer coordinate is needed here: a relation among the full Kummer classes would give the same relation among their first-coordinate images. Since the displayed images are independent, the full classes are independent. The twist also has full rational $2$-torsion, so
 
 $$
-\operatorname{rank}E^{(-1)}(\mathbb{Q})\ge 4.
+\mathrm{rank}\,E^{(-1)}(\mathbb{Q})\ge 4.
 $$
 
-Combining the quadratic-twist decomposition, the bound $\operatorname{rank}E(\mathbb{Q})\ge 4$, and the twist bound, we conclude that
+Combining the quadratic-twist decomposition, the bound $\mathrm{rank}\,E(\mathbb{Q})\ge 4$, and the twist bound, we conclude that
 
 $$
-\operatorname{rank}E(\mathbb{Q}(i))\ge 4+4=8>6.
+\mathrm{rank}\,E(\mathbb{Q}(i))\ge 4+4=8>6.
 $$
 
 The torsion computation and the final rank bound, transported through the $\mathbb{Q}$-isomorphism above, complete the proof of Theorem 1.
 
-**Remark 1.** The argument proves the lower bound $\operatorname{rank}E(\mathbb{Q}(i))\ge8$. It does not prove that the rank is exactly $8$, and exact equality is not required by Problem 3.9.
+**Remark 1.** The argument proves the lower bound $\mathrm{rank}\,E(\mathbb{Q}(i))\ge8$. It does not prove that the rank is exactly $8$, and exact equality is not required by Problem 3.9.
 
 
 ## 5. Origin of the rank specialization
