@@ -90,24 +90,39 @@ jobs:
           error_patterns = (
               r'<mjx-merror\b',
               r'data-mjx-error=',
+              r'data-math-error=',
               r'class="[^"]*math-error',
               r'aria-label="[^"]*(?:Missing|Extra open brace)',
           )
           for pattern in error_patterns:
               if re.search(pattern, article, flags=re.I):
-                  raise SystemExit(f'MathJax rendering error matched: {pattern}')
+                  raise SystemExit(f'Math rendering error matched: {pattern}')
 
-          mathjax_count = len(re.findall(r'<mjx-container\b', article))
-          if mathjax_count != 281:
-              raise SystemExit(f'Expected 281 rendered MathJax containers, found {mathjax_count}.')
+          renderers = re.findall(r'<math-renderer\b[^>]*>', article, flags=re.I)
+          math_renderer_count = len(renderers)
+          inline_count = sum('js-inline-math' in tag for tag in renderers)
+          display_count = sum('js-display-math' in tag for tag in renderers)
+
+          if math_renderer_count != 281:
+              sample = '\n'.join(renderers[:5])
+              raise SystemExit(
+                  f'Expected 281 GitHub math-renderer elements, found {math_renderer_count}. '
+                  f'Inline={inline_count}, display={display_count}. Sample:\n{sample}'
+              )
+          if inline_count != 226:
+              raise SystemExit(f'Expected 226 inline math renderers, found {inline_count}.')
+          if display_count != 55:
+              raise SystemExit(f'Expected 55 display math renderers, found {display_count}.')
 
           pdf_size = Path('rendered.pdf').stat().st_size
           if pdf_size < 100_000:
               raise SystemExit(f'Live-page PDF is unexpectedly small: {pdf_size} bytes.')
 
           print('Live GitHub rendering validation passed.')
-          print(f'  rendered MathJax containers: {mathjax_count}')
-          print('  MathJax error nodes: 0')
+          print(f'  rendered math elements: {math_renderer_count}')
+          print(f'  inline math elements: {inline_count}')
+          print(f'  display math elements: {display_count}')
+          print('  math-rendering error nodes: 0')
           print('  known broken-token occurrences: 0')
           print(f'  full-page PDF bytes: {pdf_size}')
           PY
