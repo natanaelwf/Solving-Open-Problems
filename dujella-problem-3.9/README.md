@@ -43,7 +43,7 @@ $$
 satisfies
 
 $$
-C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z},
+C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times \mathbb{Z}/4\mathbb{Z},
 \qquad
 \mathrm{rank}\,C(\mathbb{Q}(i))\ge 8.
 $$
