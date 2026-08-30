@@ -1,6 +1,6 @@
 # A Rational Diophantine Triple Answering Dujella's Problem 3.9
 
-## An affirmative answer with torsion $\mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z}$ and rank at least $8$ over $\mathbb{Q}(i)$
+## An affirmative answer with torsion $\mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z}$ and rank exactly $8$ over $\mathbb{Q}(i)$
 
 **Publication date:** 29 August 2026  
 **Status:** Complete solution  
@@ -14,10 +14,10 @@ $$
 E(\mathbb{Q}(i))_{\mathrm{tors}}\cong
 \mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z},
 \qquad
-\mathrm{rank}\,E(\mathbb{Q}(i))\ge 8.
+\mathrm{rank}\,E(\mathbb{Q}(i))=8.
 $$
 
-This answers Problem 3.9 in Dujella's list of open problems. The torsion statement is proved by a halving criterion and reduction at two split primes. The rank statement is certified by exact $2$-Kummer calculations on a rational curve and its $(-1)$-quadratic twist. The underlying specialization, whose rank is at least 8, was reported by Vinko Petričević in joint work with Andrej Dujella. The purpose of this article is to exhibit a rational Diophantine triple inducing that curve and to give a self-contained exact certificate.
+This answers Problem 3.9 in Dujella's list of open problems. The torsion statement is proved by a halving criterion and reduction at two split primes. The rank statement is certified by exact $2$-Kummer and $2$-Selmer calculations on a rational curve and its $(-1)$-quadratic twist. The underlying specialization was reported by Vinko Petričević in joint work with Andrej Dujella. The purpose of this article is to exhibit a rational Diophantine triple inducing that curve and to give a self-contained exact certificate.
 
 ## 1. Statement of the problem and the example
 
@@ -45,7 +45,7 @@ satisfies
 $$
 C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times \mathbb{Z}/4\mathbb{Z},
 \qquad
-\mathrm{rank}\,C(\mathbb{Q}(i))\ge 8.
+\mathrm{rank}\,C(\mathbb{Q}(i))=8.
 $$
 
 Consequently, $C$ gives an affirmative answer to Problem 3.9.
@@ -248,7 +248,7 @@ $$
 E(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z}.
 $$
 
-## 4. A rank lower bound over $\mathbb{Q}(i)$
+## 4. The exact rank over $\mathbb{Q}(i)$
 
 ### 4.1. Quadratic-twist decomposition
 
@@ -434,16 +434,82 @@ $$
 \mathrm{rank}\,E^{(-1)}(\mathbb{Q})\ge 4.
 $$
 
-Combining the quadratic-twist decomposition, the bound $\mathrm{rank}\,E(\mathbb{Q})\ge 4$, and the twist bound, we conclude that
+### 4.5. The $2$-Selmer upper bounds
+
+For either of the two monic full-$2$-torsion models, put
 
 $$
-\mathrm{rank}\,E(\mathbb{Q}(i))\ge 4+4=8>6.
+S_f=\{2,3,5,7,13,41,47,61,73,103,113,149,233\}.
 $$
 
-The torsion computation and the final rank bound, transported through the $\mathbb{Q}$-isomorphism above, complete the proof of Theorem 1.
+Every prime dividing
 
-**Remark 1.** The argument proves the lower bound $\mathrm{rank}\,E(\mathbb{Q}(i))\ge 8$. It does not prove that the rank is exactly $8$, and exact equality is not required by Problem 3.9.
+$$
+2\prod_{0\le i<j\le2}(e_i-e_j)
+$$
 
+belongs to $S_f$. Hence the full-$2$-torsion descent realizes the $2$-Selmer group as a subspace of
+
+$$
+V=\mathbb{Q}(S,2)^2,
+$$
+
+where $\mathbb{Q}(S,2)$ is generated modulo squares by $-1$ and the thirteen primes in $S_f$. Thus
+
+$$
+\dim_{\mathbb{F}_2}V=2(1+13)=28.
+$$
+
+At an odd finite place, the local Kummer image has dimension $2$; at $2$ it has dimension $3$; and at the real place it has dimension $1$. The following table gives explicit spanning local classes for both curves. Here $T_1=(e_1,0)$, and each integer denotes the $x$-coordinate of a local point.
+
+| place | $E$ | $E^{(-1)}$ |
+|:-----:|:----|:-----------|
+| $2$ | $T_1,2,5$ | $T_1,-8,0$ |
+| $3$ | $T_1,2$ | $T_1,0$ |
+| $5$ | $2,5$ | $3,5$ |
+| $7$ | $T_1,4$ | $T_1,1$ |
+| $13$ | $1,6$ | $1,20$ |
+| $41$ | $0,29$ | $0,12$ |
+| $47$ | $T_1,40$ | $T_1,1$ |
+| $61$ | $0,2$ | $0,2$ |
+| $73$ | $4,11$ | $2,62$ |
+| $103$ | $T_1,9$ | $T_1,11$ |
+| $113$ | $1,11$ | $6,102$ |
+| $149$ | $1,58$ | $1,91$ |
+| $233$ | $6,33$ | $1,200$ |
+| $\mathbb{R}$ | $T_1$ | $T_1$ |
+
+For every displayed integer $x$, the cubic $(x-e_0)(x-e_1)(x-e_2)$ is a square in the indicated $p$-adic field, or is nonnegative at the real place. The corresponding Kummer vectors are linearly independent and attain the full local dimensions just stated.
+
+Pulling the orthogonal equations for these local images back to the $28$-dimensional space $V$ gives a binary local-condition matrix of rank $22$ for $E$, and another of rank $22$ for the twist. At places outside $S_f\cup\{\infty\}$, the classes in $V$ already satisfy the unramified condition. Therefore
+
+$$
+\dim_{\mathbb{F}_2}\operatorname{Sel}_2(E/\mathbb{Q})=28-22=6,
+$$
+
+and
+
+$$
+\dim_{\mathbb{F}_2}\operatorname{Sel}_2(E^{(-1)}/\mathbb{Q})=28-22=6.
+$$
+
+The exact square tests, local Kummer vectors, pullback matrices, and their ranks are constructed and checked by `verify_exact_rank_3_9.py` using only rational and binary arithmetic.
+
+Sections 4.3 and 4.4 already exhibit six independent global Kummer classes on each curve. Since these classes inject into the respective $2$-Selmer groups, the lower and upper bounds coincide. As both curves have full rational $2$-torsion,
+
+$$
+\mathrm{rank}\,E(\mathbb{Q})=6-2=4,
+\qquad
+\mathrm{rank}\,E^{(-1)}(\mathbb{Q})=6-2=4.
+$$
+
+Combining this with the quadratic-twist decomposition gives
+
+$$
+\mathrm{rank}\,E(\mathbb{Q}(i))=4+4=8.
+$$
+
+The torsion computation and the exact rank calculation, transported through the $\mathbb{Q}$-isomorphism above, complete the proof of Theorem 1.
 
 ## 5. Origin of the rank specialization
 
@@ -563,7 +629,7 @@ $$
 
 ## Appendix B. Derivation of the inducing triple
 
-This appendix is not needed for the proof of Theorem 1; it explains how the explicit triple can be recovered from the reported specialization of rank at least 8.
+This appendix is not needed for the proof of Theorem 1; it explains how the explicit triple can be recovered from the reported rank-$8$ specialization.
 
 A standard one-parameter family carrying full $4$-torsion over $\mathbb{Q}(i)$ is given by Dujella and Jukić Bokun (2010):
 
@@ -738,7 +804,7 @@ Substitution of these values into the two-parameter family gives exactly the tri
 
 ## Appendix C. Ancillary exact verification
 
-The accompanying script `verify_problem_3_9.py` uses only Python's standard library and exact integer or rational arithmetic. It checks the Diophantine identities, the coefficient-level isomorphism, both finite-field point counts, all listed points and square-class decompositions, the two binary matrix ranks, and the pullback in Appendix B.
+The accompanying script `verify_problem_3_9.py` uses only Python's standard library and exact integer or rational arithmetic. It checks the Diophantine identities, the coefficient-level isomorphism, both finite-field point counts, all listed points and square-class decompositions, the two binary matrix ranks giving the rank lower bounds, and the pullback in Appendix B.
 
 Run it from this directory with
 
@@ -758,7 +824,29 @@ All exact checks passed.
   reconstruction of the triple from v=180/6643: verified
 ```
 
-The script is supplementary; every mathematical certificate used in the proof is displayed in the article.
+The companion script `verify_exact_rank_3_9.py` performs the complete $2$-Selmer calculation from Section 4.5. Run
+
+```console
+python3 verify_exact_rank_3_9.py
+```
+
+A successful run prints
+
+```text
+E:
+  rank of local-condition matrix = 22
+  dim Sel_2 = 6
+  Mordell-Weil rank over Q <= 4
+E^(-1):
+  rank of local-condition matrix = 22
+  dim Sel_2 = 6
+  Mordell-Weil rank over Q <= 4
+Combined with verify_problem_3_9.py:
+  rank E(Q) = rank E^(-1)(Q) = 4
+  rank E(Q(i)) = 4 + 4 = 8 exactly
+```
+
+The scripts are supplementary exact certificates; the curve data and local spanning data used by them are displayed in the article.
 
 ## References
 
