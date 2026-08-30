@@ -1,0 +1,113 @@
+name: Validate live rendering for Problem 1.10
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/validate-problem-1-10-rendering.yml
+
+permissions:
+  contents: read
+
+jobs:
+  browser-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit the live GitHub rendering in headless Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME"
+          URL="https://github.com/${GITHUB_REPOSITORY}/blob/main/dujella-problem-1.10/README.md"
+
+          for attempt in 1 2 3 4 5; do
+            "$CHROME" \
+              --headless=new \
+              --no-sandbox \
+              --disable-gpu \
+              --disable-dev-shm-usage \
+              --virtual-time-budget=30000 \
+              --dump-dom "$URL" > rendered.html
+            if grep -q 'Jordan Diophantine Tuples in 2' rendered.html; then
+              break
+            fi
+            sleep 5
+          done
+
+          "$CHROME" \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --disable-dev-shm-usage \
+            --virtual-time-budget=30000 \
+            --print-to-pdf=rendered.pdf \
+            --no-pdf-header-footer "$URL"
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          html = Path('rendered.html').read_text(encoding='utf-8')
+          starts = [m.start() for m in re.finditer(r'<article\b[^>]*class="[^"]*markdown-body', html)]
+          if not starts:
+              raise SystemExit('Rendered Markdown article was not found in the GitHub DOM.')
+          start = starts[0]
+          end = html.find('</article>', start)
+          if end < 0:
+              raise SystemExit('Rendered Markdown article was not closed in the GitHub DOM.')
+          article = html[start:end + len('</article>')]
+
+          required = (
+              'Jordan Diophantine Tuples in 2',
+              'Definition 2.1',
+              'Theorem 3.2',
+              'Corollary 3.4',
+              'Theorem 4.5',
+              'Fermat',
+              'Conclusion and scope',
+          )
+          for text in required:
+              if text not in article:
+                  raise SystemExit(f'Missing rendered content: {text}')
+
+          forbidden = (
+              'Missing or unrecognized delimiter',
+              'Extra open brace or missing close brace',
+              'm$-tuple',
+              '-$r$-',
+              '-$r$-tuple',
+              'no-$2$-torsion',
+              '$M_2(\\mathbb{Z})$)',
+              '$\\mathrm{UT}2(\\mathbb{Z})$',
+              '$Q{n+1}$',
+          )
+          for text in forbidden:
+              if text in article:
+                  raise SystemExit(f'Forbidden rendering artifact found: {text}')
+
+          error_patterns = (
+              r'<mjx-merror\b',
+              r'data-mjx-error=',
+              r'class="[^"]*math-error',
+              r'aria-label="[^"]*(?:Missing|Extra open brace)',
+          )
+          for pattern in error_patterns:
+              if re.search(pattern, article, flags=re.I):
+                  raise SystemExit(f'MathJax rendering error matched: {pattern}')
+
+          mathjax_count = len(re.findall(r'<mjx-container\b', article))
+          if mathjax_count != 281:
+              raise SystemExit(f'Expected 281 rendered MathJax containers, found {mathjax_count}.')
+
+          pdf_size = Path('rendered.pdf').stat().st_size
+          if pdf_size < 100_000:
+              raise SystemExit(f'Live-page PDF is unexpectedly small: {pdf_size} bytes.')
+
+          print('Live GitHub rendering validation passed.')
+          print(f'  rendered MathJax containers: {mathjax_count}')
+          print('  MathJax error nodes: 0')
+          print('  known broken-token occurrences: 0')
+          print(f'  full-page PDF bytes: {pdf_size}')
+          PY
