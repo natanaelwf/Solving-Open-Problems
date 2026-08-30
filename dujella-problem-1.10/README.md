@@ -2,8 +2,7 @@
 
 ## Results for Dujella's Problem 1.10
 
-**Publication date:** 30 August 2026  
-**Status:** Complete solution of the stated existence problem under the integral Jordan-product interpretation  
+**Publication date:** 30 August 2026   
 **Field:** Number theory, noncommutative Diophantine tuples, integer matrix rings  
 
 ## Abstract
