@@ -1,0 +1,76 @@
+name: Apply validated rendering fix for Problem 1.10
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/apply-problem-1-10-rendering-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the current main branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch main --single-branch \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+
+      - name: Install the validated README files
+        env:
+          ARTICLE_GZ_B64: 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
+          ROOT_GZ_B64: H4sICG1blGoCA3Jvb3RfUkVBRE1FX2NvcnJlY3RlZC5tZACNU8Fu00AQvfsrRmokWilOkxQBPXCIKEgcKpXSXqAcJuuxPXS9a+2s0xbSS8Wn8GX9EmadtBG0SDnEXm/mvXnv7ewOzD7mMxGWSAWckhAGU2fZZ2+7yN7JEIQrxyUbdBGwWKAzpLvoCgjrcmgo1r4QKGhB1rfKdMWxhlgTYM+dQOBLsBgq0qerOtRF4wuyMsqys5pF6VovHH24gcKbriEXBa58uATvQFkdtMHPLTUCaIIXgQa1hT7YSC/I62eAkskWMoL3qNIKDmR6Tu2AIGTL3HgXkR0lB8aHIinzjh7oe6oGb/RbDSbXYHzTWooEss5lmLi6eXIWGS20GPq3Ijobh+CDFqxigU60U/Tg56lr6lJpWbK9swMn3dyy1CkydZplSzhZq1jCh2RE36c9qS76YoNJABSocpbZMs/zv37K8PWo+07W4gt5JJuMpt92i9V2vvaZ6+b+ntIeb2IcQujp1coR+7ZO9jSZ2Kl90dJ3D0FgWXJImMUmFCjVdjp0acloGvxjJXVw+XZyOFD09DXMuqqTCNPx9BX8R+vB6PCpVt3cVmvgJHYIiudWC8F0YbGF+tXM+iC95os0XPP5zy+3+y8364vIDcnz/w1WlwLdJWAES6g+B28G4Bc6lI98n253ea8P43CbMCajyfi5k5uMn8bhvNNBbbq4Mvb0AIfALlKlchQS+BoCuyoFc+4UEKQfZA5XLLQh0xIosWHLmqHO7/H93d3u/a/fe71ddEDXaCKIQb3duV4E1LnXFsamu18+zKsiz88eoUs4GP9j/w+22h1TiwQAAA==
+        run: |
+          set -euo pipefail
+          cd repo
+          printf '%s' "$ARTICLE_GZ_B64" | base64 --decode | gzip --decompress > dujella-problem-1.10/README.md
+          printf '%s' "$ROOT_GZ_B64" | base64 --decode | gzip --decompress > README.md
+
+          test "$(git hash-object dujella-problem-1.10/README.md)" = "fd860ff40021a7fbc03281de70f5056fa1e2d089"
+          test "$(git hash-object README.md)" = "8f96eba4515e0d239471a9e03bc92752c60ae58d"
+
+          python3 - <<'PY_CHECK'
+          from pathlib import Path
+          import re
+
+          path = Path('dujella-problem-1.10/README.md')
+          text = path.read_text(encoding='utf-8')
+
+          assert '$$' not in text
+          assert r'\left' not in text
+          assert r'\right' not in text
+          assert text.count('```math') == 55
+          assert text.count('```') == 110
+
+          without_blocks = re.sub(r'```math\n.*?\n```', '', text, flags=re.S)
+          protected = re.findall(r'\$`[^`\n]+`\$', without_blocks)
+          assert len(protected) == 226
+          without_inline = re.sub(r'\$`[^`\n]+`\$', '', without_blocks)
+          assert '$' not in without_inline
+
+          forbidden = (
+              r'\left', r'\right', r'\tag', r'\operatorname',
+              r'\mathrm{UT}2', 'Q{n+1}', '-$`', '`$-',
+              'Missing or unrecognized delimiter',
+              'Extra open brace or missing close brace',
+          )
+          for token in forbidden:
+              assert token not in text, token
+
+          assert text.count('```') % 2 == 0
+          assert len(text.splitlines()) == 587
+          print('README structural validation passed.')
+          PY_CHECK
+
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md dujella-problem-1.10/README.md
+          git commit -m "Fix GitHub rendering for Dujella Problem 1.10"
+          git push origin HEAD:main
