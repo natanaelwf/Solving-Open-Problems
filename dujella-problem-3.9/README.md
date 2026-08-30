@@ -43,7 +43,7 @@ $$
 satisfies
 
 $$
-C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times \mathbb{Z}/4\mathbb{Z},
+C(\mathbb{Q}(i))_{\mathrm{tors}}\cong \mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z},
 \qquad
 \mathrm{rank}\,C(\mathbb{Q}(i))\ge 8.
 $$
@@ -64,7 +64,7 @@ bc+1&=\left(\frac{8926353364485863}{8963306864035225}\right)^2.
 \end{aligned}
 $$
 
-The three displayed numbers are nonzero and pairwise distinct, so they form a rational Diophantine triple.
+The numbers $a,b,c$ displayed in Theorem 1 are nonzero and pairwise distinct, so they form a rational Diophantine triple.
 
 Put
 
