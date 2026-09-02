@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exact verifier for "Rational D(q)-Quintuples for Every Rational q".
+"""Exact verifier for "Infinitely Many Rational D(q)-Quintuples for Every Rational q".
 
 Only Python's standard library is used.  The program performs independent
 exact checks of the manuscript's central algebra:
@@ -428,7 +428,7 @@ def main(argv: list[str] | None = None) -> int:
         verify_z2_specialization()
 
         # Exact specializations on both signs, including nonintegral values and
-        # the specialization used in the companion Problem 5.7 manuscript.
+        # the q = 1579 specialization recorded in Appendix A of the manuscript.
         for test_z in (
             F(2, 3),
             F(-7, 5),

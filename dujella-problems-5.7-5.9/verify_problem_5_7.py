@@ -3,7 +3,7 @@
 
 The program uses only Python's standard library and exact Fraction arithmetic.
 It verifies both the algebraic construction and the complete ten-pair
-certificate printed in the companion manuscript.  All validation remains
+certificate printed in Appendix A of the manuscript.  All validation remains
 active under ``python -O``.
 
 Usage:
