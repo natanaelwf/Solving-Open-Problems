@@ -288,10 +288,10 @@ Nonzero scaling preserves distinctness and nonvanishing.
 
 $$
 \mathcal{F}_q(u)=
-\left\{
+\left\lbrace
 \frac{a(qu^2)}{u},\frac{b(qu^2)}{u},\frac{c(qu^2)}{u},
 \frac{d(qu^2)}{u},\frac{e(qu^2)}{u}
-\right\}
+\right\rbrace
 $$
 
 is a rational $D(q)$-quintuple. These specializations give infinitely many distinct quintuples.
