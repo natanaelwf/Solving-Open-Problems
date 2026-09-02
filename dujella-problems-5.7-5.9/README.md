@@ -12,7 +12,7 @@ We construct five distinct nonzero rational functions in $\mathbb{Q}(z)$ whose p
 
 ## 1. Introduction
 
-For $q\in\mathbb{Q}$, a rational $D(q)$-$m$-tuple is a set of $m$ distinct nonzero rational numbers
+For $q\in\mathbb{Q}$, a rational $D(q)\text{-}m\text{-tuple}$ is a set of $m$ distinct nonzero rational numbers
 
 $$
 \{x_1,\dots,x_m\}
@@ -274,7 +274,7 @@ Therefore no entry, and no difference of two entries, is the zero rational funct
 
 ## 4. Square-class transfer and infinitude
 
-**Lemma 4.1 (Scaling).** If $\{x_1,\dots,x_m\}$ is a rational $D(z)$-$m$-tuple and $\lambda\in\mathbb{Q}^{\times}$, then $\{\lambda x_1,\dots,\lambda x_m\}$ is a rational $D(\lambda^2z)$-$m$-tuple.
+**Lemma 4.1 (Scaling).** If $\{x_1,\dots,x_m\}$ is a rational $D(z)\text{-}m\text{-tuple}$ and $\lambda\in\mathbb{Q}^{\times}$, then $\{\lambda x_1,\dots,\lambda x_m\}$ is a rational $D(\lambda^2z)\text{-}m\text{-tuple}$.
 
 **Proof.** If $x_ix_j+z=r_{ij}^2$, then
 
