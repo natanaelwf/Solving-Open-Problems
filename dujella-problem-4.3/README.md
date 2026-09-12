@@ -16,12 +16,12 @@ A Diophantine quadruple is a set of four distinct positive integers such that th
 \mathcal R_n=\{b,a,e,d\},
 ```
 
-with
+whose entries satisfy
 
 ```math
-b<a<p<q<d,
+b\lt a\lt p\lt q\lt d,
 \qquad
-b<a<e<d.
+b\lt a\lt e\lt d.
 ```
 
 The equality of the two largest elements follows from a polynomial identity whose second factor is the Pell equation. Finally, $d=d_n\to\infty$, so the construction gives infinitely many distinct pairs.
@@ -37,19 +37,19 @@ x_n+w_n\sqrt{54}=(485+66\sqrt{54})^{2n+1}.
 Set
 
 ```math
-\begin{array}{rcl@{\qquad}rcl}
-t&=&x-6w, & \ell&=&4t-3w-1,\\
-a&=&8w, & b&=&\frac{9w-6t}{4},\\
-r&=&4w\ell-1, & p&=&\ell(2w\ell-1),\\
-q&=&(\ell+2)\bigl(2w(\ell+2)-1\bigr), & U&=&4t^2-1,\\
-V&=&t(4t^2-3), & e&=&U\bigl((a+b)U+2V\bigr).
-\end{array}
-```
-
-and
-
-```math
-d=4r(a+r)(p+r).
+\begin{aligned}
+t&=x-6w,\\
+\ell&=4t-3w-1,\\
+a&=8w,\\
+b&=\frac{9w-6t}{4},\\
+r&=4w\ell-1,\\
+p&=\ell(2w\ell-1),\\
+q&=(\ell+2)\bigl(2w(\ell+2)-1\bigr),\\
+U&=4t^2-1,\\
+V&=t(4t^2-3),\\
+e&=U\bigl((a+b)U+2V\bigr),\\
+d&=4r(a+r)(p+r).
+\end{aligned}
 ```
 
 **Theorem 1.** For every integer $n\ge 0$, the sets
@@ -63,9 +63,9 @@ d=4r(a+r)(p+r).
 are distinct Diophantine quadruples. Their entries satisfy
 
 ```math
-b<a<p<q<d,
+b\lt a\lt p\lt q\lt d,
 \qquad
-b<a<e<d,
+b\lt a\lt e\lt d,
 ```
 
 and $d=d_n\to\infty$ as $n\to\infty$.
@@ -90,17 +90,17 @@ Moving from $n$ to $n+1$ amounts to multiplication by
 (485+66\sqrt{54})^2=470449+64020\sqrt{54}.
 ```
 
-Hence the sequence also satisfies the integer recurrence
+Hence the sequence satisfies the integer recurrence
 
 ```math
-\begin{array}{rcl}
-(x_0,w_0)&=&(485,66),\\
-x_{n+1}&=&470449x_n+3457080w_n,\\
-w_{n+1}&=&64020x_n+470449w_n.
-\end{array}
+\begin{aligned}
+(x_0,w_0)&=(485,66),\\
+x_{n+1}&=470449x_n+3457080w_n,\\
+w_{n+1}&=64020x_n+470449w_n.
+\end{aligned}
 ```
 
-All coefficients in this recurrence are positive, so $x_n,w_n>0$ and $w_n\ge 66$. Modulo $4$, the recurrence reduces to
+All coefficients in this recurrence are positive, so $x_n,w_n\gt 0$ and $w_n\ge 66$. Modulo $4$, the recurrence reduces to
 
 ```math
 x_{n+1}\equiv x_n\pmod 4,
@@ -139,11 +139,12 @@ t^2+12tw-18w^2=1.
 Consequently,
 
 ```math
-\begin{array}{rcl}
-ab&=&8w\cdot\frac{9w-6t}{4}\\
-&=&18w^2-12tw\\
-&=&t^2-1.
-\end{array}
+\begin{aligned}
+ab
+&=8w\cdot\frac{9w-6t}{4}\\
+&=18w^2-12tw\\
+&=t^2-1.
+\end{aligned}
 ```
 
 Hence
@@ -155,61 +156,64 @@ ab+1=t^2.
 The Pell equation also gives useful bounds. Since $w\ge 66$,
 
 ```math
-49w^2<54w^2+1<\frac{225}{4}w^2.
+49w^2\lt 54w^2+1\lt \frac{225}{4}w^2.
 ```
 
-Because $x>0$ and $x^2=54w^2+1$, taking positive square roots yields
+Because $x\gt 0$ and $x^2=54w^2+1$, taking positive square roots yields
 
 ```math
-7w<x<\frac{15}{2}w.
+7w\lt x\lt \frac{15}{2}w.
 ```
 
 Since $t=x-6w$, we obtain
 
 ```math
-w<t<\frac{3}{2}w.
+w\lt t\lt \frac{3}{2}w.
 ```
 
 It follows that
 
 ```math
-0<b=\frac{9w-6t}{4}<\frac{3}{4}w<a=8w.
+0\lt b=\frac{9w-6t}{4}\lt \frac{3}{4}w\lt a=8w.
 ```
 
 Moreover,
 
 ```math
-\ell=4t-3w-1>w-1\ge 65.
+\ell=4t-3w-1\gt w-1\ge 65.
 ```
 
-In particular, $\ell\ge 3$ and $r=4w\ell-1>0$. Also,
+In particular, $\ell\ge 3$ and $r=4w\ell-1\gt 0$. Also,
 
 ```math
-\begin{array}{rcl}
-p&=&\ell(2w\ell-1)\\
-&\ge&3(6w-1)\\
-&>&8w=a.
-\end{array}
+\begin{aligned}
+p
+&=\ell(2w\ell-1)\\
+&\ge 3(6w-1)\\
+&\gt 8w=a.
+\end{aligned}
 ```
 
 Two direct calculations now give
 
 ```math
-\begin{array}{rcl}
-ap+1&=&8w\ell(2w\ell-1)+1\\
-&=&(4w\ell-1)^2\\
-&=&r^2
-\end{array}
+\begin{aligned}
+ap+1
+&=8w\ell(2w\ell-1)+1\\
+&=(4w\ell-1)^2\\
+&=r^2
+\end{aligned}
 ```
 
 and
 
 ```math
-\begin{array}{rcl}
-q-p&=&(\ell+2)\bigl(2w(\ell+2)-1\bigr)-\ell(2w\ell-1)\\
-&=&8w\ell+8w-2\\
-&=&a+2r.
-\end{array}
+\begin{aligned}
+q-p
+&=(\ell+2)\bigl(2w(\ell+2)-1\bigr)-\ell(2w\ell-1)\\
+&=8w\ell+8w-2\\
+&=a+2r.
+\end{aligned}
 ```
 
 Thus
@@ -218,16 +222,17 @@ Thus
 q=a+p+2r,
 ```
 
-so $q>p>a$.
+so $q\gt p\gt a$.
 
-Finally, $t>w\ge 66$, so $U=4t^2-1>1$ and $V=t(4t^2-3)>0$. Therefore
+Finally, $t\gt w\ge 66$, so $U=4t^2-1\gt 1$ and $V=t(4t^2-3)\gt 0$. Therefore
 
 ```math
-\begin{array}{rcl}
-e&=&U\bigl((a+b)U+2V\bigr)\\
-&=&(a+b)U^2+2UV\\
-&>&a+b>a.
-\end{array}
+\begin{aligned}
+e
+&=U\bigl((a+b)U+2V\bigr)\\
+&=(a+b)U^2+2UV\\
+&\gt a+b\gt a.
+\end{aligned}
 ```
 
 ## 3. The first Diophantine quadruple
@@ -247,11 +252,12 @@ q=a+p+2r.
 These identities imply
 
 ```math
-\begin{array}{rcl}
-aq+1&=&a(a+p+2r)+1\\
-&=&a^2+r^2+2ar\\
-&=&(a+r)^2,
-\end{array}
+\begin{aligned}
+aq+1
+&=a(a+p+2r)+1\\
+&=a^2+r^2+2ar\\
+&=(a+r)^2,
+\end{aligned}
 ```
 
 and similarly
@@ -263,12 +269,13 @@ pq+1=(p+r)^2.
 A further identity that will be used repeatedly is
 
 ```math
-\begin{array}{rcl}
-(a+r)(p+r)&=&ap+r(a+p)+r^2\\
-&=&(r^2-1)+r(a+p)+r^2\\
-&=&r(a+p+2r)-1\\
-&=&rq-1.
-\end{array}
+\begin{aligned}
+(a+r)(p+r)
+&=ap+r(a+p)+r^2\\
+&=(r^2-1)+r(a+p)+r^2\\
+&=r(a+p+2r)-1\\
+&=rq-1.
+\end{aligned}
 ```
 
 Recall that
@@ -280,11 +287,12 @@ d=4r(a+r)(p+r).
 Using $ap=r^2-1$, we obtain
 
 ```math
-\begin{array}{rcl}
-ad+1&=&4ar(a+r)(p+r)+1\\
-&=&4r(a+r)\bigl(r(a+r)-1\bigr)+1\\
-&=&\bigl(2r(a+r)-1\bigr)^2.
-\end{array}
+\begin{aligned}
+ad+1
+&=4ar(a+r)(p+r)+1\\
+&=4r(a+r)\bigl(r(a+r)-1\bigr)+1\\
+&=\bigl(2r(a+r)-1\bigr)^2.
+\end{aligned}
 ```
 
 The same calculation with $a$ and $p$ interchanged gives
@@ -296,11 +304,12 @@ pd+1=\bigl(2r(p+r)-1\bigr)^2.
 Finally, since $(a+r)(p+r)=rq-1$,
 
 ```math
-\begin{array}{rcl}
-qd+1&=&4qr(a+r)(p+r)+1\\
-&=&4(a+r)(p+r)\bigl((a+r)(p+r)+1\bigr)+1\\
-&=&\bigl(2(a+r)(p+r)+1\bigr)^2.
-\end{array}
+\begin{aligned}
+qd+1
+&=4qr(a+r)(p+r)+1\\
+&=4(a+r)(p+r)\bigl((a+r)(p+r)+1\bigr)+1\\
+&=\bigl(2(a+r)(p+r)+1\bigr)^2.
+\end{aligned}
 ```
 
 Thus all six products of two distinct elements of
@@ -311,7 +320,7 @@ Thus all six products of two distinct elements of
 
 become perfect squares after adding $1$. Hence $\mathcal Q_n$ is a Diophantine quadruple.
 
-It remains to show that $d$ is its largest element. We already know that $a<p<q$. Since $(a+r)(p+r)=rq-1$,
+It remains to show that $d$ is its largest element. We already know that $a\lt p\lt q$. Since $(a+r)(p+r)=rq-1$,
 
 ```math
 d=4r(rq-1),
@@ -320,17 +329,18 @@ d=4r(rq-1),
 and therefore
 
 ```math
-\begin{array}{rcl}
-d-q&=&(4r^2-1)q-4r\\
-&\ge&4r^2-4r-1\\
-&>&0.
-\end{array}
+\begin{aligned}
+d-q
+&=(4r^2-1)q-4r\\
+&\ge 4r^2-4r-1\\
+&\gt 0.
+\end{aligned}
 ```
 
 Here $r\ge 2$, which is immediate from $w\ge 66$ and $\ell\ge 65$. Consequently,
 
 ```math
-a<p<q<d.
+a\lt p\lt q\lt d.
 ```
 
 We will later use the square certificate
@@ -363,15 +373,16 @@ X=V+aU,
 Y=V+bU.
 ```
 
-Since $a,b,U,V>0$, both $X$ and $Y$ are positive. Using $ab=t^2-1$ and the identity above, we find
+Since $a,b,U,V\gt 0$, both $X$ and $Y$ are positive. Using $ab=t^2-1$ and the identity above, we find
 
 ```math
-\begin{array}{rcl}
-X^2-1&=&V^2-1+2aUV+a^2U^2\\
-&=&abU^2+2aUV+a^2U^2\\
-&=&a\bigl((a+b)U^2+2UV\bigr)\\
-&=&ae.
-\end{array}
+\begin{aligned}
+X^2-1
+&=V^2-1+2aUV+a^2U^2\\
+&=abU^2+2aUV+a^2U^2\\
+&=a\bigl((a+b)U^2+2UV\bigr)\\
+&=ae.
+\end{aligned}
 ```
 
 Similarly,
@@ -401,11 +412,12 @@ d'=a+b+(2ab+1)e+2tXY.
 The three remaining square conditions follow directly. First,
 
 ```math
-\begin{array}{rcl}
-(tX+aY)^2&=&t^2X^2+a^2Y^2+2atXY\\
-&=&(ab+1)(ae+1)+a^2(be+1)+2atXY\\
-&=&ad'+1.
-\end{array}
+\begin{aligned}
+(tX+aY)^2
+&=t^2X^2+a^2Y^2+2atXY\\
+&=(ab+1)(ae+1)+a^2(be+1)+2atXY\\
+&=ad'+1.
+\end{aligned}
 ```
 
 By symmetry,
@@ -417,26 +429,28 @@ By symmetry,
 For the third condition,
 
 ```math
-\begin{array}{rcl}
-(te+XY)^2&=&t^2e^2+2teXY+X^2Y^2\\
-&=&(ab+1)e^2+2teXY+(ae+1)(be+1)\\
-&=&ed'+1.
-\end{array}
+\begin{aligned}
+(te+XY)^2
+&=t^2e^2+2teXY+X^2Y^2\\
+&=(ab+1)e^2+2teXY+(ae+1)(be+1)\\
+&=ed'+1.
+\end{aligned}
 ```
 
 Thus $\{b,a,e,d'\}$ is a Diophantine quadruple. Moreover, all terms in the definition of $d'$ are positive, and
 
 ```math
-\begin{array}{rcl}
-d'-e&=&a+b+2abe+2tXY\\
-&>&0.
-\end{array}
+\begin{aligned}
+d'-e
+&=a+b+2abe+2tXY\\
+&\gt 0.
+\end{aligned}
 ```
 
-Together with $b<a<e$, this gives
+Together with $b\lt a\lt e$, this gives
 
 ```math
-b<a<e<d'.
+b\lt a\lt e\lt d'.
 ```
 
 ## 5. Coincidence of the largest elements
@@ -444,10 +458,11 @@ b<a<e<d'.
 The decisive point is that $d'=d$. From the definitions of $X$ and $Y$,
 
 ```math
-\begin{array}{rcl}
-Z:=tX+aY&=&t(V+aU)+a(V+bU)\\
-&=&(t+a)V+(at+ab)U.
-\end{array}
+\begin{aligned}
+Z:=tX+aY
+&=t(V+aU)+a(V+bU)\\
+&=(t+a)V+(at+ab)U.
+\end{aligned}
 ```
 
 Using $ab=t^2-1$, $U=4t^2-1$, and $V=4t^3-3t$, this becomes
@@ -467,10 +482,11 @@ r=4w(4t-3w-1)-1.
 A direct polynomial expansion in $\mathbb Z[t,w]$ gives
 
 ```math
-\begin{array}{rcl}
-Z-\bigl(2r(a+r)-1\bigr)&=&8(t^2-4tw+2w^2)\\
-&&{}\cdot(t^2+12tw-18w^2-1).
-\end{array}
+\begin{aligned}
+Z-\bigl(2r(a+r)-1\bigr)
+&=8(t^2-4tw+2w^2)\\
+&\qquad\cdot(t^2+12tw-18w^2-1).
+\end{aligned}
 ```
 
 The second factor vanishes because
@@ -503,7 +519,7 @@ Therefore
 ad'+1=ad+1.
 ```
 
-Since $a>0$, it follows that
+Since $a\gt 0$, it follows that
 
 ```math
 d'=d.
@@ -518,14 +534,14 @@ Consequently,
 is a Diophantine quadruple with
 
 ```math
-b<a<e<d.
+b\lt a\lt e\lt d.
 ```
 
 Thus $\mathcal Q_n$ and $\mathcal R_n$ have the same largest element $d$.
 
 ## 6. Distinctness and infinitude
 
-Every element of $\mathcal Q_n$ is at least $a$, whereas $\mathcal R_n$ contains the element $b<a$. Therefore
+Every element of $\mathcal Q_n$ is at least $a$, whereas $\mathcal R_n$ contains the element $b\lt a$. Therefore
 
 ```math
 \mathcal Q_n\ne\mathcal R_n
@@ -536,7 +552,7 @@ for every integer $n\ge 0$.
 Let
 
 ```math
-\alpha=485+66\sqrt{54}>1.
+\alpha=485+66\sqrt{54}\gt 1.
 ```
 
 Its norm is $1$, so its conjugate is $\alpha^{-1}$. Taking the difference between the defining equation and its conjugate gives
@@ -549,7 +565,7 @@ w_n=
 Hence $w_n\to\infty$. Since
 
 ```math
-d_n>a_n=8w_n,
+d_n\gt a_n=8w_n,
 ```
 
 we also have $d_n\to\infty$. The common largest elements are therefore unbounded, so the construction yields infinitely many distinct pairs of Diophantine quadruples.
@@ -569,10 +585,12 @@ For $n=0$,
 The construction gives
 
 ```math
-\begin{array}{rcl}
-\mathcal Q_0&=&\{528,3253511,3336933,22929452257545400\},\\
-\mathcal R_0&=&\{15,528,723737525421,22929452257545400\}.
-\end{array}
+\begin{aligned}
+\mathcal Q_0
+&=\{528,3253511,3336933,22929452257545400\},\\
+\mathcal R_0
+&=\{15,528,723737525421,22929452257545400\}.
+\end{aligned}
 ```
 
 This is the third pair recorded by Gibbs and in Dujella's problem list.
@@ -588,10 +606,11 @@ V^2-(t^2-1)U^2=1
 and
 
 ```math
-\begin{array}{rcl}
-Z-\bigl(2r(a+r)-1\bigr)&=&8(t^2-4tw+2w^2)\\
-&&{}\cdot(t^2+12tw-18w^2-1)
-\end{array}
+\begin{aligned}
+Z-\bigl(2r(a+r)-1\bigr)
+&=8(t^2-4tw+2w^2)\\
+&\qquad\cdot(t^2+12tw-18w^2-1)
+\end{aligned}
 ```
 
 coefficient by coefficient in $\mathbb Z[t,w]$. Second, it generates any requested number of members of the family and tests all twelve pairwise products for each pair of quadruples with exact integer arithmetic and `math.isqrt`.
