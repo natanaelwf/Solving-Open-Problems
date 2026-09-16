@@ -2,7 +2,7 @@
 
 ## Affirmative answers to Dujella's Problems 1.12 and 1.13
 
-**Publication date:** 15 September 2026  
+**Publication date:** 16 September 2026  
 **Status:** Complete solution  
 **Field:** Number theory, Diophantine tuples, algebraic number theory
 
@@ -253,7 +253,7 @@ We need the elementary Ramsey estimate $R_q(6)\le q^{6q}$ for $q\ge2$. Here is a
 
 This is positive for $j\le6q-1$, so $6q-1$ selections and their colors can be made. Some color occurs at least six times among these selections. The corresponding six vertices form a monochromatic complete graph, because every later selected vertex lies in every earlier retained neighborhood.
 
-If the fixed height class had at least $q^{6q}$ vertices, choose six monochromatic vertices and label them $a_1,a_2,a_3,b_1,b_2,b_3$. Then
+If the fixed height class had at least $q^{6q}$ vertices, choose six monochromatic vertices and label them $a_1,a_2,a_3,b_1,b_2,b_3$. For each $\sigma$, let $\varepsilon_\sigma$ denote the common value of $\varepsilon_\sigma(a,b)$ on the edges between these six vertices. Then
 
 ```math
 \Delta
@@ -609,7 +609,7 @@ The last inequality uses $A\ge1$ and
 
 By Equation (6), $54A\lt t/2$, so the last expression is at most $G^{-1/2}$.
 
-Since $\mathbf p$ is integral and its first coordinate is $1$, $\lVert\mathbf p\rVert_v=1$ at every finite place. Therefore:
+Since $\mathbf p$ is integral and its first coordinate is $1$, $\lVert\mathbf p\rVert_v=1$ at every finite place, so $\prod_{v\mid\infty}\lVert\mathbf p\rVert_v=G$. The four denominator factors at each archimedean place therefore contribute $G^{-4}$. Hence:
 
 **Equation (13).**
 
@@ -658,7 +658,7 @@ For each fixed basis pattern and exponent vector, Proposition 5.1 applies with $
 **Equation (14).**
 
 ```math
-5^s2^{72s}2^{80}
+5^s\cdot 2^{72s}\cdot 2^{80}
 \le2^{80+75d}
 ```
 
@@ -712,7 +712,7 @@ If $\mathbf p=(1,r_1,r_2,r_3)$ lies in the hyperplane, the polynomial identity j
 ```math
 \begin{aligned}
 T_0&=\max\lbrace{}8,h(a_3)\rbrace{},\\
-A&=\max\lbrace{}1,h(a_1),h(a_2),h(a_3)\rbrace{}\le T_0.
+A_0&=\max\lbrace{}1,h(a_1),h(a_2),h(a_3)\rbrace{}\le T_0.
 \end{aligned}
 ```
 
@@ -728,7 +728,7 @@ The closed interval $[T_0,256T_0]$ is covered by the eight intervals
 
 Lemma 4.1 bounds their contribution by $8M_d$. Overlap at endpoints only increases this upper estimate.
 
-Finally, every $x\in A$ with $h(x)\gt256T_0$ is distinct from $a_1,a_2,a_3$ and satisfies $a_i x+1\in K^2$ for $i=1,2,3$. It also satisfies $h(x)\gt256A$. Lemma 6.1 bounds the number of such elements by $L_d$. Hence
+Finally, every $x\in A$ with $h(x)\gt256T_0$ is distinct from $a_1,a_2,a_3$ and satisfies $a_i x+1\in K^2$ for $i=1,2,3$. It also satisfies $h(x)\gt256A_0$. Lemma 6.1 bounds the number of such elements by $L_d$. Hence
 
 ```math
 |A|\le N_d+2+8M_d+L_d=C_d,
@@ -738,6 +738,6 @@ as required.
 
 ## References
 
-Dujella, A. *Open problems on Diophantine m-tuples and elliptic curves.* Online problem list, Problems 1.12 and 1.13, consulted 15 September 2026.
+Dujella, A. *Open problems on Diophantine m-tuples and elliptic curves.* Online problem list, Problems 1.12 and 1.13, consulted 16 September 2026.
 
 Evertse, J.-H. and Ferretti, R. G. *A further improvement of the Quantitative Subspace Theorem.* Annals of Mathematics (2) **177** (2013), 513-590. Theorem 3.1 and its hypotheses appear on pp. 523-524.
