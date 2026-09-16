@@ -1,5 +1,7 @@
 # AI-Assisted Research
 
+_Natanael Wildner Fraga_
+
 Solutions, significant advances, and research methods developed with the assistance of large language models.
 
 This repository documents work on open problems across mathematics and other fields. Each directory is a self-contained record of one problem and may present a complete solution, a substantial partial result, or a method used to obtain progress.
