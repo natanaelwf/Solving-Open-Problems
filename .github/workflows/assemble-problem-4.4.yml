@@ -1,0 +1,51 @@
+name: Assemble Problem 4.4 publication
+
+on:
+  push:
+    branches:
+      - publish-dujella-problem-4.4-20261002
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    if: github.event.head_commit.message == 'Assemble Problem 4.4 publication'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out publication branch
+        uses: actions/checkout@v4
+        with:
+          ref: publish-dujella-problem-4.4-20261002
+
+      - name: Assemble and verify publication files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dujella-problem-4.4
+          cat .publish/problem.b64.* | base64 --decode > dujella-problem-4.4/README.md
+          cat .publish/root.b64.* | base64 --decode > README.md
+
+          test "$(git hash-object dujella-problem-4.4/README.md)" = "2fb235af82f343db8580880e5d7f85e89adfcfe1"
+          test "$(git hash-object README.md)" = "9641b9ce672d585f3d8db45db0ee1b0eef4c2351"
+
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('dujella-problem-4.4/README.md').read_text(encoding='utf-8')
+          assert '$$' not in text
+          assert '\\tag' not in text
+          assert '\\boxed' not in text
+          assert '\\begin{array}' not in text
+          assert text.count('```math') == text.count('```')
+          PY
+
+          rm -rf .publish
+          rm -f .github/workflows/assemble-problem-4.4.yml
+          rmdir .github/workflows 2>/dev/null || true
+          rmdir .github 2>/dev/null || true
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add complete solution to Dujella's Problem 4.4"
+          git push origin HEAD:publish-dujella-problem-4.4-20261002
