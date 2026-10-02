@@ -587,7 +587,7 @@ Again $-C\lt F\lt0$. Both cases contradict Equation (4.6), so $n\gt\sqrt{C/B}$. 
 
 ### 5.1. The external approximation theorem
 
-We use Cipu, Dujella and Fujita (2022, Theorem 3.1), which states a version of Cipu, Filipin and Fujita (2016, Theorem 2.1) without a coprimality hypothesis. To record its constants exactly, put:
+We use Cipu, Dujella and Fujita (2022, Theorem 3.1), which states a version of Cipu, Filipin and Fujita (2016, Theorem 2.1) with the explicit gcd factors omitted. To record its constants exactly, put:
 
 **Equation (5.1).**
 
