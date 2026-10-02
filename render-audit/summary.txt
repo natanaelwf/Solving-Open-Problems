@@ -1,4 +1,0 @@
-Target: https://github.com/natanaelwf/Solving-Open-Problems/tree/d899757fdd14c42049bb6bf5cefed632e1290c9f/dujella-problem-4.4
-Audited: 2026-10-02T20:45:17.746Z
-desktop: heading OK; math-renderer=327; mjx=0; mathML=327; render-target=0; merrors=0; forbidden=0; formula-overflow=0; body-overflow=false
-mobile: heading OK; math-renderer=327; mjx=0; mathML=327; render-target=0; merrors=0; forbidden=0; formula-overflow=0; body-overflow=false
