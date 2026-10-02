@@ -3,7 +3,6 @@
 ## A complete negative solution to Dujella's Problem 4.4
 
 **Publication date:** 2 October 2026  
-**Status:** Complete solution  
 **Field:** Number theory, Diophantine tuples
 
 ## Abstract
