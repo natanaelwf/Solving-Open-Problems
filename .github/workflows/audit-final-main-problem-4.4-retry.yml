@@ -1,0 +1,132 @@
+name: Retry final main render audit for Problem 4.4
+
+on:
+  push:
+    branches:
+      - publish-dujella-problem-4.4-20261002
+
+jobs:
+  audit:
+    if: github.event.head_commit.message == 'Retry final main render audit for Problem 4.4'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: publish-dujella-problem-4.4-20261002
+
+      - name: Verify published bytes
+        run: |
+          set -euo pipefail
+          curl -fsSL https://raw.githubusercontent.com/natanaelwf/Solving-Open-Problems/main/dujella-problem-4.4/README.md -o /tmp/problem.md
+          curl -fsSL https://raw.githubusercontent.com/natanaelwf/Solving-Open-Problems/main/README.md -o /tmp/root.md
+          test "$(git hash-object /tmp/problem.md)" = "2fb235af82f343db8580880e5d7f85e89adfcfe1"
+          test "$(git hash-object /tmp/root.md)" = "9641b9ce672d585f3d8db45db0ee1b0eef4c2351"
+
+      - name: Install browser
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Inspect final main page
+        env:
+          TARGET_URL: https://github.com/natanaelwf/Solving-Open-Problems/tree/main/dujella-problem-4.4
+        run: |
+          mkdir -p final-main-audit
+          cat > audit-main.js <<'JS'
+          const fs = require('fs');
+          const { chromium } = require('playwright');
+          const target = process.env.TARGET_URL;
+          const configs = [
+            { name: 'desktop', width: 1440, height: 1000 },
+            { name: 'mobile', width: 390, height: 844 },
+          ];
+          const must = (value, message) => { if (!value) throw new Error(message); };
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const report = { target, auditedAt: new Date().toISOString(), viewports: {} };
+            for (const cfg of configs) {
+              const context = await browser.newContext({ viewport: { width: cfg.width, height: cfg.height } });
+              const page = await context.newPage();
+              const response = await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 120000 });
+              must(response && response.ok(), `${cfg.name}: HTTP failure`);
+              await page.waitForTimeout(6000);
+              const height = await page.evaluate(() => document.documentElement.scrollHeight);
+              for (let y = 0; y < height; y += Math.max(500, Math.floor(cfg.height * 0.75))) {
+                await page.evaluate(pos => scrollTo(0, pos), y);
+                await page.waitForTimeout(120);
+              }
+              await page.waitForTimeout(3000);
+
+              const data = await page.evaluate(() => {
+                const article = document.querySelector('article.markdown-body, .markdown-body');
+                if (!article) return { articleFound: false };
+                const text = article.innerText || '';
+                const formulas = [...article.querySelectorAll('math-renderer')];
+                const hasScroller = node => {
+                  let p = node;
+                  while (p && p !== article.parentElement) {
+                    const s = getComputedStyle(p);
+                    if (/auto|scroll/.test(s.overflowX) && p.scrollWidth > p.clientWidth) return true;
+                    p = p.parentElement;
+                  }
+                  return false;
+                };
+                const overflow = formulas.filter(node => {
+                  const r = node.getBoundingClientRect();
+                  return r.width > 0 && (r.left < -2 || r.right > innerWidth + 2) && !hasScroller(node);
+                }).length;
+                const forbiddenTokens = ['Missing close brace', 'Undefined control sequence', 'MathJax Error', '```math', '\\begin{aligned}', '\\end{aligned}', '\\frac{', '\\lt', '\\gt', '\\tag', '\\boxed'];
+                return {
+                  articleFound: true,
+                  heading: article.querySelector('h1')?.innerText || '',
+                  formulas: formulas.length,
+                  mathML: article.querySelectorAll('math').length,
+                  errors: article.querySelectorAll('merror, .merror, mjx-merror, [data-math-error]').length,
+                  forbidden: forbiddenTokens.filter(token => text.includes(token)),
+                  overflow,
+                  bodyOverflow: document.documentElement.scrollWidth > innerWidth + 2,
+                  pageHeight: document.documentElement.scrollHeight,
+                  hasBeginning: text.includes('A complete negative solution to Dujella'),
+                  hasEnding: text.includes('This proves Theorem 1.1.'),
+                  hasCommitLink: !!document.querySelector('a[href*="/commit/a02cda03bad6e2405487054f5f45fc2f5c9e6bef"]'),
+                };
+              });
+
+              must(data.articleFound, `${cfg.name}: article missing`);
+              must(data.heading === 'Uniqueness of a Smaller Extension of a Diophantine Triple', `${cfg.name}: wrong heading`);
+              must(data.formulas === 327 && data.mathML === 327, `${cfg.name}: expected 327 formulas, got ${data.formulas}/${data.mathML}`);
+              must(data.errors === 0, `${cfg.name}: math errors`);
+              must(data.forbidden.length === 0, `${cfg.name}: raw/error tokens ${data.forbidden}`);
+              must(data.overflow === 0 && !data.bodyOverflow, `${cfg.name}: horizontal overflow`);
+              must(data.hasBeginning && data.hasEnding, `${cfg.name}: article incomplete`);
+              must(data.hasCommitLink, `${cfg.name}: final commit link missing`);
+
+              const positions = [
+                ['top', 0],
+                ['middle', Math.max(0, Math.floor(data.pageHeight / 2 - cfg.height / 2))],
+                ['bottom', Math.max(0, data.pageHeight - cfg.height)],
+              ];
+              for (const [label, y] of positions) {
+                await page.evaluate(pos => scrollTo(0, pos), y);
+                await page.waitForTimeout(500);
+                await page.screenshot({ path: `final-main-audit/${cfg.name}-${label}.png` });
+              }
+              report.viewports[cfg.name] = data;
+              await context.close();
+            }
+            fs.writeFileSync('final-main-audit/report.json', JSON.stringify(report, null, 2));
+            fs.writeFileSync('final-main-audit/summary.txt', Object.entries(report.viewports).map(([name, d]) => `${name}: formulas=${d.formulas}; errors=${d.errors}; forbidden=${d.forbidden.length}; overflow=${d.overflow}; bodyOverflow=${d.bodyOverflow}; finalCommit=${d.hasCommitLink}`).join('\n') + '\n');
+            console.log(fs.readFileSync('final-main-audit/summary.txt', 'utf8'));
+            await browser.close();
+          })().catch(error => { console.error(error.stack || error); process.exit(1); });
+          JS
+          node audit-main.js
+
+      - name: Upload final-main audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: problem-4.4-final-main-audit
+          path: final-main-audit/
+          if-no-files-found: error
+          retention-days: 30
