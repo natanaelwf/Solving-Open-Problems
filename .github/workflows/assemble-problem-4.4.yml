@@ -31,12 +31,32 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
+
           text = Path('dujella-problem-4.4/README.md').read_text(encoding='utf-8')
           assert '$$' not in text
           assert '\\tag' not in text
           assert '\\boxed' not in text
           assert '\\begin{array}' not in text
-          assert text.count('```math') == text.count('```')
+
+          in_math = False
+          openings = 0
+          closings = 0
+          for line in text.splitlines():
+              stripped = line.strip()
+              if stripped == '```math':
+                  assert not in_math
+                  in_math = True
+                  openings += 1
+                  continue
+              if stripped == '```':
+                  assert in_math
+                  in_math = False
+                  closings += 1
+                  continue
+              if in_math:
+                  assert '<' not in line and '>' not in line
+          assert not in_math
+          assert openings == closings
           PY
 
           rm -rf .publish
