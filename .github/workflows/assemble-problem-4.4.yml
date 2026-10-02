@@ -23,11 +23,19 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dujella-problem-4.4
-          cat .publish/problem.b64.* | base64 --decode > dujella-problem-4.4/README.md
+          {
+            cat .publish/problem.b64.00
+            head -c -4 .publish/problem.b64.01
+            cat .publish/problem.b64.02 .publish/problem.b64.03
+          } | base64 --decode > dujella-problem-4.4/README.md
           cat .publish/root.b64.* | base64 --decode > README.md
 
-          test "$(git hash-object dujella-problem-4.4/README.md)" = "2fb235af82f343db8580880e5d7f85e89adfcfe1"
-          test "$(git hash-object README.md)" = "9641b9ce672d585f3d8db45db0ee1b0eef4c2351"
+          problem_sha="$(git hash-object dujella-problem-4.4/README.md)"
+          root_sha="$(git hash-object README.md)"
+          echo "Problem README blob: ${problem_sha}"
+          echo "Root README blob: ${root_sha}"
+          test "${problem_sha}" = "2fb235af82f343db8580880e5d7f85e89adfcfe1"
+          test "${root_sha}" = "9641b9ce672d585f3d8db45db0ee1b0eef4c2351"
 
           python - <<'PY'
           from pathlib import Path
@@ -41,22 +49,23 @@ jobs:
           in_math = False
           openings = 0
           closings = 0
-          for line in text.splitlines():
+          for line_number, line in enumerate(text.splitlines(), 1):
               stripped = line.strip()
               if stripped == '```math':
-                  assert not in_math
+                  assert not in_math, f'nested math fence at line {line_number}'
                   in_math = True
                   openings += 1
                   continue
               if stripped == '```':
-                  assert in_math
+                  assert in_math, f'closing fence outside math at line {line_number}'
                   in_math = False
                   closings += 1
                   continue
               if in_math:
-                  assert '<' not in line and '>' not in line
-          assert not in_math
+                  assert '<' not in line and '>' not in line, f'literal relation at line {line_number}'
+          assert not in_math, 'unclosed math fence'
           assert openings == closings
+          print(f'Validated {openings} balanced math blocks')
           PY
 
           rm -rf .publish
