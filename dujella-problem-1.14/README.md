@@ -31,7 +31,7 @@ Problem 1.14 asks for an upper bound for the cardinality of polynomial $D(n)$-tu
 For a commutative ring $R$, write
 
 ```math
-\operatorname{Sq}(R)=\lbrace r^2:r\in R\rbrace.
+\mathrm{Sq}(R)=\lbrace r^2:r\in R\rbrace.
 ```
 
 Zero is therefore a square. All tuple entries below are nonzero, but a square root of $ab+n$ is allowed to be zero.
@@ -41,7 +41,7 @@ Zero is therefore a square. All tuple entries below are nonzero, but a square ro
 **Equation (1.1).**
 
 ```math
-ab+n\in\operatorname{Sq}(\mathbb Z[x])
+ab+n\in\mathrm{Sq}(\mathbb Z[x])
 \qquad
 (a,b\in A,\ a\ne b).
 ```
@@ -107,8 +107,8 @@ where
 ```math
 \delta(n)=
 \begin{cases}
-1,&n\in\operatorname{Sq}(\mathbb C[x]),\\
-0,&n\notin\operatorname{Sq}(\mathbb C[x]).
+1,&n\in\mathrm{Sq}(\mathbb C[x]),\\
+0,&n\notin\mathrm{Sq}(\mathbb C[x]).
 \end{cases}
 ```
 
@@ -173,7 +173,7 @@ The constant is uniform in $N$, including negative $N$.
 **Proof.** Let $H$ be the set on the left. There is nothing to prove if $|H|\le1$. Otherwise, for distinct $a,b\in H$, we have $\deg(ab)\gt d$, so the leading coefficient of the square $ab+n$ is
 
 ```math
-\operatorname{lc}(a)\operatorname{lc}(b)\gt0.
+\mathrm{lc}(a)\mathrm{lc}(b)\gt0.
 ```
 
 Hence all leading coefficients of elements of $H$ have the same sign. Replacing every member of $H$ by its negative, if necessary, preserves all pairwise products and makes these leading coefficients positive.
@@ -326,7 +326,7 @@ From now on, until Section 6, assume $d=\deg n\ge1$. For a $D(n)$-set $A$, defin
 **Equation (3.4).**
 
 ```math
-S=\lbrace a\in A:a^2+n\in\operatorname{Sq}(\mathbb C[x])\rbrace.
+S=\lbrace a\in A:a^2+n\in\mathrm{Sq}(\mathbb C[x])\rbrace.
 ```
 
 The use of $\mathbb C[x]$ is deliberate. Pairwise squares in $\mathbb Z[x]$ remain squares over $\mathbb C$, and our separator detects precisely the complex square locus.
@@ -553,7 +553,7 @@ If a rational multiple of a primitive integer polynomial has integer coefficient
 
 ```math
 \left|
-\lbrace\eta\in\mathbb C:t+\eta\in\operatorname{Sq}(\mathbb C(x))\rbrace
+\lbrace\eta\in\mathbb C:t+\eta\in\mathrm{Sq}(\mathbb C(x))\rbrace
 \right|
 \le2.
 ```
@@ -586,7 +586,7 @@ In each fiber the local degrees sum to $q$, so that fiber contains at most $q/2$
 
 The four fibers therefore contribute at least $2q$. The Riemann-Hurwitz formula for a degree-$q$ map from $\mathbb P^1$ to itself in characteristic zero gives total ramification $2q-2$, a contradiction.
 
-**Proposition 4.8.** Suppose that $A$ satisfies Condition (ND). Among the families in Lemma 4.1, at most one has $f/g\in\mathbb C$. Such a family exists only if $n\in\operatorname{Sq}(\mathbb C[x])$, and it contributes at most two elements of $S$.
+**Proposition 4.8.** Suppose that $A$ satisfies Condition (ND). Among the families in Lemma 4.1, at most one has $f/g\in\mathbb C$. Such a family exists only if $n\in\mathrm{Sq}(\mathbb C[x])$, and it contributes at most two elements of $S$.
 
 **Proof.** If $f/g$ is constant, then $n=fg$ is a nonzero constant times $f^2$, and hence is a square over $\mathbb C$. Because $f$ is monic, the choice of $f$ is unique if it exists. Every root multiplicity of $n$ must be even, and $f$ has half that multiplicity. Write
 
@@ -637,7 +637,7 @@ The argument in this section is algebraic and requires neither integrality nor C
 **Proposition 5.1 (Fixed-degree bound).** Let $n\in\mathbb C[x]\setminus\lbrace0\rbrace$ have degree $d$, and let $A$ be a finite set of distinct nonzero complex polynomials satisfying
 
 ```math
-ab+n\in\operatorname{Sq}(\mathbb C[x])
+ab+n\in\mathrm{Sq}(\mathbb C[x])
 \qquad
 (a,b\in A,\ a\ne b).
 ```
@@ -742,7 +742,7 @@ and use the bilinear form
 This form is bilinear, not Hermitian. If $m=|A_k|\ge2$, its Gram matrix on the vectors $v(a)$ is, by Equations (5.3) and (5.4),
 
 ```math
-G=\frac{n_d}{2}\bigl(I_m-\mathbf1\mathbf1^{T}\bigr).
+G=\frac{n_d}{2}\bigl(I_m-\mathbf{1}\mathbf{1}^{T}\bigr).
 ```
 
 Its eigenvalues are $n_d/2$ with multiplicity $m-1$ and $(1-m)n_d/2$ with multiplicity one. Thus $G$ is nonsingular. If $V$ is the matrix whose rows are the $v(a)$ and $J$ is the $(j+1)$-dimensional coordinate-reversal matrix, then
@@ -754,7 +754,7 @@ G=VJV^T.
 It follows that
 
 ```math
-m=\operatorname{rank}G\le j+1=2k-d+1.
+m=\mathrm{rank}\,G\le j+1=2k-d+1.
 ```
 
 The case $m\le1$ is immediate.
