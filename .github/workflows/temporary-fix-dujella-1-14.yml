@@ -24,6 +24,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import json
           import re
 
           path = Path("dujella-problem-1.14/README.md")
@@ -48,11 +49,17 @@ jobs:
                   raise SystemExit(f"Forbidden or unsafe macro found: {label}")
 
           block_pattern = re.compile(r"```math\n(.*?)\n```", re.DOTALL)
-          blocks = block_pattern.findall(text)
+          block_matches = list(block_pattern.finditer(text))
+          blocks = [match.group(1) for match in block_matches]
           if text.count("```math") != len(blocks):
               raise SystemExit("Unbalanced or malformed math fences")
           if len(blocks) != 90:
               raise SystemExit(f"Expected 90 display-math blocks, found {len(blocks)}")
+
+          expressions = []
+          for index, match in enumerate(block_matches, start=1):
+              line = text.count("\n", 0, match.start()) + 1
+              expressions.append({"kind": "display", "index": index, "line": line, "tex": match.group(1)})
 
           inline = []
           in_math_fence = False
@@ -68,41 +75,43 @@ jobs:
               if in_math_fence:
                   continue
 
-              line = re.sub(r"`[^`]*`", "", line)
+              line_without_code = re.sub(r"`[^`]*`", "", line)
               dollar_positions = [
                   match.start()
-                  for match in re.finditer(r"(?<!\\)\$", line)
+                  for match in re.finditer(r"(?<!\\)\$", line_without_code)
               ]
               if len(dollar_positions) % 2:
                   raise SystemExit(f"Unpaired inline dollar delimiter at line {line_number}")
               for start, end in zip(dollar_positions[0::2], dollar_positions[1::2]):
-                  inline.append((line_number, line[start + 1:end]))
+                  inline.append((line_number, line_without_code[start + 1:end]))
 
           if in_math_fence:
               raise SystemExit("Unclosed math fence at end of file")
 
-          expressions = [("block", i + 1, value) for i, value in enumerate(blocks)]
-          expressions += [(f"inline line {line}", i + 1, value) for i, (line, value) in enumerate(inline)]
+          for index, (line, tex) in enumerate(inline, start=1):
+              expressions.append({"kind": "inline", "index": index, "line": line, "tex": tex})
 
-          for kind, number, expression in expressions:
-              if not expression.strip():
-                  raise SystemExit(f"Empty {kind} expression #{number}")
-              if "<" in expression or ">" in expression:
-                  raise SystemExit(f"Literal angle bracket in {kind} expression #{number}")
+          for expression in expressions:
+              tex = expression["tex"]
+              label = f'{expression["kind"]} expression #{expression["index"]} at line {expression["line"]}'
+              if not tex.strip():
+                  raise SystemExit(f"Empty {label}")
+              if "<" in tex or ">" in tex:
+                  raise SystemExit(f"Literal angle bracket in {label}")
 
               stack = []
-              for match in re.finditer(r"\\(begin|end)\{([^{}]+)\}", expression):
+              for match in re.finditer(r"\\(begin|end)\{([^{}]+)\}", tex):
                   action, env = match.groups()
                   if action == "begin":
                       stack.append(env)
                   elif not stack or stack.pop() != env:
-                      raise SystemExit(f"Mismatched environment in {kind} expression #{number}")
+                      raise SystemExit(f"Mismatched environment in {label}")
               if stack:
-                  raise SystemExit(f"Unclosed environment in {kind} expression #{number}: {stack}")
+                  raise SystemExit(f"Unclosed environment in {label}: {stack}")
 
               depth = 0
               escaped = False
-              for char in expression:
+              for char in tex:
                   if escaped:
                       escaped = False
                       continue
@@ -114,9 +123,9 @@ jobs:
                   elif char == "}":
                       depth -= 1
                       if depth < 0:
-                          raise SystemExit(f"Extra closing brace in {kind} expression #{number}")
+                          raise SystemExit(f"Extra closing brace in {label}")
               if depth:
-                  raise SystemExit(f"Unbalanced braces in {kind} expression #{number}: depth {depth}")
+                  raise SystemExit(f"Unbalanced braces in {label}: depth {depth}")
 
           required_counts = {
               r"\mathrm{Sq}": 8,
@@ -128,12 +137,14 @@ jobs:
               if actual != expected:
                   raise SystemExit(f"Expected {expected} occurrences of {token}, found {actual}")
 
-          commands = sorted(set(re.findall(r"\\([A-Za-z]+)", "\n".join(value for _, _, value in expressions))))
-          expected_rendered = len(blocks) + len(inline)
-          Path(".expected-math-renderers").write_text(str(expected_rendered), encoding="ascii")
+          commands = sorted(set(re.findall(r"\\([A-Za-z]+)", "\n".join(item["tex"] for item in expressions))))
+          Path("source-math.json").write_text(
+              json.dumps(expressions, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
           print("LaTeX commands used:", ", ".join(commands))
           print(f"Validated {len(blocks)} display blocks and {len(inline)} inline expressions")
-          print(f"Expected rendered mathematics elements: {expected_rendered}")
+          print(f"Source mathematics elements: {len(expressions)}")
           PY
 
           git diff --check
@@ -161,11 +172,14 @@ jobs:
           fi
 
           python - <<'PY'
+          from collections import Counter
+          from html import unescape
           from pathlib import Path
+          import json
           import re
 
           html = Path("rendered.html").read_text(encoding="utf-8")
-          expected = int(Path(".expected-math-renderers").read_text(encoding="ascii"))
+          source = json.loads(Path("source-math.json").read_text(encoding="utf-8"))
 
           forbidden_messages = (
               "The following macros are not allowed",
@@ -183,23 +197,76 @@ jobs:
           if r"\operatorname" in html:
               raise SystemExit("Rendered HTML still contains a residual operatorname command")
 
-          opened = len(re.findall(r"<math-renderer\b", html))
-          closed = html.count("</math-renderer>")
-          if opened != closed:
-              raise SystemExit(f"Unbalanced math-renderer elements: {opened} openings, {closed} closings")
-          if opened != expected:
-              raise SystemExit(
-                  f"Source/render mismatch: expected {expected} math-renderer elements, found {opened}"
-              )
-
           renderers = re.findall(r"<math-renderer\b.*?</math-renderer>", html, flags=re.DOTALL)
-          if len(renderers) != expected:
-              raise SystemExit(
-                  f"Could not isolate every rendered expression: expected {expected}, isolated {len(renderers)}"
+          annotations = [
+              unescape(value)
+              for value in re.findall(
+                  r'<annotation[^>]*encoding="application/x-tex"[^>]*>(.*?)</annotation>',
+                  html,
+                  flags=re.DOTALL,
               )
+          ]
+
+          def normalize(value):
+              return re.sub(r"\s+", " ", value).strip()
+
+          source_counter = Counter(normalize(item["tex"]) for item in source)
+          annotation_counter = Counter(normalize(value) for value in annotations)
+          missing_counter = source_counter - annotation_counter
+          extra_counter = annotation_counter - source_counter
+
+          report = [
+              f"source expressions: {len(source)}",
+              f"math-renderer elements: {len(renderers)}",
+              f"TeX annotations: {len(annotations)}",
+              f"missing normalized expressions: {sum(missing_counter.values())}",
+              f"extra normalized expressions: {sum(extra_counter.values())}",
+              "",
+              "FIRST MATH-RENDERER SNIPPET",
+              renderers[0][:4000] if renderers else "<none>",
+              "",
+              "MISSING SOURCE EXPRESSIONS",
+          ]
+          for item in source:
+              normalized = normalize(item["tex"])
+              if missing_counter[normalized]:
+                  report.append(
+                      f'{item["kind"]} #{item["index"]}, line {item["line"]}: {item["tex"]!r}'
+                  )
+                  missing_counter[normalized] -= 1
+          report.extend(["", "EXTRA RENDERED ANNOTATIONS"])
+          for value, count in extra_counter.items():
+              for _ in range(count):
+                  report.append(repr(value))
+
+          Path("render-audit.txt").write_text("\n".join(report), encoding="utf-8")
+          print("\n".join(report))
+
+          if len(renderers) != len(source):
+              raise SystemExit(
+                  f"Source/render mismatch: source has {len(source)}, page has {len(renderers)} math-renderer elements"
+              )
+          if len(annotations) != len(source):
+              raise SystemExit(
+                  f"Source/annotation mismatch: source has {len(source)}, page has {len(annotations)} TeX annotations"
+              )
+          if source_counter != annotation_counter:
+              raise SystemExit("Rendered TeX annotations do not match the source expression multiset")
           for index, renderer in enumerate(renderers, start=1):
               if not re.search(r"<(?:math|mjx-container)\b", renderer):
                   raise SystemExit(f"Rendered expression #{index} lacks mathematical output")
 
-          print(f"GitHub rendered all {opened} source expressions without a detected error message")
+          print(f"GitHub rendered all {len(source)} source expressions without a detected error")
           PY
+
+      - name: Preserve rendering audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: problem-1-14-render-audit
+          path: |
+            source-math.json
+            rendered.html
+            render-audit.txt
+          if-no-files-found: warn
+          retention-days: 1
