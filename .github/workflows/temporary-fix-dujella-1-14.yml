@@ -6,11 +6,10 @@ on:
       - fix-dujella-1-14-math-rendering
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
-    if: ${{ !contains(github.event.head_commit.message, '[skip render-audit]') }}
     runs-on: ubuntu-latest
 
     steps:
@@ -19,32 +18,6 @@ jobs:
         with:
           ref: fix-dujella-1-14-math-rendering
           fetch-depth: 0
-
-      - name: Apply the remaining Markdown-safe rewrites
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path("dujella-problem-1.14/README.md")
-          text = path.read_text(encoding="utf-8")
-          replacements = {
-              "The Riemann-Hurwitz formula for a degree-$q$ map from":
-                  "The Riemann-Hurwitz formula for a map of degree $q$ from",
-              "A. Dujella. *Open problems on Diophantine $m$-tuples and elliptic curves*.":
-                  "A. Dujella. *Open problems on Diophantine m-tuples and elliptic curves*.",
-              "A. Dujella. *Diophantine $m$-tuples: Various generalizations*.":
-                  "A. Dujella. *Diophantine m-tuples: Various generalizations*.",
-          }
-          for old, new in replacements.items():
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"Expected exactly one occurrence of {old!r}, found {count}")
-              text = text.replace(old, new)
-          path.write_text(text, encoding="utf-8")
-          PY
-
-          git diff --check
 
       - name: Lint every mathematical expression
         shell: bash
@@ -101,10 +74,7 @@ jobs:
                   continue
 
               line_without_code = re.sub(r"`[^`]*`", "", line)
-              dollar_positions = [
-                  match.start()
-                  for match in re.finditer(r"(?<!\\)\$", line_without_code)
-              ]
+              dollar_positions = [match.start() for match in re.finditer(r"(?<!\\)\$", line_without_code)]
               if len(dollar_positions) % 2:
                   raise SystemExit(f"Unpaired inline dollar delimiter at line {line_number}")
               for start, end in zip(dollar_positions[0::2], dollar_positions[1::2]):
@@ -169,25 +139,108 @@ jobs:
               json.dumps(expressions, ensure_ascii=False, indent=2),
               encoding="utf-8",
           )
+          Path("validated-commit.txt").write_text(
+              __import__('subprocess').check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+              encoding="ascii",
+          )
+          Path("validated-article-blob.txt").write_text(
+              __import__('subprocess').check_output(['git', 'hash-object', str(path)], text=True).strip(),
+              encoding="ascii",
+          )
           print("LaTeX commands used:", ", ".join(commands))
           print(f"Validated {len(blocks)} display blocks and {len(inline)} inline expressions")
           print(f"Expected rendered mathematics elements: {len(expressions)}")
           PY
 
-      - name: Commit the source correction before rendering it
+          git diff --check
+
+      - name: Verify source-to-GitHub parser correspondence
         shell: bash
         run: |
-          if git diff --quiet; then
-            echo "No source change to commit."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add dujella-problem-1.14/README.md
-            git commit -m "Fix remaining GitHub math parsing edge cases [skip render-audit]"
-            git push origin HEAD:fix-dujella-1-14-math-rendering
-          fi
-          git rev-parse HEAD | tee validated-commit.txt
-          git hash-object dujella-problem-1.14/README.md | tee validated-article-blob.txt
+          sha="$(cat validated-commit.txt)"
+          url="https://github.com/natanaelwf/Solving-Open-Problems/blob/${sha}/dujella-problem-1.14/README.md"
+          curl --fail --location --silent --show-error \
+            --header "User-Agent: Problem-1.14-render-audit" \
+            "$url" > server-page.html
+
+          python - <<'PY'
+          from html import unescape
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import json
+          import re
+
+          class EmbeddedDataParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.capture = False
+                  self.parts = []
+              def handle_starttag(self, tag, attrs):
+                  if tag == "script" and dict(attrs).get("data-target") == "react-app.embeddedData":
+                      self.capture = True
+              def handle_endtag(self, tag):
+                  if tag == "script" and self.capture:
+                      self.capture = False
+              def handle_data(self, data):
+                  if self.capture:
+                      self.parts.append(data)
+
+          source = json.loads(Path("source-math.json").read_text(encoding="utf-8"))
+          expected_display = [item["tex"] for item in source if item["kind"] == "display"]
+          expected_inline = [item["tex"] for item in source if item["kind"] == "inline"]
+
+          parser = EmbeddedDataParser()
+          parser.feed(Path("server-page.html").read_text(encoding="utf-8"))
+          if not parser.parts:
+              raise SystemExit("Could not locate GitHub's embedded rendered Markdown payload")
+          payload = json.loads("".join(parser.parts))
+          rich = payload["payload"]["codeViewBlobRoute"]["richText"]
+
+          pattern = re.compile(
+              r'<math-renderer class="js-(inline|display)-math"[^>]*>(.*?)</math-renderer>',
+              re.DOTALL,
+          )
+          actual_inline = []
+          actual_display = []
+          for kind, value in pattern.findall(rich):
+              value = unescape(value).strip()
+              if kind == "inline":
+                  if not (value.startswith("$") and value.endswith("$")):
+                      raise SystemExit(f"Malformed inline math-renderer payload: {value!r}")
+                  actual_inline.append(value[1:-1])
+              else:
+                  if not (value.startswith("$$") and value.endswith("$$")):
+                      raise SystemExit(f"Malformed display math-renderer payload: {value!r}")
+                  actual_display.append(value[2:-2])
+
+          def normalize(value):
+              return re.sub(r"\s+", " ", value).strip()
+          def normalize_display(value):
+              value = normalize(value)
+              return re.sub(r"\\{3}(?=\s|&)", r"\\\\", value)
+
+          if len(actual_inline) != len(expected_inline):
+              raise SystemExit(f"Inline parser mismatch: expected {len(expected_inline)}, found {len(actual_inline)}")
+          if len(actual_display) != len(expected_display):
+              raise SystemExit(f"Display parser mismatch: expected {len(expected_display)}, found {len(actual_display)}")
+
+          for index, (expected, actual) in enumerate(zip(expected_inline, actual_inline), start=1):
+              if normalize(expected) != normalize(actual):
+                  raise SystemExit(
+                      f"Inline expression {index} changed during GitHub parsing:\n"
+                      f"expected: {expected!r}\nactual: {actual!r}"
+                  )
+          for index, (expected, actual) in enumerate(zip(expected_display, actual_display), start=1):
+              if normalize_display(expected) != normalize_display(actual):
+                  raise SystemExit(
+                      f"Display expression {index} changed during GitHub parsing:\n"
+                      f"expected: {expected!r}\nactual: {actual!r}"
+                  )
+
+          if r"\operatorname" in rich:
+              raise SystemExit("Residual operatorname command found in GitHub's rendered payload")
+          print(f"GitHub parser preserved all {len(actual_display)} display and {len(actual_inline)} inline expressions.")
+          PY
 
       - name: Install Chromium and Playwright
         shell: bash
@@ -205,26 +258,26 @@ jobs:
 
           const sha = fs.readFileSync('validated-commit.txt', 'utf8').trim();
           const source = JSON.parse(fs.readFileSync('source-math.json', 'utf8'));
-          const expectedDisplay = source.filter(x => x.kind === 'display').map(x => x.tex);
-          const expectedInline = source.filter(x => x.kind === 'inline').map(x => x.tex);
+          const expectedDisplay = source.filter(x => x.kind === 'display').length;
+          const expectedInline = source.filter(x => x.kind === 'inline').length;
+          const expectedTotal = expectedDisplay + expectedInline;
           const url = `https://github.com/natanaelwf/Solving-Open-Problems/blob/${sha}/dujella-problem-1.14/README.md`;
           const outputDir = 'browser-audit';
           fs.mkdirSync(outputDir, { recursive: true });
 
-          const normalize = value => value.replace(/\s+/g, ' ').trim();
-          const stripDelimiters = (value, display) => {
-            let text = value.trim();
-            if (display && text.startsWith('$$') && text.endsWith('$$')) return text.slice(2, -2);
-            if (!display && text.startsWith('$') && text.endsWith('$')) return text.slice(1, -1);
-            return text;
-          };
-          const normalizeDisplay = value => normalize(value).replace(/\\\\\\(?=\s|&)/g, '\\\\');
-
           const browser = await chromium.launch({ headless: true });
           const reports = [];
           const viewports = [
-            { name: 'wide', width: 1440, height: 1200 },
-            { name: 'narrow', width: 430, height: 932 },
+            { name: 'wide', width: 1440, height: 5000 },
+            { name: 'narrow', width: 430, height: 5000 },
+          ];
+          const forbiddenMessages = [
+            'The following macros are not allowed',
+            'Missing close brace',
+            'Undefined control sequence',
+            'Math input error',
+            'MathJax error',
+            'ParseError',
           ];
 
           try {
@@ -238,20 +291,12 @@ jobs:
               await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
               await page.waitForFunction(
                 count => document.querySelectorAll('math-renderer').length === count,
-                expectedDisplay.length + expectedInline.length,
+                expectedTotal,
                 { timeout: 120000 },
               );
-              await page.waitForTimeout(8000);
+              await page.waitForTimeout(10000);
 
               const pageText = await page.locator('body').innerText();
-              const forbiddenMessages = [
-                'The following macros are not allowed',
-                'Missing close brace',
-                'Undefined control sequence',
-                'Math input error',
-                'MathJax error',
-                'ParseError',
-              ];
               for (const message of forbiddenMessages) {
                 if (pageText.toLowerCase().includes(message.toLowerCase())) {
                   throw new Error(`${viewport.name}: GitHub displayed an error message: ${message}`);
@@ -265,18 +310,19 @@ jobs:
                 return {
                   pageHeight: document.documentElement.scrollHeight,
                   articleWidth: articleRect?.width ?? null,
+                  articleScrollWidth: article?.scrollWidth ?? null,
+                  articleClientWidth: article?.clientWidth ?? null,
+                  documentScrollWidth: document.documentElement.scrollWidth,
+                  documentClientWidth: document.documentElement.clientWidth,
                   display: elements.filter(e => e.classList.contains('js-display-math')).map((e, index) => {
                     const rect = e.getBoundingClientRect();
                     return {
                       index: index + 1,
-                      text: e.textContent ?? '',
                       visibleText: e.innerText ?? '',
                       html: e.innerHTML,
                       shadow: e.shadowRoot?.innerHTML ?? null,
                       width: rect.width,
                       height: rect.height,
-                      left: rect.left,
-                      right: rect.right,
                       scrollWidth: e.scrollWidth,
                       clientWidth: e.clientWidth,
                     };
@@ -285,14 +331,11 @@ jobs:
                     const rect = e.getBoundingClientRect();
                     return {
                       index: index + 1,
-                      text: e.textContent ?? '',
                       visibleText: e.innerText ?? '',
                       html: e.innerHTML,
                       shadow: e.shadowRoot?.innerHTML ?? null,
                       width: rect.width,
                       height: rect.height,
-                      left: rect.left,
-                      right: rect.right,
                       scrollWidth: e.scrollWidth,
                       clientWidth: e.clientWidth,
                     };
@@ -300,26 +343,11 @@ jobs:
                 };
               });
 
-              if (result.display.length !== expectedDisplay.length) {
-                throw new Error(`${viewport.name}: expected ${expectedDisplay.length} display expressions, found ${result.display.length}`);
+              if (result.display.length !== expectedDisplay) {
+                throw new Error(`${viewport.name}: expected ${expectedDisplay} display expressions, found ${result.display.length}`);
               }
-              if (result.inline.length !== expectedInline.length) {
-                throw new Error(`${viewport.name}: expected ${expectedInline.length} inline expressions, found ${result.inline.length}`);
-              }
-
-              for (let i = 0; i < expectedInline.length; i++) {
-                const actual = normalize(stripDelimiters(result.inline[i].text, false));
-                const expected = normalize(expectedInline[i]);
-                if (actual !== expected) {
-                  throw new Error(`${viewport.name}: inline expression ${i + 1} differs from source\nexpected: ${expected}\nactual: ${actual}`);
-                }
-              }
-              for (let i = 0; i < expectedDisplay.length; i++) {
-                const actual = normalizeDisplay(stripDelimiters(result.display[i].text, true));
-                const expected = normalizeDisplay(expectedDisplay[i]);
-                if (actual !== expected) {
-                  throw new Error(`${viewport.name}: display expression ${i + 1} differs from source\nexpected: ${expected}\nactual: ${actual}`);
-                }
+              if (result.inline.length !== expectedInline) {
+                throw new Error(`${viewport.name}: expected ${expectedInline} inline expressions, found ${result.inline.length}`);
               }
 
               for (const expression of [...result.display, ...result.inline]) {
@@ -329,42 +357,41 @@ jobs:
                     throw new Error(`${viewport.name}: expression ${expression.index} contains error message: ${message}`);
                   }
                 }
+                if (!expression.visibleText.trim()) {
+                  throw new Error(`${viewport.name}: expression ${expression.index} has no visible mathematical text`);
+                }
                 if (!(expression.width > 0) || !(expression.height > 0)) {
                   throw new Error(`${viewport.name}: expression ${expression.index} has a zero-sized rendered box`);
                 }
               }
 
-              const horizontalOverflow = await page.evaluate(() => ({
-                documentScrollWidth: document.documentElement.scrollWidth,
-                documentClientWidth: document.documentElement.clientWidth,
-                bodyScrollWidth: document.body.scrollWidth,
-                bodyClientWidth: document.body.clientWidth,
-              }));
-              if (horizontalOverflow.documentScrollWidth > horizontalOverflow.documentClientWidth + 2) {
-                throw new Error(`${viewport.name}: document has horizontal overflow: ${JSON.stringify(horizontalOverflow)}`);
+              if (result.documentScrollWidth > result.documentClientWidth + 2) {
+                throw new Error(
+                  `${viewport.name}: the page has horizontal overflow: ` +
+                  `${result.documentScrollWidth} versus ${result.documentClientWidth}`
+                );
               }
 
               const chunkDir = `${outputDir}/${viewport.name}`;
               fs.mkdirSync(chunkDir, { recursive: true });
-              const step = viewport.height - 80;
+              const step = viewport.height - 150;
               let chunk = 0;
               for (let y = 0; y < result.pageHeight; y += step) {
                 await page.evaluate(scrollY => window.scrollTo(0, scrollY), y);
-                await page.waitForTimeout(120);
+                await page.waitForTimeout(160);
                 await page.screenshot({
-                  path: `${chunkDir}/page-${String(chunk + 1).padStart(3, '0')}.png`,
+                  path: `${chunkDir}/page-${String(chunk + 1).padStart(3, '0')}.jpg`,
+                  type: 'jpeg',
+                  quality: 82,
                   fullPage: false,
                 });
                 chunk++;
               }
-              await page.evaluate(() => window.scrollTo(0, 0));
-              await page.screenshot({ path: `${outputDir}/${viewport.name}-full.png`, fullPage: true });
 
               reports.push({
                 viewport,
                 url,
                 ...result,
-                horizontalOverflow,
                 screenshots: chunk,
               });
               await context.close();
@@ -374,7 +401,7 @@ jobs:
           }
 
           fs.writeFileSync(`${outputDir}/browser-report.json`, JSON.stringify(reports, null, 2));
-          console.log(`Browser audit passed for ${expectedDisplay.length} display and ${expectedInline.length} inline expressions in both viewports.`);
+          console.log(`Browser audit passed for ${expectedDisplay} display and ${expectedInline} inline expressions in both viewports.`);
           JS
 
           node browser-audit.mjs
@@ -383,11 +410,12 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: problem-1-14-browser-audit
+          name: problem-1-14-browser-audit-final
           path: |
             source-math.json
             validated-commit.txt
             validated-article-blob.txt
+            server-page.html
             browser-audit/
           if-no-files-found: error
           retention-days: 2
