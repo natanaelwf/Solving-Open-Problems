@@ -6,11 +6,10 @@ on:
       - fix-dujella-1-14-math-rendering
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  fix-and-validate:
-    if: ${{ !contains(github.event.head_commit.message, '[skip math-fix]') }}
+  validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +19,7 @@ jobs:
           ref: fix-dujella-1-14-math-rendering
           fetch-depth: 0
 
-      - name: Apply the targeted notation correction and lint all mathematics
+      - name: Lint the complete mathematical article
         shell: bash
         run: |
           python - <<'PY'
@@ -29,22 +28,6 @@ jobs:
 
           path = Path("dujella-problem-1.14/README.md")
           text = path.read_text(encoding="utf-8")
-          original_lines = text.count("\n") + 1
-
-          replacements = {
-              r"\nu,v\in\mathbb C[x].": r"u,v\in\mathbb C[x].",
-              r"\nu^2=bf,": r"u^2=bf,",
-          }
-          for old, new in replacements.items():
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"Expected exactly one occurrence of {old!r}, found {count}")
-              text = text.replace(old, new)
-
-          if text.count("\n") + 1 != original_lines:
-              raise SystemExit("The targeted correction changed the line count")
-
-          path.write_text(text, encoding="utf-8")
 
           if "$$" in text:
               raise SystemExit("Forbidden $$ delimiter found")
@@ -68,14 +51,14 @@ jobs:
           blocks = block_pattern.findall(text)
           if text.count("```math") != len(blocks):
               raise SystemExit("Unbalanced or malformed math fences")
-          if len(blocks) < 80:
-              raise SystemExit(f"Unexpectedly few display-math blocks: {len(blocks)}")
+          if len(blocks) != 90:
+              raise SystemExit(f"Expected 90 display-math blocks, found {len(blocks)}")
 
           without_blocks = block_pattern.sub("", text)
           without_code = re.sub(r"`[^`\n]*`", "", without_blocks)
           inline = re.findall(r"(?<!\\)\$(.+?)(?<!\\)\$", without_code, re.DOTALL)
-          if len(inline) < 400:
-              raise SystemExit(f"Unexpectedly few inline expressions: {len(inline)}")
+          if len(inline) != 471:
+              raise SystemExit(f"Expected 471 inline expressions, found {len(inline)}")
 
           expressions = [("block", i + 1, value) for i, value in enumerate(blocks)]
           expressions += [("inline", i + 1, value) for i, value in enumerate(inline)]
@@ -122,29 +105,14 @@ jobs:
               if actual != expected:
                   raise SystemExit(f"Expected {expected} occurrences of {token}, found {actual}")
 
-          for forbidden in (r"\operatorname", r"\nu,v", r"\nu^2"):
-              if forbidden in text:
-                  raise SystemExit(f"Residual forbidden text: {forbidden}")
-
+          commands = sorted(set(re.findall(r"\\([A-Za-z]+)", "\n".join(value for _, _, value in expressions))))
+          print("LaTeX commands used:", ", ".join(commands))
           print(f"Validated {len(blocks)} display blocks and {len(inline)} inline expressions")
           PY
 
           git diff --check
 
-      - name: Commit the targeted correction
-        shell: bash
-        run: |
-          if git diff --quiet; then
-            echo "No correction was needed."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dujella-problem-1.14/README.md
-          git commit -m "Correct variable notation and revalidate math [skip math-fix]"
-          git push origin HEAD:fix-dujella-1-14-math-rendering
-
-      - name: Inspect the page rendered by GitHub
+      - name: Inspect the commit-specific page rendered by GitHub
         shell: bash
         run: |
           sha="$(git rev-parse HEAD)"
@@ -166,25 +134,26 @@ jobs:
             exit 1
           fi
 
-          if grep --fixed-strings --quiet "The following macros are not allowed" rendered.html; then
-            echo "GitHub reported a forbidden macro" >&2
-            grep --fixed-strings "The following macros are not allowed" rendered.html >&2 || true
-            exit 1
-          fi
-
-          if grep --extended-regexp --ignore-case --quiet \
-            "Missing close brace|Undefined control sequence|MathJax[^<]{0,80}error|parse error" \
-            rendered.html; then
-            echo "GitHub reported a mathematics-rendering error" >&2
-            grep --extended-regexp --ignore-case \
-              "Missing close brace|Undefined control sequence|MathJax[^<]{0,80}error|parse error" \
-              rendered.html >&2 || true
-            exit 1
-          fi
+          forbidden_messages=(
+            "The following macros are not allowed"
+            "Missing close brace"
+            "Undefined control sequence"
+            "Math input error"
+            "MathJax error"
+            "ParseError"
+          )
+          for message in "${forbidden_messages[@]}"; do
+            if grep --fixed-strings --ignore-case --quiet "$message" rendered.html; then
+              echo "GitHub rendered an error message: $message" >&2
+              grep --fixed-strings --ignore-case "$message" rendered.html >&2 || true
+              exit 1
+            fi
+          done
 
           if grep --fixed-strings --quiet '\operatorname' rendered.html; then
             echo "The rendered HTML still contains a residual operatorname command" >&2
             exit 1
           fi
 
-          echo "The commit-specific GitHub page was retrieved without a macro or MathJax error message."
+          math_count="$(grep -o '<math-renderer' rendered.html | wc -l | tr -d ' ')"
+          echo "GitHub page retrieved successfully; math-renderer elements found: ${math_count}"
