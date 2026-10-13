@@ -584,7 +584,7 @@ In each fiber the local degrees sum to $q$, so that fiber contains at most $q/2$
 \sum_P(e_P-1).
 ```
 
-The four fibers therefore contribute at least $2q$. The Riemann-Hurwitz formula for a degree-$q$ map from $\mathbb P^1$ to itself in characteristic zero gives total ramification $2q-2$, a contradiction.
+The four fibers therefore contribute at least $2q$. The Riemann-Hurwitz formula for a map of degree $q$ from $\mathbb P^1$ to itself in characteristic zero gives total ramification $2q-2$, a contradiction.
 
 **Proposition 4.8.** Suppose that $A$ satisfies Condition (ND). Among the families in Lemma 4.1, at most one has $f/g\in\mathbb C$. Such a family exists only if $n\in\mathrm{Sq}(\mathbb C[x])$, and it contributes at most two elements of $S$.
 
@@ -914,9 +914,9 @@ The proof uses Dujella's integer large-element theorem, stated as Theorem 2.1, a
 
 A. Dujella. “On the size of Diophantine $m$-tuples.” *Mathematical Proceedings of the Cambridge Philosophical Society* **132** (2002), 23-33. Theorem 1. [Preprint](https://arxiv.org/abs/math/0002088).
 
-A. Dujella. *Open problems on Diophantine $m$-tuples and elliptic curves*. Problem 1.14, University of Zagreb, consulted 13 October 2026. [Problem list](https://web.math.pmf.unizg.hr/~duje/pdf/open2.pdf#page=3).
+A. Dujella. *Open problems on Diophantine m-tuples and elliptic curves*. Problem 1.14, University of Zagreb, consulted 13 October 2026. [Problem list](https://web.math.pmf.unizg.hr/~duje/pdf/open2.pdf#page=3).
 
-A. Dujella. *Diophantine $m$-tuples: Various generalizations*. Section 7.2, “Polynomials”, University of Zagreb, consulted 13 October 2026. [Research notes](https://web.math.pmf.unizg.hr/~duje/gener.html).
+A. Dujella. *Diophantine m-tuples: Various generalizations*. Section 7.2, “Polynomials”, University of Zagreb, consulted 13 October 2026. [Research notes](https://web.math.pmf.unizg.hr/~duje/gener.html).
 
 A. Dujella, C. Fuchs and R. F. Tichy. “Diophantine $m$-tuples for linear polynomials.” *Periodica Mathematica Hungarica* **45** (2002), 21-33. Definition 1 and the subsequent degree-uniformity question.
 
