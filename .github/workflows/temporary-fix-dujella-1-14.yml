@@ -1,0 +1,190 @@
+name: Temporary Problem 1.14 rendering validation
+
+on:
+  push:
+    branches:
+      - fix-dujella-1-14-math-rendering
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip math-fix]') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix-dujella-1-14-math-rendering
+          fetch-depth: 0
+
+      - name: Apply the targeted notation correction and lint all mathematics
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("dujella-problem-1.14/README.md")
+          text = path.read_text(encoding="utf-8")
+          original_lines = text.count("\n") + 1
+
+          replacements = {
+              r"\nu,v\in\mathbb C[x].": r"u,v\in\mathbb C[x].",
+              r"\nu^2=bf,": r"u^2=bf,",
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one occurrence of {old!r}, found {count}")
+              text = text.replace(old, new)
+
+          if text.count("\n") + 1 != original_lines:
+              raise SystemExit("The targeted correction changed the line count")
+
+          path.write_text(text, encoding="utf-8")
+
+          if "$$" in text:
+              raise SystemExit("Forbidden $$ delimiter found")
+
+          forbidden_source_patterns = {
+              r"\\operatorname\*?": r"\operatorname",
+              r"\\tag\b": r"\tag",
+              r"\\boxed\b": r"\boxed",
+              r"\\begin\{array\}": r"\begin{array}",
+              r"\\newcommand\b": r"\newcommand",
+              r"\\renewcommand\b": r"\renewcommand",
+              r"\\DeclareMathOperator\b": r"\DeclareMathOperator",
+              r"\\def\b": r"\def",
+              r"\\require\b": r"\require",
+          }
+          for pattern, label in forbidden_source_patterns.items():
+              if re.search(pattern, text):
+                  raise SystemExit(f"Forbidden or unsafe macro found: {label}")
+
+          block_pattern = re.compile(r"```math\n(.*?)\n```", re.DOTALL)
+          blocks = block_pattern.findall(text)
+          if text.count("```math") != len(blocks):
+              raise SystemExit("Unbalanced or malformed math fences")
+          if len(blocks) < 80:
+              raise SystemExit(f"Unexpectedly few display-math blocks: {len(blocks)}")
+
+          without_blocks = block_pattern.sub("", text)
+          without_code = re.sub(r"`[^`\n]*`", "", without_blocks)
+          inline = re.findall(r"(?<!\\)\$(.+?)(?<!\\)\$", without_code, re.DOTALL)
+          if len(inline) < 400:
+              raise SystemExit(f"Unexpectedly few inline expressions: {len(inline)}")
+
+          expressions = [("block", i + 1, value) for i, value in enumerate(blocks)]
+          expressions += [("inline", i + 1, value) for i, value in enumerate(inline)]
+
+          for kind, number, expression in expressions:
+              if "<" in expression or ">" in expression:
+                  raise SystemExit(f"Literal angle bracket in {kind} math #{number}")
+
+              stack = []
+              for match in re.finditer(r"\\(begin|end)\{([^{}]+)\}", expression):
+                  action, env = match.groups()
+                  if action == "begin":
+                      stack.append(env)
+                  elif not stack or stack.pop() != env:
+                      raise SystemExit(f"Mismatched environment in {kind} math #{number}")
+              if stack:
+                  raise SystemExit(f"Unclosed environment in {kind} math #{number}: {stack}")
+
+              depth = 0
+              escaped = False
+              for char in expression:
+                  if escaped:
+                      escaped = False
+                      continue
+                  if char == "\\":
+                      escaped = True
+                      continue
+                  if char == "{":
+                      depth += 1
+                  elif char == "}":
+                      depth -= 1
+                      if depth < 0:
+                          raise SystemExit(f"Extra closing brace in {kind} math #{number}")
+              if depth:
+                  raise SystemExit(f"Unbalanced braces in {kind} math #{number}: depth {depth}")
+
+          required_counts = {
+              r"\mathrm{Sq}": 8,
+              r"\mathrm{lc}": 2,
+              r"\mathrm{rank}": 1,
+          }
+          for token, expected in required_counts.items():
+              actual = text.count(token)
+              if actual != expected:
+                  raise SystemExit(f"Expected {expected} occurrences of {token}, found {actual}")
+
+          for forbidden in (r"\operatorname", r"\nu,v", r"\nu^2"):
+              if forbidden in text:
+                  raise SystemExit(f"Residual forbidden text: {forbidden}")
+
+          print(f"Validated {len(blocks)} display blocks and {len(inline)} inline expressions")
+          PY
+
+          git diff --check
+
+      - name: Commit the targeted correction
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No correction was needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dujella-problem-1.14/README.md
+          git commit -m "Correct variable notation and revalidate math [skip math-fix]"
+          git push origin HEAD:fix-dujella-1-14-math-rendering
+
+      - name: Inspect the page rendered by GitHub
+        shell: bash
+        run: |
+          sha="$(git rev-parse HEAD)"
+          url="https://github.com/natanaelwf/Solving-Open-Problems/blob/${sha}/dujella-problem-1.14/README.md"
+          success=0
+          for attempt in $(seq 1 12); do
+            if curl --fail --location --silent --show-error \
+              --header "User-Agent: Problem-1.14-render-audit" \
+              "$url" > rendered.html; then
+              if grep --quiet "Degree-Uniform Bounds for Polynomial Diophantine Tuples" rendered.html; then
+                success=1
+                break
+              fi
+            fi
+            sleep 5
+          done
+          if [ "$success" -ne 1 ]; then
+            echo "Could not retrieve the rendered GitHub page" >&2
+            exit 1
+          fi
+
+          if grep --fixed-strings --quiet "The following macros are not allowed" rendered.html; then
+            echo "GitHub reported a forbidden macro" >&2
+            grep --fixed-strings "The following macros are not allowed" rendered.html >&2 || true
+            exit 1
+          fi
+
+          if grep --extended-regexp --ignore-case --quiet \
+            "Missing close brace|Undefined control sequence|MathJax[^<]{0,80}error|parse error" \
+            rendered.html; then
+            echo "GitHub reported a mathematics-rendering error" >&2
+            grep --extended-regexp --ignore-case \
+              "Missing close brace|Undefined control sequence|MathJax[^<]{0,80}error|parse error" \
+              rendered.html >&2 || true
+            exit 1
+          fi
+
+          if grep --fixed-strings --quiet '\operatorname' rendered.html; then
+            echo "The rendered HTML still contains a residual operatorname command" >&2
+            exit 1
+          fi
+
+          echo "The commit-specific GitHub page was retrieved without a macro or MathJax error message."
