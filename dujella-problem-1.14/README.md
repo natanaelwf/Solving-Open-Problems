@@ -20,7 +20,7 @@ For $d=\deg n\ge1$, we prove
 +6d^2+4d+23.
 ```
 
-The final constant is $21$, rather than $23$, when $n$ is not a square in $\mathbb C[x]$. In particular, every $D(n)$-set in $\mathbb Z[x]$ with cubic $n$ has at most $710$ elements, without a separate nondegeneracy assumption. This gives a degree-only bound for the polynomial formulation of Dujella's Problem 1.14. The proof combines an explicit polynomial separator for squares, two finite-dimensional rank arguments, a factorization analysis of the exceptional diagonal, and Dujella's uniform bound for large elements of integer Diophantine tuples. We also identify exactly why admitting polynomial scalings of integer tuples changes the question.
+The final constant is $21$, rather than $23$, when $n$ is not a square in $\mathbb C[x]$. Pairing complementary factorization families further shows that every $D(n)$-set in $\mathbb Z[x]$ with cubic $n$ has at most $646$ elements, without a separate nondegeneracy assumption. This gives a degree-only bound for the polynomial formulation of Dujella's Problem 1.14. The proof combines an explicit polynomial separator for squares, two finite-dimensional rank arguments, a factorization analysis of the exceptional diagonal, and Dujella's uniform bound for large elements of integer Diophantine tuples. We also identify exactly why admitting polynomial scalings of integer tuples changes the question.
 
 **Keywords:** polynomial Diophantine tuples; degree-uniform bounds; polynomial method; squares in polynomial rings.
 
@@ -117,19 +117,19 @@ The estimate is independent of the coefficients of $n$ and of both the coefficie
 **Corollary 1.3 (Cubic case).** Let $n\in\mathbb Z[x]$ have degree three. Every $D(n)$-set $A\subset\mathbb Z[x]\setminus\lbrace0\rbrace$ satisfies
 
 ```math
-|A|\le710.
+|A|\le646.
 ```
 
 This conclusion requires neither Condition (ND) as an additional hypothesis nor any assumption on the roots of $n$.
 
-**Proof.** An odd-degree polynomial is not a square in $\mathbb C[x]$, and Condition (ND) is automatic. Substituting $d=3$ into Equation (1.3) gives
+**Proof.** An odd-degree polynomial is not a square in $\mathbb C[x]$, and Condition (ND) is automatic. Using the sharper exceptional-diagonal bound in Corollary 4.10 in the partition from Section 6.1, together with Proposition 3.4, Corollary 5.2, and Proposition 2.2, gives
 
 ```math
 \begin{aligned}
 |A|
-&\le\binom{12}{4}+2^7+6\cdot3^2+4\cdot3+21\\
-&=495+128+66+21\\
-&=710.
+&\le\binom{12}{4}+64+6\cdot3^2+4\cdot3+21\\
+&=495+64+66+21\\
+&=646.
 \end{aligned}
 ```
 
@@ -630,6 +630,25 @@ Every family with nonconstant $f/g$ contributes at most $2^{d+1}$ elements by Pr
 
 Proposition 4.8 bounds the possible remaining scalar family by two. It is absent when $\delta(n)=0$. Summing these upper bounds proves Equation (4.7). Overlaps between the families do not affect the conclusion.
 
+**Corollary 4.10 (Cubic exceptional-diagonal bound).** If $d=3$, then $|S|\le64$ for every $D(n)$-set $A$ in $\mathbb Z[x]$.
+
+**Proof.** Let $\gamma$ be the leading coefficient of $n$, and write $n=\gamma fh$, where $f$ and $h$ are complementary monic divisors. The families associated with $f$ and $h$ in Equation (4.1) are identical, since
+
+```math
+\frac{\mu h-\gamma\mu^{-1}f}{2}
+=\frac{\lambda f-\gamma\lambda^{-1}h}{2},
+\qquad
+\mu=-\frac{\gamma}{\lambda}.
+```
+
+The map $f\mapsto h=n/(\gamma f)$ is an involution on the monic divisors of $n$. It has no fixed point when $d=3$, since $f=h$ would imply $3=2\deg f$. Thus the at most eight divisors in Lemma 4.1 can be paired, and $S$ is covered by at most four families. All have nonconstant $f/g$, since a constant ratio would make $n$ a constant multiple of a square and hence of even degree.
+
+If $|S|\le2$, the desired bound is immediate. Otherwise choose $b\in S$ with $b^2\ne-n$, as in Proposition 4.9. Proposition 4.5 bounds each of the at most four families by $2^{3+1}=16$ elements. Therefore
+
+```math
+|S|\le4\cdot16=64.
+```
+
 ## 5. A rank bound for each degree above $d$
 
 The argument in this section is algebraic and requires neither integrality nor Condition (ND). Formal power series are taken in $\mathbb C[[z]]$. The notation $O(z^r)$ means an element of $z^r\mathbb C[[z]]$, with no analytic convergence assertion.
@@ -904,7 +923,7 @@ The restriction $n\ne0$ is essential. For $n=0$, the sets
 
 have the pairwise square property for every $m$, and the usual degree of the zero polynomial is not a nonnegative integer.
 
-Thus the degree-uniform polynomial problem, with the convention used by Dujella, Fuchs and Tichy and by Dujella's research notes, has the explicit answer in Equation (1.2). Its cubic special case has the unconditional bound $710$ for all $D(n)$-sets. The additional unrestricted even-degree question is not claimed here. Proposition 7.1 identifies precisely the integer uniformity assertion that it would also settle.
+Thus the degree-uniform polynomial problem, with the convention used by Dujella, Fuchs and Tichy and by Dujella's research notes, has the explicit answer in Equation (1.2). Its cubic special case has the unconditional bound $646$ for all $D(n)$-sets. The additional unrestricted even-degree question is not claimed here. Proposition 7.1 identifies precisely the integer uniformity assertion that it would also settle.
 
 ## Dependencies and verification scope
 
