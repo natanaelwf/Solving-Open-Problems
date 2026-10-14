@@ -233,7 +233,7 @@ def bezout(a: int, b: int) -> tuple[int,int,int]:
 
 
 def residue_density(k: int) -> tuple[Fraction,dict[str,int]]:
-    """Direct global-modulus count (6.7), without using local valuation criteria."""
+    """Direct global-modulus count (6.4), without using local valuation criteria."""
     Q = 2*k*k
     ds = sorted(divisors(2*k))
     counts = {ell:0 for ell in ds}
