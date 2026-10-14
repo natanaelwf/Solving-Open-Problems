@@ -23,9 +23,14 @@ try{
   fs.writeFileSync(`${out}/lint.txt`,lint);
   const expected=JSON.parse(fs.readFileSync(inventory,'utf8'));
   const url=mode==='blob'?`${origin}/blob/${sha}/${file}`:`${origin}/tree/${sha}/${file.includes('/')?file.slice(0,file.lastIndexOf('/')):''}`;
-  for(const width of [1440,430]){
+  for(const width of [430,1440]){
    const view={width,height:width===430?932:1200};
    const page=await browser.newPage({viewport:view,reducedMotion:'reduce',deviceScaleFactor:1});
+   const diagnostics=[];
+   page.on('console',msg=>{if(msg.type()==='error')diagnostics.push({type:'console',text:msg.text()});});
+   page.on('pageerror',e=>diagnostics.push({type:'pageerror',text:String(e.stack||e)}));
+   page.on('requestfailed',r=>diagnostics.push({type:'requestfailed',url:r.url(),text:r.failure()?.errorText}));
+   page.on('response',r=>{if(r.status()>=400)diagnostics.push({type:'response',url:r.url(),status:r.status()});});
    const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:120000});
    if(!response?.ok()) throw new Error(`HTTP ${response?.status()} at ${url}`);
    const server=`${out}/server-${width}.html`;
@@ -61,11 +66,13 @@ try{
      files:[...a.querySelectorAll('a[href]')].filter(e=>/\.(?:pdf|tex|py|json|txt)(?:$|[?#])/.test(e.getAttribute('href'))).map(e=>e.href)};
    });
    fs.writeFileSync(`${out}/report-${width}.json`,JSON.stringify(result,null,2));
+   fs.writeFileSync(`${out}/diagnostics-${width}.json`,JSON.stringify(diagnostics,null,2));
+   fs.writeFileSync(`${out}/renderer-class-${width}.txt`,await page.evaluate(()=>String(customElements.get('math-renderer'))));
    if(result.expressions.length!==expected.length)errors.push(`${slug}/${width}: count mismatch`);
    const bad=[];
    for(const e of result.expressions){
     if(!e.output||e.rect.width<=0||e.rect.height<=0||!e.box||e.box.width<=0||e.box.height<=0)bad.push({index:e.index,reason:'missing or zero-sized math'});
-    if(/The following macros are not allowed|Missing close brace|Undefined control sequence|Math input error|MathJax error|ParseError|<merror\b/i.test(e.text+'\n'+e.html))bad.push({index:e.index,reason:'math error'});
+    if(/Unable to render expression|The following macros are not allowed|Missing close brace|Undefined control sequence|Math input error|MathJax error|ParseError|<merror\b/i.test(e.text+'\n'+e.html))bad.push({index:e.index,reason:'math error'});
     if(e.box&&(e.box.width>result.article.width+2||e.box.right>result.article.right+2||e.box.left<result.article.left-2))bad.push({index:e.index,reason:'equation extends beyond article',width:e.box.width,article:result.article.width});
     if(e.inner&&(e.inner.width>e.rect.width+2||e.inner.left<result.article.left-2||e.inner.right>result.article.right+2))bad.push({index:e.index,reason:'inner equation clipping',width:e.inner.width,available:e.rect.width});
    }

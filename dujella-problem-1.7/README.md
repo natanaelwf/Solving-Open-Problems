@@ -47,11 +47,11 @@ A
 $D(n)$ quadruple is an unordered set
 $\lbrace a,b,c,d\rbrace$ of distinct positive integers such that the product of any two distinct elements, increased by
 $n$, is a square in
-$\mathbb{Z}$. Throughout,
+$ℤ$. Throughout,
 
 ```math
 \begin{gathered}
-n\in\mathbb{Z}\setminus\{0\},\\
+n\inℤ\setminus\{0\},\\
 0\lt a\lt b\lt c\lt d,
 \end{gathered}
 ```
@@ -165,7 +165,7 @@ $C\gt 0$ and
 $\varepsilon\gt 0$. Suppose
 $X\ge2$,
 $A,B$ are positive integers,
-$U,V\in\mathbb{Z}$, and
+$U,V\inℤ$, and
 
 ```math
 \begin{gathered}
@@ -200,8 +200,8 @@ $O(\tau(\vert H\vert ))$.
 Otherwise write
 $AB=h^2D$, where
 $D\gt 1$ is squarefree, and work in the full ring of integers
-$\mathcal{O}$ of
-$\mathbb{Q}(\sqrt D)$. The algebraic integer
+$𝒪$ of
+$ℚ(\sqrt D)$. The algebraic integer
 
 ```math
 \alpha=By+hz\sqrt D
@@ -364,7 +364,7 @@ $R\ge0$, and let
 $z$ be a positive extension of this triple. Set
 
 ```math
-q=\sqrt{Cz+n}-\sqrt{Az+n}-\sqrt{Bz+n}\in\mathbb{Z}.
+q=\sqrt{Cz+n}-\sqrt{Az+n}-\sqrt{Bz+n}\inℤ.
 ```
 
 With
@@ -861,7 +861,7 @@ $t_0=(vs_0+m)/u$. All determinant solutions are
 \begin{gathered}
 s=s_0+uj,\\
 t=t_0+vj,\\
-j\in\mathbb{Z}.
+j\inℤ.
 \end{gathered}
 ```
 
@@ -935,7 +935,7 @@ $O_k(X)$ support, not an infinite set.
 
 **Lemma 5.1**.  Let
 $Q\ge1$ be fixed, and let
-$\theta:\mathbb{Z}^2\to\mathbb{R}$ be bounded and periodic modulo
+$\theta:ℤ^2\toℝ$ be bounded and periodic modulo
 $Q$ in each coordinate. Suppose
 $\theta(u,v)=0$ when
 $\gcd(u,v,Q)\gt 1$. Define
@@ -1195,7 +1195,7 @@ G_p(w)=\begin{cases}
 
 For
 $w\ge1$, this is the conditional proportion of primitive pairs over
-$\mathbb{Z}_p$ for which at least one of
+$ℤ_p$ for which at least one of
 $u,v,u+v$ is divisible by
 $p^w$. The three alternatives are disjoint, each with probability
 
@@ -1406,7 +1406,7 @@ d\le\left\vert (q^2-n)(q^2-9n)\right\vert .
 ```
 
 *Proof.* In
-$\mathbb{Z}/d\mathbb{Z}$, put
+$ℤ/dℤ$, put
 $\alpha=-x$,
 $\beta=-y$,
 $\gamma=z$, and
@@ -1425,7 +1425,7 @@ Therefore
 $(q^2-n)(q^2-9n)=4(E^2-2nE-3n^2)=0$ in this ring. No inversion or parity assumption is used. If
 $q^2=n$ or
 $q^2=9n$ in
-$\mathbb{Z}$, then
+$ℤ$, then
 $n$ is an integer square; in the latter case
 $3\mid q$. For nonsquare
 $n$, a nonzero multiple of
