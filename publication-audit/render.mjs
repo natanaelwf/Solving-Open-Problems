@@ -7,6 +7,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright';
+import { visit } from './network.mjs';
 const sha=process.env.AUDIT_COMMIT;
 if(!/^[a-f0-9]{40}$/.test(sha||'')) throw new Error('A commit SHA is required.');
 const root='publication-audit/evidence';
@@ -32,8 +33,7 @@ try{
    page.on('pageerror',e=>diagnostics.push({type:'pageerror',text:String(e.stack||e)}));
    page.on('requestfailed',r=>diagnostics.push({type:'requestfailed',url:r.url(),text:r.failure()?.errorText}));
    page.on('response',r=>{if(r.status()>=400)diagnostics.push({type:'response',url:r.url(),status:r.status()});});
-   const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:120000});
-   if(!response?.ok()) throw new Error(`HTTP ${response?.status()} at ${url}`);
+   const response=await visit(page,url);
    const server=`${out}/server-${width}.html`;
    fs.writeFileSync(server,await response.text());
    try{

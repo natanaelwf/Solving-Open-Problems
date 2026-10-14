@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright';
+import { visit } from './network.mjs';
 
 const sha = process.env.AUDIT_COMMIT;
 assert.match(sha || '', /^[a-f0-9]{40}$/);
@@ -16,7 +17,7 @@ try {
   for (const [slug, file] of [['index', 'README.md'], ['article', 'dujella-problem-1.7/README.md']]) {
     for (const width of [430, 1440]) {
       const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
-      await page.goto(`${origin}/blob/${sha}/${file}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
+      await visit(page, `${origin}/blob/${sha}/${file}`);
       await page.waitForSelector('article.markdown-body');
       await page.waitForFunction(() => [...document.querySelectorAll('article.markdown-body math-renderer')].every(e => e.querySelector('math,mjx-container')), null, {timeout: 120000});
       const tables = await page.locator('article.markdown-body table').evaluateAll(ts => ts.map(t => ({
