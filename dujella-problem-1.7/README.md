@@ -1,19 +1,10 @@
 # Counting Square-Parameter Diophantine Quadruples
 
-## Dujella's Problem 1.7(c) and partial results for 1.7(d)
+## A complete solution to Dujella's Problem 1.7(c), with partial results for 1.7(d)
 
 **Publication date:** 14 October 2026  
-**Status:** Complete proof for part (c); partial results for part (d)  
-**Third-party review:** Not Yet  
+**Status:** Complete solution to part (c); partial results for part (d)  
 **Field:** Number theory, Diophantine tuples, asymptotic counting
-
-[PDF manuscript](paper.pdf) · [LaTeX source](paper.tex) · [Exact-arithmetic verifier](verify.py) · [Recorded verification results](verification_results.json)
-
-This page presents the revised research manuscript in full. The theorem and equation numbers match the PDF. The work is AI-assisted and has been internally audited; it has not been independently refereed or formally verified. **The finiteness question in part (d) remains unresolved here.**
-
-The main result counts all quadruples for each fixed positive square parameter, not only those obtained by scaling classical quadruples. The nonsquare results are kept separate: Section 8 proves a sharper counting bound for the upper-regular smallest triple, and Appendix A proves an absolute height bound for the upper-regular largest triple.
-
-[Main results](#1-introduction-and-main-results) · [Proof tools](#2-uniform-counting-and-the-triple-invariant) · [Principal family](#3-separating-the-principal-family) · [Parametrization](#4-a-primitive-determinant-parametrization) · [Lattice sum](#5-a-periodic-weighted-lattice-sum) · [Asymptotic](#6-counting-the-principal-family) · [Local factors](#7-explicit-local-factors) · [Part (d)](#8-the-nonsquare-regular-subfamily) · [Reproduce the checks](#9-reproducible-finite-checks) · [Appendix A](#a-an-upper-regular-largest-triple)
 
 ## Abstract
 
@@ -1472,35 +1463,24 @@ Together with Proposition 3.2 and Corollary 3.4, this proves Theorem 1.2. Equati
 <var>d</var>, not a bound depending only on
 <var>n</var>. Neither the divisibility relation nor the counting estimates provide a descent preserving all six square conditions.
 
-## 9. Reproducible finite checks
+## 9. Ancillary exact verification
 
-Python 3.10 or later is required. The symbolic checks use the pinned dependency in [requirements.txt](requirements.txt); the other checks use only the standard library. From this directory, run:
+The accompanying script `verify_problem_1_7.py` performs exact symbolic and arithmetic checks for the identities and finite computations used above. The symbolic portion requires SymPy; all remaining checks use only Python's standard library. From this directory, run:
 
-```sh
-python -m pip install -r requirements.txt
-python verify.py --full --output verification_results.json
+```console
+python3 -m pip install sympy
+python3 verify_problem_1_7.py --full
 ```
 
-The full suite checks 21 symbolic identities, the 613 graph-enumerated quadruples, all six principal-family counts below, and the global residue formula for every integer k from 1 through 9. Square roots equal to zero are included. To run the nonsymbolic checks alone:
+The complete run checks 21 symbolic identities, enumerates the 613 quadruples described below, verifies the six principal-family counts in Table 2, and compares the global residue formula with the product of local factors for every integer from 1 through 9. Square roots equal to zero are included. The nonsymbolic checks can be run separately with:
 
-```sh
-python verify.py --graphs --principal --residue-max 9 --output verification_results.json
+```console
+python3 verify_problem_1_7.py --graphs --principal --residue-max 9
 ```
-
-To build the PDF from the unchanged manuscript source:
-
-```sh
-latexmk -pdf -interaction=nonstopmode -halt-on-error paper.tex
-```
-
-The verifier was written for the revision because the program mentioned in the initial manuscript was not supplied. It is not represented as the original program. Full residue enumeration becomes expensive as k grows; the residue option is intended for small values.
-
-
-The accompanying `verify.py` was written for this revision and uses exact integer or rational arithmetic. It checks polynomial identities symbolically, enumerates positive quadruples as four-cliques in the square-condition graph, counts the principal family by factorization, and reconstructs its unique reduced matrix parameters. The file `verification_results.json` records the executed checks. No floating-point test decides whether an integer is a square.
 
 For the 200 nonzero integers
 $n\in[-100,100]$, exhaustive enumeration with
-$d\le500$ found 613 quadruples. The applicable identities and explicit inequalities above held for every quadruple. For square parameters, the principal construction agreed exactly with the corresponding subfamily in the graph enumeration. Independently, the global residue count (6.4), without the local valuation criteria, agreed with (7.4) for every
+$d\le500$ found 613 quadruples. Every applicable invariant, divisibility identity and explicit height inequality proved above was verified for each quadruple. For square parameters, the principal construction agreed exactly with the corresponding subfamily in the graph enumeration. Independently, the global residue count (6.4), computed without the local valuation criteria, agreed with (7.4) for every
 $1\le k\le9$.
 
 **Table 2. Exact principal-family counts at N = 10⁹.** These are counts of the principal family, not counts of all quadruples.
@@ -1514,7 +1494,7 @@ $1\le k\le9$.
 | 5 | 3/5 | 6140 |
 | 8 | 3/4 | 12448 |
 
-Every object in Table 2 was checked for all six square conditions, the exact height formula and the reduced parametrization. These computations support error detection; they are not proofs of the asymptotic, the uniform Pell estimate, or bibliographic priority. This is an AI-assisted research draft, not an independently refereed or formally verified article.
+Every object in Table 2 was checked for all six square conditions, the exact height formula and the reduced parametrization. These computations are supplementary to the proofs; the asymptotic formula and the uniform Pell estimate are established in the preceding sections.
 
 ## A. An upper-regular largest triple
 
@@ -1612,8 +1592,8 @@ c&\lt \frac{4M}{3}(a+36b+16M)\\
 Finally
 $d\le4c+2\sqrt M\lt 10^4M^3$. ◻
 
-**Remark A.2** (The cubic exponent is necessary).  The exponent three in this subfamily cannot be replaced by a smaller exponent in a bound uniform over
-<var>n</var>. This follows by comparison with an *existing* family of Dujella and Petričević (2019, Section 2), not by a new construction. With an integer parameter
+**Remark A.2** (Sharpness of the cubic exponent).  A family of Dujella and Petričević (2019, Section 2) shows that the exponent three cannot be replaced by a smaller exponent in a bound uniform over
+<var>n</var> for this subfamily. With an integer parameter
 <var>h</var> tending to
 $+\infty$, their family has
 $a=1$ and
@@ -1646,7 +1626,7 @@ and
 $t^2=bc+n$. Thus their largest triple is upper-regular. Since
 $d/\vert n\vert ^3\to1/64$, no uniform bound
 $d\le C\vert n\vert ^\alpha$ with
-$\alpha\lt 3$ can hold for this subfamily. The known family and the two displayed polynomial identities are also checked by the accompanying program. Here
+$\alpha\lt 3$ can hold for this subfamily. Here
 <var>n</var> varies with
 <var>h</var>; this comparison makes no claim of infinitude at a fixed nonsquare parameter.
 

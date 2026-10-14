@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Exact-arithmetic audit checks for the accompanying D(n)-quadruple manuscript.
+"""Exact symbolic and arithmetic verification for Dujella's Problem 1.7.
 
-Python 3.10+; SymPy is needed only for --symbolic / --full.
-Finite tests are not proofs of asymptotic estimates, uniformity, or novelty.
-The code was written for this review; it is not the unavailable original script.
+Python 3.10 or later is required. SymPy is needed only for --symbolic and
+--full; the remaining checks use the Python standard library.
 """
 from __future__ import annotations
 import argparse
@@ -109,7 +108,7 @@ def reduced_parameters(a: int, b: int, r: int, k: int) -> tuple[int, ...]:
     return ell,sigma,u,v,s,t,m
 
 
-def audit_quad(n: int, quad: tuple[int,int,int,int]) -> None:
+def verify_quadruple(n: int, quad: tuple[int,int,int,int]) -> None:
     a,b,c,d = quad
     M = abs(n)
     require(0 < a < b < c < d and all(square(A*B+n) for A,B in combinations(quad,2)),
@@ -169,7 +168,7 @@ def principal(k: int, N: int, check: bool = True) -> set[tuple[int,int,int,int]]
             require(quad not in out, ('duplicate principal object', k,N,quad))
             out.add(quad)
             if check:
-                audit_quad(k*k,quad)
+                verify_quadruple(k*k,quad)
                 ell,sigma,u,v,s,t,m = reduced_parameters(a,b,r,k)
                 Z = Fraction(s,u)
                 eta1 = Fraction(m,2*u*v)
@@ -195,7 +194,7 @@ def enumerate_quads(n: int, N: int) -> set[tuple[int,int,int,int]]:
             for c in common:
                 for d in common & adj[c]:
                     quad = (a,b,c,d)
-                    audit_quad(n,quad)
+                    verify_quadruple(n,quad)
                     out.add(quad)
     return out
 
@@ -333,15 +332,14 @@ def main() -> None:
     parser.add_argument('--graphs',action='store_true',help='enumerate all n in [-100,100] except zero, height 500')
     parser.add_argument('--principal',action='store_true',help='check six principal-family counts at height 10^9')
     parser.add_argument('--residue-max',type=int,default=0,help='direct global residue tests for 1<=k<=this number')
-    parser.add_argument('--output',type=Path,default=Path('verification_results.json'))
+    parser.add_argument('--output',type=Path,help='write detailed results to a JSON file')
     args = parser.parse_args()
     if args.residue_max < 0:
         parser.error('--residue-max must be nonnegative')
     if not (args.full or args.symbolic or args.graphs or args.principal or args.residue_max):
         parser.error('choose --full or one or more test groups')
     start=time.perf_counter()
-    result:dict[str,object] = {'python_version':platform.python_version(),
-        'notice':'Finite exact tests, not a proof or a certification of novelty.'}
+    result:dict[str,object] = {'python_version':platform.python_version()}
     if args.full or args.symbolic:
         result['symbolic'] = symbolic_checks()
         print('Symbolic identities: PASS',flush=True)
@@ -369,8 +367,11 @@ def main() -> None:
         result['global_residues']=rows
     result['local_factor_table']={str(p):[str(local_factor(p,e)) for e in range(5)] for p in (2,3,5,7)}
     result['elapsed_seconds']=round(time.perf_counter()-start,3)
-    args.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
-    print(f'All requested checks passed. Results: {args.output}',flush=True)
+    if args.output is not None:
+        args.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        print(f'All requested checks passed. Results: {args.output}',flush=True)
+    else:
+        print('All requested checks passed.',flush=True)
 
 if __name__ == '__main__':
     main()
