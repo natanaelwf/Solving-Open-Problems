@@ -219,7 +219,7 @@ $O_C(\log X)$ permitted generators. The standard divisor bound
 $\tau(m)\ll_\eta m^\eta$, with a suitably small
 $\eta$, proves the estimate. Finally,
 $(y,z)$ determines
-<var>t</var>. ◻
+<var>t</var>. 
 
 **Corollary 2.2**.  For fixed
 $n\ne0$, uniformly over
@@ -235,7 +235,7 @@ $(A,B,U,V)=(a,b,n,n)$, for which
 $BU-AV=n(b-a)\ne0$. The coefficients fit the hypotheses with a fixed exponent depending on
 <var>n</var> (or after increasing
 <var>X</var> by a fixed factor). For quadruples choose both remaining entries among these extensions and replace
-$\varepsilon$ by a smaller positive number. ◻
+$\varepsilon$ by a smaller positive number. 
 
 ### 2.2. The invariant of a triple
 
@@ -342,7 +342,7 @@ Finally, squaring (2.2) gives the necessary equation
 The coefficient of
 $c^2$ after subtraction is
 $n^2\ne0$. Thus at most two values of
-<var>c</var> are possible; possible extraneous roots after squaring do not affect this upper bound. ◻
+<var>c</var> are possible; possible extraneous roots after squaring do not affect this upper bound. 
 
 ## 3. Separating the principal family
 
@@ -427,7 +427,7 @@ $n\lt 0$, it implies
 $z(A+B+R-z)=3M/4$, hence
 $Az\lt 3M/4$. In the remaining case,
 $q\ne0$ and integrality together with (3.2) gives
-$Az\le25M^2$. ◻
+$Az\le25M^2$. 
 
 Applying the smaller-extension assertion to
 $\lbrace b,c,d\rbrace$ and its extension
@@ -521,7 +521,7 @@ $O_n(N^{1/4})$ values of
 <var>b</var> for each fixed
 <var>a</var>. The preceding bounds on
 $c,d$ finish the proof after relabelling
-$\varepsilon$. ◻
+$\varepsilon$. 
 
 ### 3.3. An upper-regular smallest triple
 
@@ -649,7 +649,7 @@ x=\frac{q}{k^2}\bigl(2a(b+r)+k^2\bigr).
 Positivity of
 <var>x</var> forces
 $q=k$, and substitution into
-$x^2=ad+k^2$ gives (3.10). ◻
+$x^2=ad+k^2$ gives (3.10). 
 
 Let
 $E_k(N)$ count positive pairs
@@ -703,7 +703,7 @@ $ab\ll_n N^{2/5}$, hence
 $r\ll_n N^{1/5}$. Factoring
 $ab=r^2-n$ and applying Corollary 2.2 gives
 $O_{n,\varepsilon}(N^{1/5+\varepsilon})$ quadruples. Bounded first pairs are covered by the same corollary. Lemma 3.3 identifies the remaining family, which occurs only for square
-<var>n</var>. ◻
+<var>n</var>. 
 
 ## 4. A primitive determinant parametrization
 
@@ -836,7 +836,7 @@ u(v-u)\le\vert m\vert ,
 again bounding
 $u,v$. For each fixed
 $(u,v)$, determinant solutions form a one-parameter arithmetic progression and the height is a cubic with positive leading coefficient. Their positive-height contribution is
-$O_k(N^{1/3})$. This also bounds any invalid boundary objects introduced by the relaxation. ◻
+$O_k(N^{1/3})$. This also bounds any invalid boundary objects introduced by the relaxation. 
 
 ### 4.2. The height interval
 
@@ -1037,7 +1037,7 @@ For (5.2), substitute
 $x=1/(1+t)$ and use the symmetry of
 $x^{-2/3}(1-x)^{-2/3}$ on
 $(0,1)$: the integral is half of
-$B(1/3,1/3)$. ◻
+$B(1/3,1/3)$. 
 
 ## 6. Counting the principal family
 
@@ -1355,7 +1355,7 @@ $p=2$, the first term and the
 $j=e$ term give
 $\delta_2(e)\ge2^{-e}$. Finally
 $\delta_p(0)=1$ for every prime, including
-$2$. These observations prove all the assertions. ◻
+$2$. These observations prove all the assertions. 
 
 For an odd prime
 <var>p</var>,
@@ -1421,7 +1421,7 @@ $ℤ$, then
 $3\mid q$. For nonsquare
 <var>n</var>, a nonzero multiple of
 <var>d</var> has absolute value at least
-<var>d</var>. ◻
+<var>d</var>. 
 
 **Proposition 8.2**.  Let
 <var>n</var> be nonsquare and
@@ -1457,7 +1457,7 @@ $r\ll_n N^{1/6}$. Factor
 $ab=r^2-n$ to count first pairs;
 $c=a+b+2r$ is determined, and Corollary 2.2 bounds the choices for
 <var>d</var>. The divisor bound and a relabelling of
-$\varepsilon$ prove the claim. ◻
+$\varepsilon$ prove the claim. 
 
 Together with Proposition 3.2 and Corollary 3.4, this proves Theorem 1.2. Equation (8.3) is a *lower* bound on
 <var>d</var>, not a bound depending only on
@@ -1590,7 +1590,7 @@ c&\lt \frac{4M}{3}(a+36b+16M)\\
 ```
 
 Finally
-$d\le4c+2\sqrt M\lt 10^4M^3$. ◻
+$d\le4c+2\sqrt M\lt 10^4M^3$. 
 
 **Remark A.2** (Sharpness of the cubic exponent).  A family of Dujella and Petričević (2019, Section 2) shows that the exponent three cannot be replaced by a smaller exponent in a bound uniform over
 <var>n</var> for this subfamily. With an integer parameter
