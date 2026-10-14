@@ -25,8 +25,10 @@ $n$, are integer squares. For every fixed
 $k\ge1$, we prove
 
 ```math
-D_{4,k^2}(N)=\frac{2^{4/3}}{3\Gamma(2/3)^3}\,k^{2/3}\Delta(k)N^{1/3}\log N
-+O_k(N^{1/3}),
+\begin{aligned}
+D_{4,k^2}(N)&=\frac{2^{4/3}}{3\Gamma(2/3)^3}\,k^{2/3}\Delta(k)N^{1/3}\log N\\
+&\quad+O_k(N^{1/3}),
+\end{aligned}
 ```
 
 where
@@ -43,7 +45,7 @@ $n$.
 
 A
 $D(n)$ quadruple is an unordered set
-$\{a,b,c,d\}$ of distinct positive integers such that the product of any two distinct elements, increased by
+$\lbrace a,b,c,d\rbrace$ of distinct positive integers such that the product of any two distinct elements, increased by
 $n$, is a square in
 $\mathbb{Z}$. Throughout,
 
@@ -285,8 +287,10 @@ ce+n^2&=(cr-st)^2.
 **Equation (2.4).**
 
 ```math
-e\bigl(n(a+b+c)+2abc+2rst\bigr)
-=n^2\bigl((c-a-b)^2-4(ab+n)\bigr).
+\begin{aligned}
+&e\bigl(n(a+b+c)+2abc+2rst\bigr)\\
+&=n^2\bigl((c-a-b)^2-4(ab+n)\bigr).
+\end{aligned}
 ```
 
 If
@@ -338,8 +342,10 @@ Finally, squaring (2.2) gives the necessary equation
 **Equation (2.6).**
 
 ```math
-\bigl(n(a+b)+(n+2ab)c-e\bigr)^2
-=4(ab+n)(ac+n)(bc+n).
+\begin{aligned}
+&\bigl(n(a+b)+(n+2ab)c-e\bigr)^2\\
+&=4(ab+n)(ac+n)(bc+n).
+\end{aligned}
 ```
 
 The coefficient of
@@ -393,9 +399,11 @@ Also
 **Equation (3.3).**
 
 ```math
-\left\vert \sqrt C-\sqrt A-\sqrt B\right\vert
-=\frac{2M}{(R+\sqrt{AB})(\sqrt C+\sqrt A+\sqrt B)}
-\le\frac{2M}{\sqrt{ABC}}.
+\begin{aligned}
+&\left\vert \sqrt C-\sqrt A-\sqrt B\right\vert\\
+&=\frac{2M}{(R+\sqrt{AB})(\sqrt C+\sqrt A+\sqrt B)}\\
+&\le\frac{2M}{\sqrt{ABC}}.
+\end{aligned}
 ```
 
 For
@@ -431,7 +439,7 @@ $q\ne0$ and integrality together with (3.2) gives
 $Az\le25M^2$. ◻
 
 Applying the smaller-extension assertion to
-$\{b,c,d\}$ and its extension
+$\lbrace b,c,d\rbrace$ and its extension
 $a$ gives
 
 **Equation (3.5).**
@@ -453,9 +461,9 @@ $I_n(N)\ll_{n,\varepsilon}N^{1/4+\varepsilon}$.
 *Proof.* The cases
 $ab\lt 3M$ or
 $c\le M^2$ involve only boundedly many first pairs and are covered by Corollary 2.2. The same holds when
-$\{b,c,d\}$ is upper-regular, by (3.5). In all remaining cases Lemma 2.3 applies to both
-$\{a,b,c\}$ and
-$\{b,c,d\}$. For the invariant
+$\lbrace b,c,d\rbrace$ is upper-regular, by (3.5). In all remaining cases Lemma 2.3 applies to both
+$\lbrace a,b,c\rbrace$ and
+$\lbrace b,c,d\rbrace$. For the invariant
 $e$ of the first triple it gives
 
 ```math
@@ -588,7 +596,10 @@ $z=x+y+q$ yields
 Subtracting the right side of (3.8) from its left side gives
 
 ```math
-2r(x^2-ad-n)-a\bigl(2xy+2q(x+y)+q^2-2rd+n\bigr)=0.
+\begin{aligned}
+&2r(x^2-ad-n)\\
+&\quad-a\bigl(2xy+2q(x+y)+q^2-2rd+n\bigr)=0.
+\end{aligned}
 ```
 
 Thus no division by a potentially zero factor is involved.
@@ -620,7 +631,7 @@ Here
 $z+y\ll\sqrt{bd}$ because
 $c\asymp b$ and
 $bd\ge2M$. Substituting into (3.11) gives
-$\sqrt{ad}\ll_n d/(\sqrt{ab}\,c)$. Squaring and cancelling
+$\sqrt{ad}\ll_n d/(\sqrt{ab} c)$. Squaring and cancelling
 $d$ proves the first inequality in (3.9); the second follows from
 $c\gt b\gt a$. The excluded case
 $ab\lt 2M$ has boundedly many first pairs.
@@ -749,11 +760,13 @@ $a,b,r$ unchanged. We therefore permit
 **Equation (4.2).**
 
 ```math
-\begin{aligned}
-\ell&\mid2k,\qquad \sigma\in\{-1,1\},\qquad m=\frac{2\sigma k}{\ell},\\
-ut-vs&=m,\qquad \gcd(u,v)=\gcd(s,t)=1,\\
-a&=\ell us,\qquad b=\ell vt,\qquad r=\ell vs+\sigma k,
-\end{aligned}
+\begin{gathered}
+\ell\mid2k,\qquad \sigma\in\{-1,1\},\\
+m=\frac{2\sigma k}{\ell},\qquad ut-vs=m,\\
+\gcd(u,v)=\gcd(s,t)=1,\\
+a=\ell us,\qquad b=\ell vt,\\
+r=\ell vs+\sigma k,
+\end{gathered}
 ```
 
 and impose the lexicographic reduction
@@ -951,10 +964,12 @@ $Y\ge2$,
 **Equation (5.3).**
 
 ```math
-\sum_{\substack{1\le u\lt v,\ \gcd(u,v)=1\\
+\begin{aligned}
+&\sum_{\substack{1\le u\lt v,\ \gcd(u,v)=1\\
 S(u,v)\le Y^{3/2}}}
-\frac{\theta(u,v)}{S(u,v)^{2/3}}
-=\frac{A_\theta J}{2}\log Y+O_{Q,\vert\vert \theta\vert\vert _\infty}(1).
+\frac{\theta(u,v)}{S(u,v)^{2/3}}\\
+&=\frac{A_\theta J}{2}\log Y+O_{Q,\vert\vert \theta\vert\vert _\infty}(1).
+\end{aligned}
 ```
 
 *Proof.* First omit coprimality. In a fixed row
@@ -986,7 +1001,7 @@ $F_Y(u)$ may likewise be replaced by its integral with bounded error. Changing t
 
 ```math
 \begin{aligned}
-\int_1^\infty F_Y(u)\,du
+&\int_1^\infty F_Y(u)\,du\\
 &=\int_1^\infty[t(t+1)]^{-2/3}
 \left(\frac12\log Y-\frac13\log(t(t+1))\right)_+dt\\
 &=\frac J2\log Y+O(1).
@@ -1083,12 +1098,13 @@ $(u,v,s,t)\bmod Q$ with
 **Equation (6.1).**
 
 ```math
-\begin{aligned}
-\gcd(u,v,Q)&=1,&\gcd(s,t,2k/\ell)&=1,\\
-ut-vs&\equiv2k/\ell\pmod Q,\\
-4R(A+R)(B+R)&\equiv0\pmod{k^2},\\
-A=\ell us,\qquad B&=\ell vt,\qquad R=\ell vs+k.
-\end{aligned}
+\begin{gathered}
+\gcd(u,v,Q)=1,\qquad\gcd(s,t,2k/\ell)=1,\\
+ut-vs\equiv2k/\ell\pmod Q,\\
+4R(A+R)(B+R)\equiv0\pmod{k^2},\\
+A=\ell us,\qquad B=\ell vt,\\
+R=\ell vs+k.
+\end{gathered}
 ```
 
 The kernel count gives
@@ -1112,10 +1128,13 @@ $O_k(X)$. Therefore
 **Equation (6.2).**
 
 ```math
-E_k(N)=2\sum_{\ell\mid2k}X_\ell
+\begin{aligned}
+E_k(N)&=2\sum_{\ell\mid2k}X_\ell
 \sum_{\substack{u\lt v,\ \gcd(u,v)=1\\
 S(u,v)\le X_\ell^{3/2}}}
-\frac{\theta_\ell(u,v)}{S(u,v)^{2/3}}+O_k(X).
+\frac{\theta_\ell(u,v)}{S(u,v)^{2/3}}\\
+&\quad+O_k(X).
+\end{aligned}
 ```
 
 The factor two records the determinant signs; uniqueness was already imposed by lexicographic reduction and its boundary has been accounted for. Applying Lemma 5.1 yields
@@ -1142,7 +1161,10 @@ $X=(k^2N/4)^{1/3}$,
 **Equation (6.5).**
 
 ```math
-E_k(N)=\frac{J}{3\cdot4^{1/3}\zeta(2)}\,k^{2/3}\Delta(k)N^{1/3}\log N+O_k(N^{1/3}).
+\begin{aligned}
+E_k(N)&=\frac{J}{3\cdot4^{1/3}\zeta(2)}\,k^{2/3}\Delta(k)N^{1/3}\log N\\
+&\quad+O_k(N^{1/3}).
+\end{aligned}
 ```
 
 The identities
@@ -1428,8 +1450,11 @@ $q^2\ge1$ and
 $q^2\le25M^2d/(abc)$. Thus
 
 ```math
-\left\vert (q^2-n)(q^2-9n)\right\vert
-\le(q^2+M)(q^2+9M)\le(M+1)(9M+1)q^4.
+\begin{aligned}
+&\left\vert (q^2-n)(q^2-9n)\right\vert\\
+&\le(q^2+M)(q^2+9M)\\
+&\le(M+1)(9M+1)q^4.
+\end{aligned}
 ```
 
 Combining with (8.2) and cancelling
@@ -1480,7 +1505,7 @@ $1\le k\le9$.
 
 **Table 2. Exact principal-family counts at N = 10⁹.** These are counts of the principal family, not counts of all quadruples.
 
-| k | Delta(k) | E_k(10^9) |
+| k | Density factor | Principal-family count |
 |---|---|---|
 | 1 | 1 | 3620 |
 | 2 | 1 | 6178 |
@@ -1564,9 +1589,11 @@ $v\gt \sqrt{ac/2}$. Since
 $t\le\sqrt{bc}+\sqrt M$,
 
 ```math
-h=\frac{a(b+2t)}{w+v}
-\le\sqrt{\frac{2a}{c}}\,(b+2\sqrt{bc}+2\sqrt M)
-\le\sqrt{2a}\,(3\sqrt b+2\sqrt M).
+\begin{aligned}
+h&=\frac{a(b+2t)}{w+v}\\
+&\le\sqrt{\frac{2a}{c}}\,(b+2\sqrt{bc}+2\sqrt M)\\
+&\le\sqrt{2a}\,(3\sqrt b+2\sqrt M).
+\end{aligned}
 ```
 
 Using
@@ -1575,8 +1602,11 @@ $h^2\le36ab+16aM$. Substitution into (A.2) and cancellation of
 $a$ yield
 
 ```math
-c\lt \frac{4M}{3}(a+36b+16M)
-\le\frac{4M}{3}(925M^2+16M)\lt 1255M^3.
+\begin{aligned}
+c&\lt \frac{4M}{3}(a+36b+16M)\\
+&\le\frac{4M}{3}(925M^2+16M)\\
+&\lt 1255M^3.
+\end{aligned}
 ```
 
 Finally
@@ -1592,8 +1622,10 @@ $a=1$ and
 \begin{aligned}
 n&=-64h^2+16h+16,\\
 b&=256h^4-128h^3-48h^2+16h,\\
-c&=4096h^6-4096h^5-512h^4+1152h^3+16h^2-88h-7,\\
-d&=4096h^6-2048h^5-1792h^4+640h^3+288h^2-48h-15.
+c&=4096h^6-4096h^5-512h^4\\
+&\quad+1152h^3+16h^2-88h-7,\\
+d&=4096h^6-2048h^5-1792h^4\\
+&\quad+640h^3+288h^2-48h-15.
 \end{aligned}
 ```
 
@@ -1603,7 +1635,11 @@ $0\lt a\lt b\lt c\lt d$ and
 $n\lt 0$. Direct substitution gives
 
 ```math
-\frac{d-b-c}{2}=4(4h^2-h-1)(64h^3-32h^2-4h+1)=t\gt 0,
+\begin{aligned}
+&\frac{d-b-c}{2}\\
+&=4(4h^2-h-1)(64h^3-32h^2-4h+1)\\
+&=t\gt 0,
+\end{aligned}
 ```
 
 and

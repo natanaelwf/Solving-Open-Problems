@@ -16,13 +16,13 @@ const reports=[],errors=[];
 const browser=await chromium.launch({headless:true});
 const origin='https://github.com/natanaelwf/Solving-Open-Problems';
 try{
- for(const [slug,file] of [['index','README.md'],['article','dujella-problem-1.7/README.md']]){
+ for(const [slug,file,mode] of [['index','README.md','blob'],['article','dujella-problem-1.7/README.md','blob'],['index-landing','README.md','tree'],['article-landing','dujella-problem-1.7/README.md','tree']]){
   const out=`${root}/${slug}`;fs.mkdirSync(out,{recursive:true});
   const inventory=`${out}/inventory.json`;
   const lint=execFileSync('python',['publication-audit/github_math_guard_v2.py','lint',file,'--strict','--inventory-out',inventory,...extra],{encoding:'utf8'});
   fs.writeFileSync(`${out}/lint.txt`,lint);
   const expected=JSON.parse(fs.readFileSync(inventory,'utf8'));
-  const url=`${origin}/blob/${sha}/${file}`;
+  const url=mode==='blob'?`${origin}/blob/${sha}/${file}`:`${origin}/tree/${sha}/${file.includes('/')?file.slice(0,file.lastIndexOf('/')):''}`;
   for(const width of [1440,430]){
    const view={width,height:width===430?932:1200};
    const page=await browser.newPage({viewport:view,reducedMotion:'reduce',deviceScaleFactor:1});
@@ -35,7 +35,14 @@ try{
     fs.writeFileSync(`${out}/server-check-${width}.txt`,check);
    }catch(e){errors.push(`${slug}/${width}: server-source mismatch`);fs.writeFileSync(`${out}/server-check-${width}.txt`,`${e.stdout}\n${e.stderr}`);}
    await page.waitForFunction(n=>document.querySelectorAll('article.markdown-body math-renderer').length===n,expected.length,{timeout:120000});
-   await page.waitForFunction(()=>[...document.querySelectorAll('article.markdown-body math-renderer')].every(e=>e.querySelector('math,mjx-container')),null,{timeout:120000});
+   // Trigger any viewport-dependent work before judging missing output.
+   for(let y=0;y<await page.evaluate(()=>document.documentElement.scrollHeight);y+=view.height-100){
+    await page.evaluate(y=>window.scrollTo(0,y),y);await page.waitForTimeout(40);
+   }
+   await page.evaluate(()=>window.scrollTo(0,0));
+   try{await page.waitForFunction(()=>[...document.querySelectorAll('article.markdown-body math-renderer')].every(e=>e.querySelector('math,mjx-container')),null,{timeout:60000});}
+   catch(e){fs.writeFileSync(`${out}/output-wait-${width}.txt`,String(e));}
+   await page.evaluate(()=>document.fonts.ready);
    await page.waitForTimeout(1000);
    const result=await page.evaluate(()=>{
     const a=document.querySelector('article.markdown-body');
@@ -44,9 +51,11 @@ try{
     return {url:location.href,text:a.innerText,article:clean(ar),articleClient:a.clientWidth,articleScroll:a.scrollWidth,pageHeight:document.documentElement.scrollHeight,pageClient:document.documentElement.clientWidth,pageScroll:document.documentElement.scrollWidth,
      expressions:[...a.querySelectorAll('math-renderer')].map((e,i)=>{
       const output=e.querySelector('math,mjx-container');
-      const child=output?.firstElementChild;
+      const children=output?[...output.children].map(c=>c.getBoundingClientRect()).filter(r=>r.width>0&&r.height>0):[];
+      const inner=children.length?{left:Math.min(...children.map(r=>r.left)),right:Math.max(...children.map(r=>r.right)),top:Math.min(...children.map(r=>r.top)),bottom:Math.max(...children.map(r=>r.bottom))}:null;
+      if(inner){inner.width=inner.right-inner.left;inner.height=inner.bottom-inner.top;}
       const rect=clean(e.getBoundingClientRect()),box=output?clean(output.getBoundingClientRect()):null;
-      return {index:i+1,kind:e.classList.contains('js-display-math')?'display':'inline',text:e.innerText,html:e.innerHTML,rect,box,inner:child?clean(child.getBoundingClientRect()):null,client:e.clientWidth,scroll:e.scrollWidth,output:!!output};
+      return {index:i+1,kind:e.classList.contains('js-display-math')?'display':'inline',text:e.innerText,html:e.innerHTML,rect,box,inner,client:e.clientWidth,scroll:e.scrollWidth,output:!!output};
      }),
      localLinks:[...a.querySelectorAll('a[href]')].filter(e=>e.getAttribute('href').startsWith('#')).map(e=>({href:e.getAttribute('href'),found:!!document.getElementById(e.getAttribute('href').slice(1))||!!document.getElementById('user-content-'+e.getAttribute('href').slice(1))})),
      files:[...a.querySelectorAll('a[href]')].filter(e=>/\.(?:pdf|tex|py|json|txt)(?:$|[?#])/.test(e.getAttribute('href'))).map(e=>e.href)};
@@ -58,7 +67,7 @@ try{
     if(!e.output||e.rect.width<=0||e.rect.height<=0||!e.box||e.box.width<=0||e.box.height<=0)bad.push({index:e.index,reason:'missing or zero-sized math'});
     if(/The following macros are not allowed|Missing close brace|Undefined control sequence|Math input error|MathJax error|ParseError|<merror\b/i.test(e.text+'\n'+e.html))bad.push({index:e.index,reason:'math error'});
     if(e.box&&(e.box.width>result.article.width+2||e.box.right>result.article.right+2||e.box.left<result.article.left-2))bad.push({index:e.index,reason:'equation extends beyond article',width:e.box.width,article:result.article.width});
-    if(e.kind==='display'&&e.inner&&e.inner.width>e.rect.width+2)bad.push({index:e.index,reason:'inner equation clipping',width:e.inner.width,available:e.rect.width});
+    if(e.inner&&(e.inner.width>e.rect.width+2||e.inner.left<result.article.left-2||e.inner.right>result.article.right+2))bad.push({index:e.index,reason:'inner equation clipping',width:e.inner.width,available:e.rect.width});
    }
    if(result.pageScroll>result.pageClient+2||result.articleScroll>result.articleClient+2)errors.push(`${slug}/${width}: horizontal overflow`);
    if(bad.length)errors.push(`${slug}/${width}: ${bad.length} expression layout errors`);

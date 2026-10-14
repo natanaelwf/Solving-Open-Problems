@@ -8,6 +8,8 @@ EXTRA='ell int ll gg asymp lfloor rfloor lceil rceil nmid bmod pmod'.split()
 PAGE=BASE.parent/'dujella-problem-1.7/README.md'
 
 def canonical(s):
+    # Named delimiters preserve visible set braces through GitHub parsing.
+    s=s.replace(r"\{",r"\lbrace").replace(r"\}",r"\rbrace")
     s=re.sub(r'\\(?:begin|end)\{(?:gathered|aligned|align\*?)\}', '', s)
     s=re.sub(r'\\(?:qquad|quad|enspace|thinspace)\b', '', s)
     s=re.sub(r'\\[!,;:]','',s)
