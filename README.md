@@ -6,9 +6,9 @@ Solutions, significant advances, and research methods developed with the assista
 
 This repository documents work on open problems across mathematics and other fields. Each directory is a self-contained record of one problem and may present a complete solution, a substantial partial result, or a method used to obtain progress.
 
-## Published work
+## Research results and preprints
 
-| Problem | Field | Result | Publication date | Third-party review |
+| Problem | Field | Result | First public version | Third-party review |
 |---|---|---|---|---|
 | [Dujella's Problem 1.2](dujella-problem-1.2/) | Mathematics, rational Diophantine tuples | Complete affirmative solution for the specialization $k=19$ | 27 August 2026 | Yes ([Dujella's post](https://x.com/dujella1/status/2093704328296984904), [problem list](https://web.math.pmf.unizg.hr/~duje/pdf/open2.pdf#page=1)) |
 | [Dujella's Problem 3.9](dujella-problem-3.9/) | Mathematics, rational Diophantine triples, elliptic curves | Complete affirmative solution with torsion $\mathbb{Z}/4\mathbb{Z}\times\mathbb{Z}/4\mathbb{Z}$ and rank at least $8$ over $\mathbb{Q}(i)$ | 29 August 2026 | Yes ([Dujella's list](https://web.math.pmf.unizg.hr/~duje/pdf/open2.pdf#page=7)) |
