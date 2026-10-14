@@ -1,0 +1,28 @@
+name: Dujella 1.7 publication audit
+on:
+  push:
+    branches: [review/dujella-1-7-2026-10-14]
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - name: Check the actual commit-specific GitHub page
+        env:
+          AUDIT_COMMIT: ${{ github.sha }}
+        run: node publication-audit/smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dujella-1-7-render-${{ github.sha }}
+          path: publication-audit/evidence/
+          if-no-files-found: error
+          retention-days: 30
