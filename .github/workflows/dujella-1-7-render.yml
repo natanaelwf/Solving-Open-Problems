@@ -8,65 +8,28 @@ jobs:
   prepare:
     if: github.ref == 'refs/heads/review/dujella-1-7-2026-10-14'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 5
     permissions:
       contents: write
     outputs:
       commit: ${{ steps.head.outputs.commit }}
     steps:
       - uses: actions/checkout@v4
-      - name: Detect the one-time checked transfer
-        id: transport
+      - name: Apply a checked, one-time typography patch
         run: |
-          if test -f publication-audit/transfer-1.txt; then
-            echo 'needed=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'needed=false' >> "$GITHUB_OUTPUT"
+          if test -f publication-audit/patch.py; then
+            python publication-audit/patch.py
+            python publication-audit/check_source.py
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git rm publication-audit/patch.py
+            git add dujella-problem-1.7/README.md publication-audit/check_source.py publication-audit/render.mjs
+            git commit -m 'Preserve set braces and reflow long equations for narrow screens'
+            git push origin HEAD:refs/heads/review/dujella-1-7-2026-10-14
           fi
-      - name: Restore audited sources and update the index
-        if: steps.transport.outputs.needed == 'true'
-        run: |
-          python publication-audit/unpack.py
-          python publication-audit/update_index.py
-          python publication-audit/check_source.py
-          mkdir -p publication-audit/evidence
-      - name: Build the unchanged manuscript in Debian trixie
-        if: steps.transport.outputs.needed == 'true'
-        run: |
-          docker run --rm -v "$PWD:/work" -w /work debian:trixie-slim sh -ec '
-            apt-get update
-            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-latex-extra texlive-fonts-recommended lmodern
-            cd dujella-problem-1.7
-            pdflatex -interaction=nonstopmode -halt-on-error paper.tex > /work/publication-audit/evidence/latex-first.log
-            pdflatex -interaction=nonstopmode -halt-on-error paper.tex > /work/publication-audit/evidence/latex-second.log
-            chmod a+rw paper.pdf
-          '
-          python publication-audit/restore_pdf_metadata.py
-      - name: Commit only the candidate branch
-        if: steps.transport.outputs.needed == 'true'
-        run: |
-          git rm publication-audit/transfer-*.txt publication-audit/macro-fixture.md publication-audit/smoke.mjs
-          rm -f publication-audit/unpack.py publication-audit/update_index.py publication-audit/restore_pdf_metadata.py
-          rm -f dujella-problem-1.7/paper.aux dujella-problem-1.7/paper.log dujella-problem-1.7/paper.out
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md dujella-problem-1.7
-          git add -u publication-audit
-          git add publication-audit/*.py publication-audit/*.mjs publication-audit/*.json
-          git commit -m 'Add the full Problem 1.7 manuscript, official-source PDF and exact verifier'
-          git push origin HEAD:refs/heads/review/dujella-1-7-2026-10-14
       - name: Record the exact candidate commit
         id: head
         run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        if: always() && steps.transport.outputs.needed == 'true'
-        with:
-          name: dujella-1-7-pdf-build-${{ github.run_id }}
-          path: |
-            publication-audit/evidence/
-            dujella-problem-1.7/paper.pdf
-          if-no-files-found: warn
-          retention-days: 30
   audit:
     needs: prepare
     runs-on: ubuntu-latest
