@@ -22,6 +22,7 @@ try{
   const lint=execFileSync('python',['publication-audit/github_math_guard_v2.py','lint',file,'--strict','--inventory-out',inventory,...extra],{encoding:'utf8'});
   fs.writeFileSync(`${out}/lint.txt`,lint);
   const expected=JSON.parse(fs.readFileSync(inventory,'utf8'));
+  const expectedVars=[...fs.readFileSync(file,'utf8').matchAll(/<var>([A-Za-z])<\/var>/g)].map(m=>m[1]);
   const url=mode==='blob'?`${origin}/blob/${sha}/${file}`:`${origin}/tree/${sha}/${file.includes('/')?file.slice(0,file.lastIndexOf('/')):''}`;
   for(const width of [430,1440]){
    const view={width,height:width===430?932:1200};
@@ -54,6 +55,7 @@ try{
     const ar=a.getBoundingClientRect();
     const clean=r=>({left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height});
     return {url:location.href,text:a.innerText,article:clean(ar),articleClient:a.clientWidth,articleScroll:a.scrollWidth,pageHeight:document.documentElement.scrollHeight,pageClient:document.documentElement.clientWidth,pageScroll:document.documentElement.scrollWidth,
+     variables:[...a.querySelectorAll('var')].map(v=>({text:v.textContent,style:getComputedStyle(v).fontStyle,width:v.getBoundingClientRect().width,height:v.getBoundingClientRect().height})),
      expressions:[...a.querySelectorAll('math-renderer')].map((e,i)=>{
       const output=e.querySelector('math,mjx-container');
       const children=output?[...output.children].map(c=>c.getBoundingClientRect()).filter(r=>r.width>0&&r.height>0):[];
@@ -69,6 +71,8 @@ try{
    fs.writeFileSync(`${out}/diagnostics-${width}.json`,JSON.stringify(diagnostics,null,2));
    fs.writeFileSync(`${out}/renderer-class-${width}.txt`,await page.evaluate(()=>String(customElements.get('math-renderer'))));
    if(result.expressions.length!==expected.length)errors.push(`${slug}/${width}: count mismatch`);
+   if(JSON.stringify(result.variables.map(v=>v.text))!==JSON.stringify(expectedVars))errors.push(`${slug}/${width}: semantic variable content mismatch`);
+   if(result.variables.some(v=>v.style!=='italic'||v.width<=0||v.height<=0))errors.push(`${slug}/${width}: unstyled or invisible semantic variable`);
    const bad=[];
    for(const e of result.expressions){
     if(!e.output||e.rect.width<=0||e.rect.height<=0||!e.box||e.box.width<=0||e.box.height<=0)bad.push({index:e.index,reason:'missing or zero-sized math'});
@@ -88,7 +92,7 @@ try{
     await page.screenshot({path:`${screens}/${String(++n).padStart(3,'0')}.png`});
    }
    await page.screenshot({path:`${out}/full-${width}.png`,fullPage:true});
-   reports.push({slug,file,width,url,expressions:result.expressions.length,display:result.expressions.filter(e=>e.kind==='display').length,inline:result.expressions.filter(e=>e.kind==='inline').length,screenshots:n,layoutIssues:bad.length,brokenAnchors:broken.length});
+   reports.push({slug,file,width,url,expressions:result.expressions.length,semanticVariables:result.variables.length,display:result.expressions.filter(e=>e.kind==='display').length,inline:result.expressions.filter(e=>e.kind==='inline').length,screenshots:n,layoutIssues:bad.length,brokenAnchors:broken.length});
    await page.close();
   }
  }

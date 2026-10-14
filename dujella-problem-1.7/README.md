@@ -18,10 +18,10 @@ The main result counts all quadruples for each fixed positive square parameter, 
 ## Abstract
 
 For a fixed nonzero integer
-$n$, let
+<var>n</var>, let
 $D_{4,n}(N)$ count unordered sets of four distinct positive integers at most
-$N$ whose pairwise products, increased by
-$n$, are integer squares. For every fixed
+<var>N</var> whose pairwise products, increased by
+<var>n</var>, are integer squares. For every fixed
 $k\ge1$, we prove
 
 ```math
@@ -33,10 +33,10 @@ D_{4,k^2}(N)&=\frac{2^{4/3}}{3\Gamma(2/3)^3}\,k^{2/3}\Delta(k)N^{1/3}\log N\\
 
 where
 $\Delta$ is a positive rational-valued multiplicative function given by explicit finite local sums. A uniform Pell estimate and a triple invariant isolate the principal family. A primitive rank-one matrix parametrization then reduces its count to a periodic weighted lattice sum. For fixed nonsquare
-$n$, the same separation gives
+<var>n</var>, the same separation gives
 $D_{4,n}(N)\ll_{n,\varepsilon}N^{1/4+\varepsilon}$. An elementary divisibility identity improves this to
 $O_{n,\varepsilon}(N^{1/6+\varepsilon})$ for quadruples whose three smallest elements form an upper-regular triple. An appendix proves a cubic height bound when the three largest elements form an upper-regular triple. These bounds do not settle finiteness for general nonsquare
-$n$.
+<var>n</var>.
 
 **Keywords:** Diophantine quadruples; asymptotic counting; Pell equations; local densities.  
 **2020 Mathematics Subject Classification:** 11D09, 11D45, 11N45.
@@ -46,12 +46,12 @@ $n$.
 A
 $D(n)$ quadruple is an unordered set
 $\lbrace a,b,c,d\rbrace$ of distinct positive integers such that the product of any two distinct elements, increased by
-$n$, is a square in
+<var>n</var>, is a square in
 $ℤ$. Throughout,
 
 ```math
 \begin{gathered}
-n\inℤ\setminus\{0\},\\
+n\inℤ\setminus\lbrace 0\rbrace ,\\
 0\lt a\lt b\lt c\lt d,
 \end{gathered}
 ```
@@ -59,14 +59,14 @@ n\inℤ\setminus\{0\},\\
 and zero is allowed as a square. We write
 $D_{4,n}(N)$ for the number with
 $d\le N$. All logarithms are natural. Every asymptotic statement fixes
-$n$ (or
-$k$) before letting
-$N$ tend to infinity; no uniformity in a growing parameter is asserted.
+<var>n</var> (or
+<var>k</var>) before letting
+<var>N</var> tend to infinity; no uniformity in a growing parameter is asserted.
 
 Problem 1.7(c) of Dujella (2026) asks for the asymptotic behaviour of
 $D_{4,n}(N)$ when
-$n$ is a nonzero square. Part (d) asks whether there are only finitely many quadruples for each fixed nonsquare
-$n$. The preceding questions on triples were solved by Badesa (2025); see also Dražić, Kazalicki and Mrazović (2026). For
+<var>n</var> is a nonzero square. Part (d) asks whether there are only finitely many quadruples for each fixed nonsquare
+<var>n</var>. The preceding questions on triples were solved by Badesa (2025); see also Dražić, Kazalicki and Mrazović (2026). For
 $n=1$, Dujella (2008) proved bounds of order
 $N^{1/3}\log N$, and Martin and Sitar (2011) obtained the leading constant
 
@@ -104,7 +104,7 @@ For example,
 This counts all
 $D(k^2)$ quadruples, not just multiples of classical quadruples. Scaling a
 $D(1)$ quadruple by
-$k$ gives only the lower-bound coefficient
+<var>k</var> gives only the lower-bound coefficient
 $Kk^{-1/3}$, consistent with
 $\Delta(k)\ge k^{-1}$. For
 $k=1$, (1.2) recovers the leading term of Martin and Sitar (2011, Theorem 1.1) and gives the smaller remainder
@@ -140,7 +140,7 @@ I_n(N)\ll_{n,\varepsilon}N^{1/4+\varepsilon}.
 ```
 
 If
-$n$ is nonsquare, then
+<var>n</var> is nonsquare, then
 
 **Equation (1.5).**
 
@@ -169,7 +169,7 @@ $U,V\inℤ$, and
 
 ```math
 \begin{gathered}
-\max\{A,B,\vert U\vert ,\vert V\vert \}\le X^C,\\
+\max\lbrace A,B,\vert U\vert ,\vert V\vert \rbrace \le X^C,\\
 BU-AV\ne0.
 \end{gathered}
 ```
@@ -192,8 +192,8 @@ $y,z\ge0$. Elimination gives
 ```
 
 All quantities are bounded by fixed powers of
-$X$, with exponents depending only on
-$C$. If
+<var>X</var>, with exponents depending only on
+<var>C</var>. If
 $AB$ is a square, factorization of the left side bounds the number of solutions by
 $O(\tau(\vert H\vert ))$.
 
@@ -208,7 +208,7 @@ $ℚ(\sqrt D)$. The algebraic integer
 ```
 
 has norm
-$H$. There are at most
+<var>H</var>. There are at most
 $\tau(\vert H\vert )$ integral ideals of norm
 $\vert H\vert$: a split prime power
 $p^e$ has
@@ -221,14 +221,14 @@ $\alpha$ have absolute value at most
 $X^{C_1}$ for some
 $C_1=C_1(C)$, and at least
 $X^{-C_1}$ because their product is the nonzero integer
-$H$. Modulo sign, the absolute values of units in one real embedding form a geometric progression. Its ratio is at least
+<var>H</var>. Modulo sign, the absolute values of units in one real embedding form a geometric progression. Its ratio is at least
 $(1+\sqrt5)/2$, uniformly in the field: this follows from the integral trace and norm
 $\pm1$ of a unit with absolute value greater than one. Consequently a fixed ideal contributes
 $O_C(\log X)$ permitted generators. The standard divisor bound
 $\tau(m)\ll_\eta m^\eta$, with a suitably small
 $\eta$, proves the estimate. Finally,
 $(y,z)$ determines
-$t$. ◻
+<var>t</var>. ◻
 
 **Corollary 2.2**.  For fixed
 $n\ne0$, uniformly over
@@ -242,8 +242,8 @@ $O_{n,\varepsilon}(N^\varepsilon)$ quadruples.
 *Proof.* Apply Lemma 2.1 to
 $(A,B,U,V)=(a,b,n,n)$, for which
 $BU-AV=n(b-a)\ne0$. The coefficients fit the hypotheses with a fixed exponent depending on
-$n$ (or after increasing
-$X$ by a fixed factor). For quadruples choose both remaining entries among these extensions and replace
+<var>n</var> (or after increasing
+<var>X</var> by a fixed factor). For quadruples choose both remaining entries among these extensions and replace
 $\varepsilon$ by a smaller positive number. ◻
 
 ### 2.2. The invariant of a triple
@@ -309,7 +309,7 @@ c\ge\frac{ab}{M^2}.
 
 For fixed
 $a,b,e$, at most two values of
-$c$ can occur.
+<var>c</var> can occur.
 
 *Proof.* Expansion proves the identities. Since
 $c\gt M^2$, the last identity in (2.3) gives
@@ -351,7 +351,7 @@ Finally, squaring (2.2) gives the necessary equation
 The coefficient of
 $c^2$ after subtraction is
 $n^2\ne0$. Thus at most two values of
-$c$ are possible; possible extraneous roots after squaring do not affect this upper bound. ◻
+<var>c</var> are possible; possible extraneous roots after squaring do not affect this upper bound. ◻
 
 ## 3. Separating the principal family
 
@@ -361,7 +361,7 @@ $c$ are possible; possible extraneous roots after squaring do not affect this up
 $A\lt B\lt C=A+B+2R$, where
 $R^2=AB+n$,
 $R\ge0$, and let
-$z$ be a positive extension of this triple. Set
+<var>z</var> be a positive extension of this triple. Set
 
 ```math
 q=\sqrt{Cz+n}-\sqrt{Az+n}-\sqrt{Bz+n}\inℤ.
@@ -440,7 +440,7 @@ $Az\le25M^2$. ◻
 
 Applying the smaller-extension assertion to
 $\lbrace b,c,d\rbrace$ and its extension
-$a$ gives
+<var>a</var> gives
 
 **Equation (3.5).**
 
@@ -464,7 +464,7 @@ $c\le M^2$ involve only boundedly many first pairs and are covered by Corollary 
 $\lbrace b,c,d\rbrace$ is upper-regular, by (3.5). In all remaining cases Lemma 2.3 applies to both
 $\lbrace a,b,c\rbrace$ and
 $\lbrace b,c,d\rbrace$. For the invariant
-$e$ of the first triple it gives
+<var>e</var> of the first triple it gives
 
 ```math
 \begin{gathered}
@@ -478,7 +478,7 @@ If
 $b\le N^{1/4}$, then
 $r^2=ab+n\le N^{1/2}+n$. There are
 $O_n(N^{1/4})$ possible
-$r$, and each positive integer
+<var>r</var>, and each positive integer
 $r^2-n$ has at most
 $\tau(r^2-n)$ ordered factor pairs. Corollary 2.2 then controls
 $c,d$.
@@ -503,11 +503,11 @@ eb+n^2=y^2.
 
 Lemma 2.1 gives
 $O_{n,\varepsilon}(N^\varepsilon)$ choices for
-$b$, unless
+<var>b</var>, unless
 $e=an$. There are then at most two
-$c$ by (2.6), and
+<var>c</var> by (2.6), and
 $O_{n,\varepsilon}(N^\varepsilon)$ choices for
-$d$.
+<var>d</var>.
 
 The degenerate case
 $e=an$ requires
@@ -520,15 +520,15 @@ $k\ge1$. The first identity in (2.3) gives
 $x^2=k^2(a^2+k^2)$. Thus
 $k\mid x$ and
 $(x/k)^2-a^2=k^2$. Factoring this difference of squares leaves only finitely many
-$a$, hence
-$e$, in terms of
-$n$. Also
+<var>a</var>, hence
+<var>e</var>, in terms of
+<var>n</var>. Also
 $d\ge bc/M^2\gt b^2/M^2$ gives
 $b\ll_n N^{1/2}$, and
 $ab+n=r^2$ permits only
 $O_n(N^{1/4})$ values of
-$b$ for each fixed
-$a$. The preceding bounds on
+<var>b</var> for each fixed
+<var>a</var>. The preceding bounds on
 $c,d$ finish the proof after relabelling
 $\varepsilon$. ◻
 
@@ -632,7 +632,7 @@ $z+y\ll\sqrt{bd}$ because
 $c\asymp b$ and
 $bd\ge2M$. Substituting into (3.11) gives
 $\sqrt{ad}\ll_n d/(\sqrt{ab} c)$. Squaring and cancelling
-$d$ proves the first inequality in (3.9); the second follows from
+<var>d</var> proves the first inequality in (3.9); the second follows from
 $c\gt b\gt a$. The excluded case
 $ab\lt 2M$ has boundedly many first pairs.
 
@@ -656,7 +656,7 @@ x=\frac{q}{k^2}\bigl(2a(b+r)+k^2\bigr).
 ```
 
 Positivity of
-$x$ forces
+<var>x</var> forces
 $q=k$, and substitution into
 $x^2=ad+k^2$ gives (3.10). ◻
 
@@ -664,7 +664,7 @@ Let
 $E_k(N)$ count positive pairs
 $a\lt b$ with
 $ab+k^2=r^2$ for which (3.10) is an integer at most
-$N$. Every such pair gives a quadruple. Indeed the three additional roots are
+<var>N</var>. Every such pair gives a quadruple. Indeed the three additional roots are
 
 **Equation (3.12).**
 
@@ -703,7 +703,7 @@ D_{4,k^2}(N)=E_k(N)+O_{k,\varepsilon}(N^{1/4+\varepsilon}).
 ```
 
 For fixed nonsquare
-$n$,
+<var>n</var>,
 $D_{4,n}(N)\ll_{n,\varepsilon}N^{1/4+\varepsilon}$.
 
 *Proof.* Proposition 3.2 handles non-upper-regular smallest triples. For an upper-regular smallest triple with
@@ -712,7 +712,7 @@ $ab\ll_n N^{2/5}$, hence
 $r\ll_n N^{1/5}$. Factoring
 $ab=r^2-n$ and applying Corollary 2.2 gives
 $O_{n,\varepsilon}(N^{1/5+\varepsilon})$ quadruples. Bounded first pairs are covered by the same corollary. Lemma 3.3 identifies the remaining family, which occurs only for square
-$n$. ◻
+<var>n</var>. ◻
 
 ## 4. A primitive determinant parametrization
 
@@ -761,7 +761,7 @@ $a,b,r$ unchanged. We therefore permit
 
 ```math
 \begin{gathered}
-\ell\mid2k,\qquad \sigma\in\{-1,1\},\\
+\ell\mid2k,\qquad \sigma\in\lbrace -1,1\rbrace ,\\
 m=\frac{2\sigma k}{\ell},\qquad ut-vs=m,\\
 \gcd(u,v)=\gcd(s,t)=1,\\
 a=\ell us,\qquad b=\ell vt,\\
@@ -794,7 +794,7 @@ s\ge u,
 
 with (4.2) unchanged. Outside finitely many
 $(u,v)$ depending on
-$k$, positivity,
+<var>k</var>, positivity,
 $a\lt b$, and
 $r\gt k$ are automatic.
 
@@ -802,7 +802,7 @@ $r\gt k$ are automatic.
 $u=v$, primitivity forces
 $u=v=1$, and
 $t=s+m$. The height is a cubic polynomial in
-$s$ with positive leading coefficient, contributing
+<var>s</var> with positive leading coefficient, contributing
 $O_k(N^{1/3})$ objects. If
 $u\gt v$, then
 $a\lt b$ gives
@@ -811,9 +811,9 @@ $s\ge u$, this requires
 $m\gt 0$ and
 $u^2\lt vm\lt um$. Hence
 $u\lt m$, and the same inequality bounds
-$s$, then
-$t$, in terms of
-$k$.
+<var>s</var>, then
+<var>t</var>, in terms of
+<var>k</var>.
 
 The discrepancy between lexicographic reduction and
 $s\ge u$ lies on
@@ -906,14 +906,14 @@ $(u,v)$, all shifts have absolute value at most
 $1/2$. The height is then increasing for
 $Z\ge1$. Comparing the product with
 $(Z\pm\max_i\vert \eta_i\vert )^3$ shows that the interval of admissible real
-$j$, before imposing periodic conditions, has length
+<var>j</var>, before imposing periodic conditions, has length
 
 **Equation (4.8).**
 
 ```math
 \begin{gathered}
 \left(\frac{X_\ell}{S(u,v)^{2/3}}-1\right)_++O_k(1),\\
-t_+=\max\{t,0\}.
+t_+=\max\lbrace t,0\rbrace .
 \end{gathered}
 ```
 
@@ -923,7 +923,7 @@ $S(u,v)\ll_k X^{3/2}$. We use
 **Equation (4.9).**
 
 ```math
-\#\{1\le u\lt v:S(u,v)\le CX^{3/2}\}=O_C(X).
+\#\lbrace 1\le u\lt v:S(u,v)\le CX^{3/2}\rbrace =O_C(X).
 ```
 
 Indeed
@@ -936,7 +936,7 @@ $O_k(X)$ support, not an infinite set.
 **Lemma 5.1**.  Let
 $Q\ge1$ be fixed, and let
 $\theta:ℤ^2\toℝ$ be bounded and periodic modulo
-$Q$ in each coordinate. Suppose
+<var>Q</var> in each coordinate. Suppose
 $\theta(u,v)=0$ when
 $\gcd(u,v,Q)\gt 1$. Define
 
@@ -973,7 +973,7 @@ S(u,v)\le Y^{3/2}}}
 ```
 
 *Proof.* First omit coprimality. In a fixed row
-$u$, the summand
+<var>u</var>, the summand
 $[uv(u+v)]^{-2/3}$ decreases with
 $v\gt u$. Partial summation replaces the periodic weight by its row mean
 
@@ -983,7 +983,7 @@ $v\gt u$. Partial summation replaces the periodic weight by its row mean
 
 with error
 $O_{Q,\vert\vert \theta\vert\vert _\infty}(u^{-2})$, including the upper cutoff. Replacing the unweighted row sum by its integral has the same error. These errors are summable in
-$u$.
+<var>u</var>.
 
 The row integral is
 
@@ -1014,16 +1014,16 @@ $\mu_\theta J/2$.
 
 Use Möbius inversion for coprimality. Since
 $\theta$ vanishes off primitive classes modulo
-$Q$, only
-$h$ with
+<var>Q</var>, only
+<var>h</var> with
 $(h,Q)=1$ occur. Substitution
 $(u,v)=(hU,hV)$ contributes
 $h^{-2}$ and replaces
-$Y$ by
+<var>Y</var> by
 $Y/h^2$. The weight
 $\theta_h(U,V)=\theta(hU,hV)$ has the same mean and supremum norm, because multiplication by
-$h$ permutes the residue classes modulo
-$Q$. Thus the desired sum is
+<var>h</var> permutes the residue classes modulo
+<var>Q</var>. Thus the desired sum is
 
 ```math
 \frac{\mu_\theta J}{2}
@@ -1064,27 +1064,27 @@ k^2\mid4r(a+r)(b+r)
 ```
 
 are periodic in
-$j$ modulo
-$Q$. For a primitive pair
+<var>j</var> modulo
+<var>Q</var>. For a primitive pair
 $(u,v)$, let
 $\theta_{\ell,\sigma}(u,v)$ be the proportion of the
-$Q$ classes of
-$j$ satisfying both conditions.
+<var>Q</var> classes of
+<var>j</var> satisfying both conditions.
 
 This proportion depends only on
 $(u,v)\bmod Q$. Indeed a primitive pair modulo
-$Q$ gives a surjective map
+<var>Q</var> gives a surjective map
 $(s,t)\mapsto ut-vs$, whose kernel consists of the
-$Q$ multiples of
+<var>Q</var> multiples of
 $(u,v)$. Hence the pairs obtained as
-$j$ varies modulo
-$Q$ are exactly all solutions of
+<var>j</var> varies modulo
+<var>Q</var> are exactly all solutions of
 $ut-vs\equiv m\pmod Q$, independently of a lift or starting solution. Extend the weight by zero on nonprimitive classes modulo
-$Q$.
+<var>Q</var>.
 
 The two signs have the same weight. The map
 $(s,t)\mapsto(-s,-t)$ exchanges
-$m$ and
+<var>m</var> and
 $-m$, and simultaneously changes
 $(a,b,r)$ to
 $(-a,-b,-r)$. It preserves primitivity and divisibility. This is a statement about residue classes, not positive integer quadruples. Write the common weight as
@@ -1181,8 +1181,8 @@ $0\lt \varepsilon\lt 1/12$, proves the asymptotic in Theorem 1.1. It remains to 
 ## 7. Explicit local factors
 
 For a prime
-$p$ and an integer
-$w$, define
+<var>p</var> and an integer
+<var>w</var>, define
 
 **Equation (7.1).**
 
@@ -1206,7 +1206,7 @@ $p^w$. The three alternatives are disjoint, each with probability
 All these proportions can equivalently be taken in finite residue rings of sufficiently large prime-power modulus.
 
 For odd
-$p$ and
+<var>p</var> and
 $e\ge0$, put
 
 **Equation (7.2).**
@@ -1241,16 +1241,16 @@ $k^{-1}\le\Delta(k)\le1$.
 
 *Proof.* In (6.1), first condition on
 $(u,v)$ being primitive at
-$p$. Fix
+<var>p</var>. Fix
 $\ell$, and write
 $e=\mathrm{v}_p(k)$,
 $j=\mathrm{v}_p(\ell)$.
 
 Suppose
-$p$ is odd, so
+<var>p</var> is odd, so
 $0\le j\le e$. If
 $j=e$, the determinant is a
-$p$ adic unit, so
+<var>p</var> adic unit, so
 $(s,t)$ is automatically primitive. The divisibility condition is automatic because
 $a,b,r$ are divisible by
 $p^e$. Including the weight
@@ -1261,10 +1261,10 @@ For
 $j\lt e$, put
 $h=e-j\gt 0$ and
 $\rho=k/\ell$, interpreted
-$p$ adically. Thus
+<var>p</var> adically. Thus
 $\mathrm{v}_p(\rho)=h$ and
 $ut-vs=2\rho$. Modulo
-$p$, the second vector is a scalar multiple of the primitive first vector. The second primitivity condition removes the zero scalar, leaving proportion
+<var>p</var>, the second vector is a scalar multiple of the primitive first vector. The second primitivity condition removes the zero scalar, leaving proportion
 $1-p^{-1}$. After extracting
 $\ell^3$ from the height numerator, the required condition is
 
@@ -1291,7 +1291,7 @@ p^w\mid uv(u+v).
 
 To verify this without discarding cancellation cases, at most one of
 $u,v,u+v$ is divisible by
-$p$. If none is, all three factors in (7.5) are units. If
+<var>p</var>. If none is, all three factors in (7.5) are units. If
 $p\mid u$, then
 $v,t,s+t$ are units, and two factors are
 
@@ -1332,7 +1332,7 @@ $(s,t)$ is automatically primitive. The numbers
 $a,b$ are divisible by
 $2^{e+1}$, while
 $r=\ell vs+k$ has valuation
-$e$. Divisibility is automatic, giving contribution
+<var>e</var>. Divisibility is automatic, giving contribution
 $2^{-e-1}$. For
 $j\le e$, put
 $h=e+1-j\gt 0$. The second-vector primitivity proportion is
@@ -1358,7 +1358,7 @@ $k/\ell$, so (7.4) follows.
 Since
 $0\lt G_p(w)\le1$, the geometric sums give
 $\delta_p(e)\le1$. For odd
-$p$, the first term gives
+<var>p</var>, the first term gives
 $\delta_p(e)\ge p^{-e}$. At
 $p=2$, the first term and the
 $j=e$ term give
@@ -1367,7 +1367,7 @@ $\delta_p(0)=1$ for every prime, including
 $2$. These observations prove all the assertions. ◻
 
 For an odd prime
-$p$,
+<var>p</var>,
 $\Delta(p)=(4p-2)/(p(p+1))$. Table 1 contains exact rational evaluations of the finite sums. This completes the proof of Theorem 1.1.
 
 **Table 1. Selected exact local factors.**
@@ -1397,7 +1397,7 @@ d\mid(q^2-n)(q^2-9n).
 ```
 
 If
-$n$ is nonsquare, the right side is nonzero, and
+<var>n</var> is nonsquare, the right side is nonzero, and
 
 **Equation (8.2).**
 
@@ -1426,14 +1426,14 @@ $(q^2-n)(q^2-9n)=4(E^2-2nE-3n^2)=0$ in this ring. No inversion or parity assumpt
 $q^2=n$ or
 $q^2=9n$ in
 $ℤ$, then
-$n$ is an integer square; in the latter case
+<var>n</var> is an integer square; in the latter case
 $3\mid q$. For nonsquare
-$n$, a nonzero multiple of
-$d$ has absolute value at least
-$d$. ◻
+<var>n</var>, a nonzero multiple of
+<var>d</var> has absolute value at least
+<var>d</var>. ◻
 
 **Proposition 8.2**.  Let
-$n$ be nonsquare and
+<var>n</var> be nonsquare and
 $M=\vert n\vert$. Every quadruple with upper-regular smallest triple satisfies
 
 **Equation (8.3).**
@@ -1465,12 +1465,12 @@ $ab\ll_n N^{1/3}$ and
 $r\ll_n N^{1/6}$. Factor
 $ab=r^2-n$ to count first pairs;
 $c=a+b+2r$ is determined, and Corollary 2.2 bounds the choices for
-$d$. The divisor bound and a relabelling of
+<var>d</var>. The divisor bound and a relabelling of
 $\varepsilon$ prove the claim. ◻
 
 Together with Proposition 3.2 and Corollary 3.4, this proves Theorem 1.2. Equation (8.3) is a *lower* bound on
-$d$, not a bound depending only on
-$n$. Neither the divisibility relation nor the counting estimates provide a descent preserving all six square conditions.
+<var>d</var>, not a bound depending only on
+<var>n</var>. Neither the divisibility relation nor the counting estimates provide a descent preserving all six square conditions.
 
 ## 9. Reproducible finite checks
 
@@ -1535,7 +1535,7 @@ t\ge0,
 
 then
 $d\lt 10^4M^3$. In particular, for each fixed
-$n$ there are only finitely many such quadruples.
+<var>n</var> there are only finitely many such quadruples.
 
 *Proof.* By (3.5),
 $ab\le25M^2$, hence
@@ -1599,7 +1599,7 @@ h&=\frac{a(b+2t)}{w+v}\\
 Using
 $(x+y)^2\le2x^2+2y^2$ gives
 $h^2\le36ab+16aM$. Substitution into (A.2) and cancellation of
-$a$ yield
+<var>a</var> yield
 
 ```math
 \begin{aligned}
@@ -1613,8 +1613,8 @@ Finally
 $d\le4c+2\sqrt M\lt 10^4M^3$. ◻
 
 **Remark A.2** (The cubic exponent is necessary).  The exponent three in this subfamily cannot be replaced by a smaller exponent in a bound uniform over
-$n$. This follows by comparison with an *existing* family of Dujella and Petričević (2019, Section 2), not by a new construction. With an integer parameter
-$h$ tending to
+<var>n</var>. This follows by comparison with an *existing* family of Dujella and Petričević (2019, Section 2), not by a new construction. With an integer parameter
+<var>h</var> tending to
 $+\infty$, their family has
 $a=1$ and
 
@@ -1630,7 +1630,7 @@ d&=4096h^6-2048h^5-1792h^4\\
 ```
 
 For sufficiently large
-$h$, these entries satisfy
+<var>h</var>, these entries satisfy
 $0\lt a\lt b\lt c\lt d$ and
 $n\lt 0$. Direct substitution gives
 
@@ -1647,8 +1647,8 @@ $t^2=bc+n$. Thus their largest triple is upper-regular. Since
 $d/\vert n\vert ^3\to1/64$, no uniform bound
 $d\le C\vert n\vert ^\alpha$ with
 $\alpha\lt 3$ can hold for this subfamily. The known family and the two displayed polynomial identities are also checked by the accompanying program. Here
-$n$ varies with
-$h$; this comparison makes no claim of infinitude at a fixed nonsquare parameter.
+<var>n</var> varies with
+<var>h</var>; this comparison makes no claim of infinitude at a fixed nonsquare parameter.
 
 ## References
 
