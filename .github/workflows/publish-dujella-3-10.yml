@@ -1,0 +1,107 @@
+name: Publish Dujella Problem 3.10
+
+on:
+  push:
+    branches:
+      - publish/dujella-problem-3-10
+    paths:
+      - .github/workflows/publish-dujella-3-10.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out validation branch
+        uses: actions/checkout@v4
+        with:
+          ref: publish/dujella-problem-3-10
+          fetch-depth: 0
+
+      - name: Reconstruct and verify the exact payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          stage='.github/publish-dujella-3-10'
+          payload='/tmp/dujella-payload.tar.xz'
+          extract='/tmp/dujella-payload'
+
+          test "$(find "$stage" -maxdepth 1 -type f -name 'payload.*' | wc -l)" -eq 12
+          cat "$stage"/payload.* | base64 --decode > "$payload"
+          echo '5466f4689bc57d92075d0d15dd1d2b729c9a2643222b0de80bdc5f688b59fb04  /tmp/dujella-payload.tar.xz' | sha256sum --check --strict -
+          xz --test "$payload"
+
+          rm -rf "$extract"
+          mkdir -p "$extract"
+          tar -xJf "$payload" -C "$extract"
+
+          test -f "$extract/root_README.md"
+          test -f "$extract/dujella-problem-3.10/README.md"
+          test -f "$extract/dujella-problem-3.10/verify_certificates.py"
+          test -f "$extract/dujella-problem-3.10/arithmetic_data.json"
+          test -f "$extract/dujella-problem-3.10/cassels_pairing.json"
+          test -f "$extract/dujella-problem-3.10/conic_certificates.json"
+          test -f "$extract/dujella-problem-3.10/local_certificates.json"
+          test "$(find "$extract" -type f | wc -l)" -eq 7
+
+          cp "$extract/root_README.md" README.md
+          rm -rf dujella-problem-3.10
+          cp -a "$extract/dujella-problem-3.10" ./dujella-problem-3.10
+
+      - name: Validate article and computational certificates
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ! grep -Fq 'Acknowledgment of AI assistance' dujella-problem-3.10/README.md
+          ! grep -Fq 'Table of Contents' dujella-problem-3.10/README.md
+          ! grep -Fq 'Acknowledgment of AI assistance' README.md
+          grep -Fq '| [Dujella'"'"'s Problem 3.10](dujella-problem-3.10/) |' README.md
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('dujella-problem-3.10')
+          expected = {
+              'README.md',
+              'verify_certificates.py',
+              'arithmetic_data.json',
+              'cassels_pairing.json',
+              'conic_certificates.json',
+              'local_certificates.json',
+          }
+          actual = {p.name for p in root.iterdir() if p.is_file()}
+          if actual != expected:
+              raise SystemExit(f'Unexpected article files: {sorted(actual ^ expected)}')
+
+          for path in sorted(root.glob('*.json')):
+              with path.open('r', encoding='utf-8') as handle:
+                  json.load(handle)
+
+          text = (root / 'README.md').read_text(encoding='utf-8')
+          if text.count('```') % 2:
+              raise SystemExit('Unbalanced fenced code/math block in README.md')
+          if '\\begin{array}' in text or '\\begin{aligned}' in text or '\\begin{split}' in text:
+              raise SystemExit('Unsupported GitHub math environment remained in README.md')
+          PY
+
+          python3 dujella-problem-3.10/verify_certificates.py | tee /tmp/dujella-verification.log
+          grep -Fq 'ALL FINITE CERTIFICATE CHECKS PASSED' /tmp/dujella-verification.log
+
+      - name: Commit the validated publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .github/publish-dujella-3-10
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m "Add solution to Dujella's Problem 3.10"
+          git push origin HEAD:publish/dujella-problem-3-10
