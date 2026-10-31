@@ -1,15 +1,17 @@
 # Elliptic Curves of Rank at Least Eleven Induced by Rational Diophantine Quadruples
 
-## An affirmative answer to Dujella's Problem 3.10
+## A conditional affirmative answer to Dujella's Problem 3.10
 
 **Author:** Natanael Wildner Fraga  
 **Date:** 30 October 2026  
-**Status:** Complete affirmative solution  
+**Status:** Conditionally solved  
 **Field:** Number theory, rational Diophantine quadruples, elliptic curves
+
+> **Conditional status.** The solution depends on the validity of the proposed $`2`$-converse theorem for elliptic curves with rational $`2`$-torsion in OpenAI (2026), whose argument is specialized in the appendices. This input remains subject to independent verification. It supplies the passage from the established $`2^\infty`$-Selmer corank one to positive Mordell-Weil rank for the auxiliary curve $`F`$. A certified rational point of infinite order on $`F`$ would remove this dependence for Dujella's problem.
 
 ## Abstract
 
-We prove that infinitely many rational Diophantine quadruples induce elliptic curves over $`\mathbb{Q}`$ of rank at least eleven, answering Dujella's Problem 3.10. Starting from a curve of Dujella and Peral, an explicit genus-one construction reduces the question to positive rank of one auxiliary elliptic curve $`F`$. Complete local $`2`$‑descent and a Cassels-pairing calculation give $`\dim_{\mathbb{F}_2}\mathrm{Sel}_2(F/\mathbb{Q})=9`$, infinite-Selmer corank one, and finite two-primary Shafarevich-Tate quotient $`(\mathbb{Z}/2\mathbb{Z})^6`$. A specialized proof using the cyclotomic, ring-class, and coefficient constructions of OpenAI (2026) gives analytic rank and Mordell-Weil rank one for $`F`$ and finiteness of its Shafarevich-Tate group. The local comparisons, integral descent, determinant estimates, and finite graph arguments are supplied in the appendices. Given any nontorsion rational point on $`F`$, one of its first eight positive even multiples yields a valid quadruple. Every curve produced by this construction is $`\mathbb{Q}`$‑isomorphic to the source curve. The finite arithmetic certificates use exact integer and rational computations.
+Conditional on the proposed OpenAI (2026) $`2`$-converse theorem, we prove that infinitely many rational Diophantine quadruples induce elliptic curves over $`\mathbb{Q}`$ of rank at least eleven, answering Dujella's Problem 3.10. Starting from a curve of Dujella and Peral, an explicit genus-one construction reduces the question to positive rank of one auxiliary elliptic curve $`F`$. Complete local $`2`$‑descent and a Cassels-pairing calculation give $`\dim_{\mathbb{F}_2}\mathrm{Sel}_2(F/\mathbb{Q})=9`$, infinite-Selmer corank one, and finite two-primary Shafarevich-Tate quotient $`(\mathbb{Z}/2\mathbb{Z})^6`$. A specialized proof using the cyclotomic, ring-class, and coefficient constructions of OpenAI (2026) gives analytic rank and Mordell-Weil rank one for $`F`$ and finiteness of its Shafarevich-Tate group. The local comparisons, integral descent, determinant estimates, and finite graph arguments are supplied in the appendices. Given any nontorsion rational point on $`F`$, one of its first eight positive even multiples yields a valid quadruple. Every curve produced by this construction is $`\mathbb{Q}`$‑isomorphic to the source curve. The finite arithmetic certificates use exact integer and rational computations.
 
 **Keywords:** Diophantine quadruples; elliptic curves; $`2`$‑descent; Cassels pairing.  
 **2020 Mathematics Subject Classification:** 11D09, 11G05, 11Y50.
@@ -88,14 +90,14 @@ s_2(F)=\mathrm{corank}_{\mathbb{Z}_2}\mathrm{Sel}_{2^\infty}(F/\mathbb{Q}).
 
 The Selmer groups in this article use the usual local Kummer conditions at every place.
 
-**Theorem 1.1.** The curves (1.2) and (1.3) satisfy the following statements.
+**Theorem 1.1.** The curves (1.2) and (1.3) satisfy the following statements. Part (3) and the infinitude assertion in part (4) are conditional on the proposed OpenAI (2026) $`2`$-converse theorem.
 
 1. $`\mathrm{rank}E_0(\mathbb{Q})\ge11`$.
 2. $`\dim_{\mathbb{F}_2}\mathrm{Sel}_2(F/\mathbb{Q})=9`$ and $`s_2(F)=1`$.
 3. $`\mathrm{ord}_{s=1}L(F,s)=\mathrm{rank}F(\mathbb{Q})=1`$, the group $`\mathrm{Sha}(F/\mathbb{Q})`$ is finite, and $`\mathrm{Sha}(F/\mathbb{Q})[2^\infty]\cong(\mathbb{Z}/2\mathbb{Z})^6`$.
 4. Infinitely many distinct rational Diophantine quadruples induce curves $`\mathbb{Q}`$‑isomorphic to $`E_0`$. For any given nontorsion rational point on $`F`$, the construction in Section 3 produces an admissible quadruple from at least one of its first eight positive even multiples.
 
-**Corollary 1.2.** There is an elliptic curve over $`\mathbb{Q}`$ induced by a rational Diophantine quadruple with rank greater than ten. Thus Dujella's Problem 3.10 has an affirmative answer.
+**Corollary 1.2 (conditional).** Assuming the proposed OpenAI (2026) $`2`$-converse theorem, there is an elliptic curve over $`\mathbb{Q}`$ induced by a rational Diophantine quadruple with rank greater than ten. Thus Dujella's Problem 3.10 has a conditional affirmative answer.
 
 Sections 2 and 3 prove the source rank bound and the reconstruction. Sections 4 and 5 establish the finite Selmer and Cassels-pairing calculations. Section 6 applies the specialized positive-rank theorem proved in the appendices. The determinant and coefficient constructions used there are those of OpenAI (2026); their required local and integral comparisons are proved with the hypotheses of the auxiliary curve. The source curve and its eleven points are due to Dujella and Peral. The conclusion concerns infinitely many quadruples in one $`\mathbb{Q}`$‑isomorphism class of induced curves.
 
