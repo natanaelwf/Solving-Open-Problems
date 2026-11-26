@@ -36,7 +36,7 @@ For a positive integer vector $\mathbf{b}=(b_1,\ldots,b_n)$, a $\mathbf{b}$-park
 (1\le i\le n).
 ```
 
-The generalized parking-function polytope $\mathfrak{X}_n(\mathbf{b})$ is the convex hull of all such vectors. Write its Ehrhart polynomial and its degree-$n$ magic expansion as
+The generalized parking-function polytope $\mathfrak{X}_n(\mathbf{b})$ is the convex hull of all such vectors. Write its Ehrhart polynomial and its magic expansion in degree $n$ as
 
 ```math
 \begin{aligned}
