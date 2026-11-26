@@ -71,7 +71,7 @@ The first inequality disproves HLTV Conjecture 8.1. The second independently rul
 
 ## 2. The signed simplex formula
 
-Translation by the integer vector $\mathbf 1=(1,\ldots,1)$ preserves the Ehrhart polynomial. Put
+Translation by the integer vector $-\mathbf 1=-(1,\ldots,1)$ preserves the Ehrhart polynomial. Put
 
 ```math
 P=\mathfrak{X}_n(\mathbf{b})-\mathbf 1.
