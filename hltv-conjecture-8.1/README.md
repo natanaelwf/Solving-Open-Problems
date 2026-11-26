@@ -80,7 +80,7 @@ P=\mathfrak{X}_n(\mathbf{b})-\mathbf 1.
 For each nonempty subset $A\subseteq[n]$, let
 
 ```math
-\Delta_A^0=\operatorname{conv}\bigl(0,e_i:i\in A\bigr),
+\Delta_A^0=\mathrm{conv}\bigl(0,e_i:i\in A\bigr),
 ```
 
 where the $e_i$ are the standard basis vectors. For the present vector, $P$ contains $0,e_1,\ldots,e_{64}$, so its dimension is 64. The degree-64 magic basis therefore has the correct dimension.
@@ -316,7 +316,7 @@ At $n=64$, Formula (7) agrees exactly with the fraction above.
 Set
 
 ```math
-L=\operatorname{lcm}(1,2,\ldots,64)
+L=\mathrm{lcm}(1,2,\ldots,64)
 =1182266884102822267511361600.
 ```
 
